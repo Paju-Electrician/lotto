@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "195699746230",
+    "project_id": "lottoman-41641",
+    "storage_bucket": "lottoman-41641.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195699746230:android:649a80c3751a3064b80d17",
+        "android_client_info": {
+          "package_name": "com.khs.lotto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195699746230-61igvcg9ei3th5jqqp2mkgktjmkgh9en.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgwpdcvPGuquQvMZsZPmL1VMsvtMurf2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195699746230-61igvcg9ei3th5jqqp2mkgktjmkgh9en.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
