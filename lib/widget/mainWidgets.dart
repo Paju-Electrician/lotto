@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart' as intl;
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lotto/pages/button10Page.dart';
 import 'package:lotto/pages/button11Page.dart';
@@ -10,7 +10,7 @@ import 'package:lotto/pages/button1Page.dart';
 import 'package:lotto/pages/button5Page.dart';
 import 'package:lotto/pages/button3Page.dart';
 import 'package:lotto/pages/button4Page.dart';
-import 'package:lotto/pages/button22Page.dart';
+import 'package:lotto/pages/button2Page.dart';
 import 'package:lotto/pages/button6Page.dart';
 import 'package:lotto/pages/button7Page.dart';
 import 'package:lotto/pages/button8Page.dart';
@@ -18,13 +18,11 @@ import 'package:lotto/pages/button9Page.dart';
 import 'package:lotto/pages/lottoNumber.dart';
 import 'package:lotto/pages/notification.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:lotto/provider/store1.dart';
-import 'package:lotto/provider/store3.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
+import 'package:lotto/provider/naverSearch_Provider.dart';
 
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
-
-
 
 class xNumBall extends StatelessWidget {
   xNumBall({Key? key, this.b}) : super(key: key);
@@ -47,7 +45,7 @@ class xNumBall extends StatelessWidget {
               BoxShadow(
                 color: Colors.grey.withOpacity(0.4),
                 spreadRadius: 0,
-                blurRadius: 20,
+                blurRadius: 5,
                 offset: const Offset(0, 4),
               )
             ]),
@@ -68,6 +66,7 @@ class xNumBall extends StatelessWidget {
         ));
   }
 }
+
 class yellowBall extends StatelessWidget {
   yellowBall({Key? key, this.b}) : super(key: key);
   var b;
@@ -76,24 +75,48 @@ class yellowBall extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        width: 40.w,
-        height: 40.h,
+        width: 40.sp,
+        height: 40.sp,
         decoration: BoxDecoration(
-            color: const Color(0xfffbc400),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.4),
-                spreadRadius: 0,
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              )
-            ]),
-        child: Text(
+          color: const Color(0xfffbc400),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.4),
+          //     spreadRadius: 0,
+          //     blurRadius: 20,
+          //     offset: const Offset(0, 4),
+          //   )
+          // ]
+          boxShadow: [
+            BoxShadow(
+              color: Colors.yellow.shade600,
+              spreadRadius: 0.1,
+              blurRadius: 3,
+              offset: const Offset(0.1, 0.1),
+            ),
+            const BoxShadow(
+                color: Colors.white,
+                offset: Offset(-0.1, -0.1),
+                blurRadius: 3,
+                spreadRadius: 0.1),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.yellow.shade200,
+              Colors.yellow.shade300,
+              Colors.yellow.shade400,
+              Colors.yellow.shade500,
+            ],
+          ),
+        ),
+        child: AutoSizeText(
           '$b',
           style: TextStyle(
             color: Colors.white,
@@ -119,24 +142,48 @@ class blueBall extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        width: 40.w,
-        height: 40.h,
+        width: 40.sp,
+        height: 40.sp,
         decoration: BoxDecoration(
-            color: const Color(0xff69c8f2),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.4),
-                spreadRadius: 0,
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              )
-            ]),
-        child: Text(
+          color: const Color(0xff69c8f2),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.4),
+          //     spreadRadius: 0,
+          //     blurRadius: 20,
+          //     offset: const Offset(0, 4),
+          //   )
+          // ]
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blue.shade600,
+              spreadRadius: 0.1,
+              blurRadius: 3,
+              offset: const Offset(0.1, 0.1),
+            ),
+            const BoxShadow(
+                color: Colors.white,
+                offset: Offset(-0.1, -0.1),
+                blurRadius: 3,
+                spreadRadius: 0.1),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.blue.shade200,
+              Colors.blue.shade300,
+              Colors.blue.shade400,
+              Colors.blue.shade500,
+            ],
+          ),
+        ),
+        child: AutoSizeText(
           '$b',
           style: TextStyle(
             color: Colors.white,
@@ -162,24 +209,48 @@ class redBall extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        width: 40.w,
-        height: 40.h,
+        width: 40.sp,
+        height: 40.sp,
         decoration: BoxDecoration(
-            color: const Color(0xffff7272),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.4),
-                spreadRadius: 0,
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              )
-            ]),
-        child: Text(
+          color: const Color(0xffff7272),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.4),
+          //     spreadRadius: 0,
+          //     blurRadius: 20,
+          //     offset: const Offset(0, 4),
+          //   )
+          // ]
+          boxShadow: [
+            BoxShadow(
+              color: Colors.red.shade600,
+              spreadRadius: 0.1,
+              blurRadius: 3,
+              offset: const Offset(0.1, 0.1),
+            ),
+            const BoxShadow(
+                color: Colors.white,
+                offset: Offset(-0.1, -0.1),
+                blurRadius: 3,
+                spreadRadius: 0.1),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.red.shade200,
+              Colors.red.shade300,
+              Colors.red.shade400,
+              Colors.red.shade500,
+            ],
+          ),
+        ),
+        child: AutoSizeText(
           '$b',
           style: TextStyle(
             color: Colors.white,
@@ -205,24 +276,48 @@ class greenBall extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        width: 40.w,
-        height: 40.h,
+        width: 40.sp,
+        height: 40.sp,
         decoration: BoxDecoration(
-            color: const Color(0xffb0d840),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.4),
-                spreadRadius: 0,
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              )
-            ]),
-        child: Text(
+          color: const Color(0xffb0d840),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.4),
+          //     spreadRadius: 0,
+          //     blurRadius: 20,
+          //     offset: const Offset(0, 4),
+          //   )
+          // ]
+          boxShadow: [
+            BoxShadow(
+              color: Colors.green.shade600,
+              spreadRadius: 0.1,
+              blurRadius: 3,
+              offset: const Offset(0.1, 0.1),
+            ),
+            const BoxShadow(
+                color: Colors.white,
+                offset: Offset(-0.1, -0.1),
+                blurRadius: 3,
+                spreadRadius: 0.1),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.green.shade200,
+              Colors.green.shade300,
+              Colors.green.shade400,
+              Colors.green.shade500,
+            ],
+          ),
+        ),
+        child: AutoSizeText(
           '$b',
           style: TextStyle(
             color: Colors.white,
@@ -248,24 +343,48 @@ class greyBall extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        width: 40.w,
-        height: 40.h,
+        width: 40.sp,
+        height: 40.sp,
         decoration: BoxDecoration(
-            color: const Color(0xffaaaaaa),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.4),
-                spreadRadius: 0,
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              )
-            ]),
-        child: Text(
+          color: const Color(0xffaaaaaa),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.4),
+          //     spreadRadius: 0,
+          //     blurRadius: 20,
+          //     offset: const Offset(0, 4),
+          //   )
+          // ]
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade600,
+              spreadRadius: 0.1,
+              blurRadius: 3,
+              offset: const Offset(0.1, 0.1),
+            ),
+            const BoxShadow(
+                color: Colors.white,
+                offset: Offset(-0.1, -0.1),
+                blurRadius: 3,
+                spreadRadius: 0.1),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.grey.shade200,
+              Colors.grey.shade300,
+              Colors.grey.shade400,
+              Colors.grey.shade500,
+            ],
+          ),
+        ),
+        child: AutoSizeText(
           '$b',
           style: TextStyle(
             color: Colors.white,
@@ -308,7 +427,7 @@ class TextBall extends StatelessWidget {
                 offset: const Offset(0, 4),
               )
             ]),
-        child: Text(
+        child: AutoSizeText(
           '?',
           style: TextStyle(
             color: Colors.white,
@@ -337,14 +456,12 @@ class _button1State extends State<button1> {
   var clickState = false;
 
   makeButton1FullLottoTotalNumberStart() {
-
-    if (context.read<Store1>().totalLottoData.length >=
-        makeRealRound()- lottoTotalNumber.length) {
+    if (context.read<Mainpage_Store>().totalLottoData.length >=
+        makeRealRound() - lottoTotalNumber.length) {
       makeButton1FullLottoTotalNumber();
       Navigator.push(context, MaterialPageRoute(builder: (c) {
         return const button1Page();
       }));
-
     } else {
       showDialog(
           context: context,
@@ -365,15 +482,16 @@ class _button1State extends State<button1> {
                   height: 100.h,
                   child: FittedBox(
                       fit: BoxFit.none,
-                      child: Lottie.asset('assets/lottie/bounce.json', width: 200.w))),
+                      child: Lottie.asset('assets/lottie/bounce.json',
+                          width: 200.w))),
               actions: <Widget>[
                 TextButton(
                   child: Text(
                     "확인",
-                    style: TextStyle(color:Colors.blue,fontSize: 20.sp),
+                    style: TextStyle(color: Colors.blue, fontSize: 20.sp),
                   ),
                   onPressed: () {
-                    if (context.read<Store1>().totalLottoData.length >=
+                    if (context.read<Mainpage_Store>().totalLottoData.length >=
                         makeRealRound() - lottoTotalNumber.length) {
                       makeButton1FullLottoTotalNumber();
 
@@ -382,14 +500,12 @@ class _button1State extends State<button1> {
                       //   return button7Page();
                       // }));
 
-
-                      Navigator.pushReplacement(context,
+                      Navigator.pushReplacement(
+                        context,
                         MaterialPageRoute(builder: (BuildContext context) {
                           return const button1Page();
-                        }),);
-
-
-
+                        }),
+                      );
                     } else {
                       Navigator.pop(context);
                     }
@@ -401,71 +517,61 @@ class _button1State extends State<button1> {
     }
   }
 
-
-  addTotalDataToLottoNumber(){
+  addTotalDataToLottoNumber() {
     var fixStartDate = tz.TZDateTime(tz.local, 2002, 12, 07);
 
-      for(int i=lottoTotalNumber.length-1;i>=0;i--){
-        var addDate = fixStartDate.add(Duration(days: 7*(i)));
-        var startDate = int.parse(intl.DateFormat('yyyyMMdd').format(addDate));
-        lottoTotalNumber[lottoTotalNumber.length-1-i].add(startDate);
-      }
+    for (int i = lottoTotalNumber.length - 1; i >= 0; i--) {
+      var addDate = fixStartDate.add(Duration(days: 7 * (i)));
+      var startDate = int.parse(intl.DateFormat('yyyyMMdd').format(addDate));
+      lottoTotalNumber[lottoTotalNumber.length - 1 - i].add(startDate);
+    }
 
-
-      // print(lottoTotalNumber);
-
+    // print(lottoTotalNumber);
   }
-
-
 
   makeButton1FullLottoTotalNumber() {
     // print(makeRound());
     // print(lottoTotalNumber.length);
     if (lottoTotalNumber.length != makeRealRound()) {
       // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
-      for (int i = makeRealRound()- lottoTotalNumber.length-1; i >= 0; i--) {
+      for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
         List<int> emptyList = [];
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo1']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo1']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo2']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo2']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo3']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo3']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo4']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo4']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo5']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo5']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo6']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo6']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['bnusNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
         print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
-
       }
       print(lottoTotalNumber);
-
-
-
     }
 
-
-    if(lottoTotalNumber[0].length==8) {
+    if (lottoTotalNumber[0].length == 8) {
       addTotalDataToLottoNumber();
     }
   }
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -473,7 +579,7 @@ class _button1State extends State<button1> {
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-            if (context.read<Store1>().lottoData['drwtNo6'] == null) {
+            if (context.read<Mainpage_Store>().lottoData['drwtNo6'] == null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   width: 320.w,
                   content: Text(
@@ -546,26 +652,34 @@ class _button1State extends State<button1> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '당첨번호보기',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    '당첨번호보기',
+                    // softWrap: false,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      // fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: SizedBox(
+                      width: double.infinity,
                       height: 96.h,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                      child: Lottie.asset('assets/lottie/number1.json',
-                          width: 150.w)),
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/number1.json',
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -639,29 +753,32 @@ class _button5State extends State<button5> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '로또번호생성',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '로또번호생성',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: SizedBox(
-                      height: 96.h,
-                      width: 180.w,
+                  child: Container(
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                      width: double.infinity,
+                      height: 96.h,
                       child: FittedBox(
-                          fit: BoxFit.none,
+                          fit: BoxFit.contain,
                           child: Lottie.asset('assets/lottie/button2.json',
-                              width: 180.w))),
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -688,7 +805,7 @@ class _button3State extends State<button3> {
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-            if (context.read<Store1>().lottoData['drwtNo6'] == null) {
+            if (context.read<Mainpage_Store>().lottoData['drwtNo6'] == null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   width: 320.w,
                   content: Text(
@@ -754,28 +871,33 @@ class _button3State extends State<button3> {
               }
             }),
 
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '당첨지역보기',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '당첨지역보기',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      width: double.infinity,
                       height: 96.h,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                      child: Lottie.asset(
-                        'assets/lottie/jido.json',
-                      )),
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/jido.json',
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -849,31 +971,34 @@ class _button4State extends State<button4> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '로또번호뽑기',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '로또번호뽑기',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5.h),
+                      // padding: EdgeInsets.fromLTRB(0, 0, 0, 5.h),
                       height: 96.h,
-                      width: 170.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
 
-                      child: Lottie.asset(
-                        'assets/lottie/button4tong.json',
-                        width: 170.w,
-                      )),
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/button4tong.json',
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -945,30 +1070,35 @@ class _button2State extends State<button2> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '로또당첨후기',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '로또당첨후기',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: SizedBox(
                       // padding: EdgeInsets.fromLTRB(0,5,0,0),
                       height: 96.h,
-                      width: 160.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
+                          fit: BoxFit.contain,
                           child: Lottie.asset('assets/lottie/board.json',
-                              width: 150.w, height: 96.h))),
+                              fit: BoxFit.fill
+                              // height: 96.h
+                              ))),
                 )
               ],
             ),
@@ -1040,30 +1170,33 @@ class _button6State extends State<button6> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '꿈번호예측',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '꿈풀이분석기',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: SizedBox(
                       // padding: EdgeInsets.fromLTRB(0,5,0,0),
                       height: 96.h,
-                      width: 160.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
+                          fit: BoxFit.contain,
                           child: Lottie.asset('assets/lottie/button6.json',
-                              width: 150.w))),
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -1083,7 +1216,7 @@ class button7 extends StatefulWidget {
 
 class _button7State extends State<button7> {
   makeFullLottoTotalNumberStart() {
-    if (context.read<Store1>().totalLottoData.length >=
+    if (context.read<Mainpage_Store>().totalLottoData.length >=
         makeRealRound() - lottoTotalNumber.length) {
       makeFullLottoTotalNumber();
       Navigator.push(context, MaterialPageRoute(builder: (c) {
@@ -1109,15 +1242,16 @@ class _button7State extends State<button7> {
                   height: 100.h,
                   child: FittedBox(
                       fit: BoxFit.none,
-                      child: Lottie.asset('assets/lottie/bounce.json', width: 200.w))),
+                      child: Lottie.asset('assets/lottie/bounce.json',
+                          width: 200.w))),
               actions: <Widget>[
                 TextButton(
                   child: Text(
                     "확인",
-                    style: TextStyle(color:Colors.blue,fontSize: 20.sp),
+                    style: TextStyle(color: Colors.blue, fontSize: 20.sp),
                   ),
                   onPressed: () {
-                    if (context.read<Store1>().totalLottoData.length >=
+                    if (context.read<Mainpage_Store>().totalLottoData.length >=
                         makeRealRound() - lottoTotalNumber.length) {
                       makeFullLottoTotalNumber();
                       //
@@ -1125,14 +1259,12 @@ class _button7State extends State<button7> {
                       //   return button7Page();
                       // }));
 
-
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return const button7Page();
-                      }),);
-
-
-
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                          return const button7Page();
+                        }),
+                      );
                     } else {
                       Navigator.pop(context);
                     }
@@ -1145,34 +1277,41 @@ class _button7State extends State<button7> {
   }
 
   makeFullLottoTotalNumber() {
-     print(makeRealRound());
-     print(lottoTotalNumber.length);
+    print(makeRealRound());
+    print(lottoTotalNumber.length);
     if (lottoTotalNumber.length != makeRealRound()) {
       // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
-      for (int i =makeRealRound() - lottoTotalNumber.length-1; i >=0; i--) {
+      for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
         print(i);
         List<int> emptyList = [];
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo1']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo1']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo2']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo2']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo3']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo3']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo4']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo4']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo5']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo5']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo6']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo6']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['bnusNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
         print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
-
       }
       print(lottoTotalNumber);
     }
@@ -1184,7 +1323,7 @@ class _button7State extends State<button7> {
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-            if (context.read<Store1>().lottoData['drwtNo6'] == null) {
+            if (context.read<Mainpage_Store>().lottoData['drwtNo6'] == null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   width: 320.w,
                   content: Text(
@@ -1248,30 +1387,33 @@ class _button7State extends State<button7> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '로또회귀분석',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '로또회귀분석',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                      padding: EdgeInsets.fromLTRB(20.w, 0, 0, 0),
+                      // padding: EdgeInsets.fromLTRB(20.w, 0, 0, 0),
                       height: 96.h,
-                      width: 160.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
+                          fit: BoxFit.contain,
                           child: Lottie.asset('assets/lottie/button7.json',
-                              width: 140.w))),
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -1296,7 +1438,7 @@ class _button8State extends State<button8> {
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-            if (context.read<Store1>().lottoData['drwtNo6'] == null) {
+            if (context.read<Mainpage_Store>().lottoData['drwtNo6'] == null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   width: 320.w,
                   content: Text(
@@ -1363,30 +1505,33 @@ class _button8State extends State<button8> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-                WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '출현/미출현수',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '출현/미출현수',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      // padding:  EdgeInsets.fromLTRB(0, 50.h, 0, 50.h),
                       height: 96.h,
-                      width: 160.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
+                          fit: BoxFit.contain,
                           child: Lottie.asset('assets/lottie/button8.json',
-                              width: 120.w))),
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -1396,6 +1541,7 @@ class _button8State extends State<button8> {
     );
   }
 }
+
 class button9 extends StatefulWidget {
   const button9({Key? key}) : super(key: key);
 
@@ -1404,11 +1550,8 @@ class button9 extends StatefulWidget {
 }
 
 class _button9State extends State<button9> {
-
-
-
   makeFullLottoTotalNumberStart() {
-    if (context.read<Store1>().totalLottoData.length >=
+    if (context.read<Mainpage_Store>().totalLottoData.length >=
         makeRealRound() - lottoTotalNumber.length) {
       makeFullLottoTotalNumber();
       Navigator.push(context, MaterialPageRoute(builder: (c) {
@@ -1434,15 +1577,16 @@ class _button9State extends State<button9> {
                   height: 100.h,
                   child: FittedBox(
                       fit: BoxFit.none,
-                      child: Lottie.asset('assets/lottie/bounce.json', width: 200.w))),
+                      child: Lottie.asset('assets/lottie/bounce.json',
+                          width: 200.w))),
               actions: <Widget>[
                 TextButton(
                   child: Text(
                     "확인",
-                    style: TextStyle(color:Colors.blue,fontSize: 20.sp),
+                    style: TextStyle(color: Colors.blue, fontSize: 20.sp),
                   ),
                   onPressed: () {
-                    if (context.read<Store1>().totalLottoData.length >=
+                    if (context.read<Mainpage_Store>().totalLottoData.length >=
                         makeRealRound() - lottoTotalNumber.length) {
                       makeFullLottoTotalNumber();
                       //
@@ -1450,14 +1594,12 @@ class _button9State extends State<button9> {
                       //   return button7Page();
                       // }));
 
-
-                      Navigator.pushReplacement(context,
+                      Navigator.pushReplacement(
+                        context,
                         MaterialPageRoute(builder: (BuildContext context) {
                           return const button9Page();
-                        }),);
-
-
-
+                        }),
+                      );
                     } else {
                       Navigator.pop(context);
                     }
@@ -1467,57 +1609,59 @@ class _button9State extends State<button9> {
             );
           });
     }
-
-
-
-
   }
 
   makeFullLottoTotalNumber() {
     // print(makeRound());
     // print(lottoTotalNumber.length);
-    if (lottoTotalNumber.length != makeRealRound() ) {
+    if (lottoTotalNumber.length != makeRealRound()) {
       // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
-      for (int i = makeRealRound() - lottoTotalNumber.length-1; i >= 0; i--) {
+      for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
         List<int> emptyList = [];
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo1']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo1']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo2']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo2']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo3']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo3']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo4']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo4']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo5']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo5']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo6']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo6']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['bnusNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
         print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
-
       }
       print(lottoTotalNumber);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-
-              // Navigator.of(context)..pop()..pop();
+            // Navigator.of(context)..pop()..pop();
             makeFullLottoTotalNumberStart();
-              // Navigator.push(context, MaterialPageRoute(builder: (c) {
-              //   return button9Page();
-              // }));
-
+            // Navigator.push(context, MaterialPageRoute(builder: (c) {
+            //   return button9Page();
+            // }));
           },
           style: ButtonStyle(
             animationDuration: const Duration(microseconds: 100),
@@ -1562,30 +1706,34 @@ class _button9State extends State<button9> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-            WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '강력추천번호',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '강력추천번호',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       height: 96.h,
-                      width: 160.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
-                          child:Lottie.asset('assets/lottie/reco2.json',
-                              width: 120.w))),
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/reco2.json',
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -1596,9 +1744,6 @@ class _button9State extends State<button9> {
   }
 }
 
-
-
-
 class button10 extends StatefulWidget {
   const button10({Key? key}) : super(key: key);
 
@@ -1607,20 +1752,17 @@ class button10 extends StatefulWidget {
 }
 
 class _button10State extends State<button10> {
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-
             // Navigator.of(context)..pop()..pop();
 
             Navigator.push(context, MaterialPageRoute(builder: (c) {
               return const button10Page();
             }));
-
           },
           style: ButtonStyle(
             animationDuration: const Duration(microseconds: 100),
@@ -1665,30 +1807,33 @@ class _button10State extends State<button10> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-            WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '제외수/과거당첨',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '제외수/고정수',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       height: 96.h,
-                      width: 160.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
-                          child:Lottie.asset('assets/lottie/fixNumber.json',
-                              width: 120.w))),
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/fixNumber.json',
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -1708,7 +1853,7 @@ class button11 extends StatefulWidget {
 
 class _button11State extends State<button11> {
   button11MakeFullLottoTotalNumberStart() {
-    if (context.read<Store1>().totalLottoData.length >=
+    if (context.read<Mainpage_Store>().totalLottoData.length >=
         makeRealRound() - lottoTotalNumber.length) {
       button11MakeFullLottoTotalNumber();
       Navigator.push(context, MaterialPageRoute(builder: (c) {
@@ -1734,15 +1879,16 @@ class _button11State extends State<button11> {
                   height: 100.h,
                   child: FittedBox(
                       fit: BoxFit.none,
-                      child: Lottie.asset('assets/lottie/bounce.json', width: 200.w))),
+                      child: Lottie.asset('assets/lottie/bounce.json',
+                          width: 200.w))),
               actions: <Widget>[
                 TextButton(
                   child: Text(
                     "확인",
-                    style: TextStyle(color:Colors.blue,fontSize: 20.sp),
+                    style: TextStyle(color: Colors.blue, fontSize: 20.sp),
                   ),
                   onPressed: () {
-                    if (context.read<Store1>().totalLottoData.length >=
+                    if (context.read<Mainpage_Store>().totalLottoData.length >=
                         makeRealRound() - lottoTotalNumber.length) {
                       button11MakeFullLottoTotalNumber();
                       //
@@ -1750,14 +1896,12 @@ class _button11State extends State<button11> {
                       //   return button7Page();
                       // }));
 
-
-                      Navigator.pushReplacement(context,
+                      Navigator.pushReplacement(
+                        context,
                         MaterialPageRoute(builder: (BuildContext context) {
                           return const button11Page();
-                        }),);
-
-
-
+                        }),
+                      );
                     } else {
                       Navigator.pop(context);
                     }
@@ -1767,57 +1911,59 @@ class _button11State extends State<button11> {
             );
           });
     }
-
-
-
-
   }
 
   button11MakeFullLottoTotalNumber() {
     // print(makeRound());
     // print(lottoTotalNumber.length);
-    if (lottoTotalNumber.length != makeRealRound() ) {
+    if (lottoTotalNumber.length != makeRealRound()) {
       // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
-      for (int i = makeRealRound() - lottoTotalNumber.length-1; i >= 0; i--) {
+      for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
         List<int> emptyList = [];
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo1']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo1']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo2']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo2']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo3']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo3']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo4']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo4']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo5']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo5']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo6']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo6']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['bnusNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
         print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
-
       }
       print(lottoTotalNumber);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-
             // Navigator.of(context)..pop()..pop();
             button11MakeFullLottoTotalNumberStart();
             // Navigator.push(context, MaterialPageRoute(builder: (c) {
             //   return button11Page();
             // }));
-
           },
           style: ButtonStyle(
             animationDuration: const Duration(microseconds: 100),
@@ -1862,30 +2008,33 @@ class _button11State extends State<button11> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-            WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '동반/미동반수',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '동반/미동반수',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       height: 96.h,
-                      width: 160.w,
+                      width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
-                          child:Lottie.asset('assets/lottie/button11.json',
-                              width: 120.w))),
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/button11.json',
+                              fit: BoxFit.fill))),
                 )
               ],
             ),
@@ -1896,8 +2045,6 @@ class _button11State extends State<button11> {
   }
 }
 
-
-
 class button12 extends StatefulWidget {
   const button12({Key? key}) : super(key: key);
 
@@ -1907,7 +2054,7 @@ class button12 extends StatefulWidget {
 
 class _button12State extends State<button12> {
   button12MakeFullLottoTotalNumberStart() {
-    if (context.read<Store1>().totalLottoData.length >=
+    if (context.read<Mainpage_Store>().totalLottoData.length >=
         makeRealRound() - lottoTotalNumber.length) {
       button12MakeFullLottoTotalNumber();
       Navigator.push(context, MaterialPageRoute(builder: (c) {
@@ -1933,15 +2080,16 @@ class _button12State extends State<button12> {
                   height: 100.h,
                   child: FittedBox(
                       fit: BoxFit.none,
-                      child: Lottie.asset('assets/lottie/bounce.json', width: 200.w))),
+                      child: Lottie.asset('assets/lottie/bounce.json',
+                          width: 200.w))),
               actions: <Widget>[
                 TextButton(
                   child: Text(
                     "확인",
-                    style: TextStyle(color:Colors.blue,fontSize: 20.sp),
+                    style: TextStyle(color: Colors.blue, fontSize: 20.sp),
                   ),
                   onPressed: () {
-                    if (context.read<Store1>().totalLottoData.length >=
+                    if (context.read<Mainpage_Store>().totalLottoData.length >=
                         makeRealRound() - lottoTotalNumber.length) {
                       button12MakeFullLottoTotalNumber();
                       //
@@ -1949,14 +2097,12 @@ class _button12State extends State<button12> {
                       //   return button7Page();
                       // }));
 
-
-                      Navigator.pushReplacement(context,
+                      Navigator.pushReplacement(
+                        context,
                         MaterialPageRoute(builder: (BuildContext context) {
                           return const button11Page();
-                        }),);
-
-
-
+                        }),
+                      );
                     } else {
                       Navigator.pop(context);
                     }
@@ -1966,57 +2112,59 @@ class _button12State extends State<button12> {
             );
           });
     }
-
-
-
-
   }
 
   button12MakeFullLottoTotalNumber() {
     // print(makeRound());
     // print(lottoTotalNumber.length);
-    if (lottoTotalNumber.length != makeRealRound() ) {
+    if (lottoTotalNumber.length != makeRealRound()) {
       // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
-      for (int i = makeRealRound() - lottoTotalNumber.length-1; i >= 0; i--) {
+      for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
         List<int> emptyList = [];
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo1']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo1']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo2']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo2']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo3']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo3']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo4']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo4']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo5']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo5']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['drwtNo6']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo6']);
 
-        emptyList.add(context.read<Store1>().totalLottoData[i]['bnusNo']);
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
         print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
-
       }
       print(lottoTotalNumber);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-
             // Navigator.of(context)..pop()..pop();
             button12MakeFullLottoTotalNumberStart();
             // Navigator.push(context, MaterialPageRoute(builder: (c) {
             //   return button12Page();
             // }));
-
           },
           style: ButtonStyle(
             animationDuration: const Duration(microseconds: 100),
@@ -2061,30 +2209,238 @@ class _button12State extends State<button12> {
                 return Size(double.infinity, 150.0.h);
               }
             }),
-            padding:
-            WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 10.h, 0, 0)),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
           ),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  '저장번호목록',
-                  style: TextStyle(
-                    fontFamily: 'DoHyeon',
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '저장번호목록',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       height: 96.h,
-                      width: 160.w,
-                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                      width: double.infinity,
+                      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.none,
-                          child:Lottie.asset('assets/lottie/save.json',
-                              width: 160.w))),
+                          fit: BoxFit.fitWidth,
+                          child: Lottie.asset('assets/lottie/save.json',
+                              fit: BoxFit.fill))),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class button13 extends StatefulWidget {
+  const button13({super.key});
+
+  @override
+  State<button13> createState() => _button13State();
+}
+
+class _button13State extends State<button13> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigator.of(context)..pop()..pop();
+            // button12MakeFullLottoTotalNumberStart();
+            // Navigator.push(context, MaterialPageRoute(builder: (c) {
+            //   return button12Page();
+            // }));
+          },
+          style: ButtonStyle(
+            animationDuration: const Duration(microseconds: 100),
+
+            foregroundColor: WidgetStateProperty.all(Colors.black),
+            //syleForm에서  primarycolor랑 같다.
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return const Color(0xffffffff);
+              } else {
+                return const Color(0xffffffff);
+              }
+            }),
+            textStyle: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return TextStyle(
+                  fontSize: 25.sp,
+                );
+              } else {
+                return TextStyle(fontSize: 27.sp);
+              }
+            }),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: const BorderSide(color: Colors.white60))),
+
+            maximumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(double.infinity, 140.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            minimumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(160.w, 130.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
+          ),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '후나츠사카이',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: 96.h,
+                      width: double.infinity,
+                      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/japan.json',
+                              fit: BoxFit.fill))),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class button14 extends StatefulWidget {
+  const button14({super.key});
+
+  @override
+  State<button14> createState() => _button14State();
+}
+
+class _button14State extends State<button14> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigator.of(context)..pop()..pop();
+            // button12MakeFullLottoTotalNumberStart();
+            // Navigator.push(context, MaterialPageRoute(builder: (c) {
+            //   return button12Page();
+            // }));
+          },
+          style: ButtonStyle(
+            animationDuration: const Duration(microseconds: 100),
+
+            foregroundColor: WidgetStateProperty.all(Colors.black),
+            //syleForm에서  primarycolor랑 같다.
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return const Color(0xffffffff);
+              } else {
+                return const Color(0xffffffff);
+              }
+            }),
+            textStyle: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return TextStyle(
+                  fontSize: 25.sp,
+                );
+              } else {
+                return TextStyle(fontSize: 27.sp);
+              }
+            }),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: const BorderSide(color: Colors.white60))),
+
+            maximumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(double.infinity, 140.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            minimumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(160.w, 130.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
+          ),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    maxLines: 1,
+                    '로또커뮤니티',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: 96.h,
+                      width: double.infinity,
+                      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/kakaotalk.json',
+                              fit: BoxFit.fill
+                          )
+
+                      )),
                 )
               ],
             ),
@@ -2107,26 +2463,39 @@ class _button12State extends State<button12> {
 
 
 
+
+
+
+
 class textMarquee extends StatelessWidget {
   const textMarquee({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+        // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+        //
+        margin: EdgeInsets.fromLTRB(0, 5.sp, 0, 0),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        alignment: Alignment.center,
         width: double.infinity,
-        height: 20.h,
-        child: context.watch<firstLotto>().firstLottoNumNaver.isEmpty
-            ? (context.watch<Store1>().lottoData['firstPrzwnerCo'] == null
-                ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
+        height: 30.sp,
+        child: context
+                .watch<naverSearch_FirstNum_Store>()
+                .naverSearch_FirstNum
+                .isEmpty
+            ? (context.watch<Mainpage_Store>().lottoData['firstPrzwnerCo'] ==
+                    null
+                ? SizedBox(width: 10.w, height: 10.h)
+                // child: const CircularProgressIndicator())
                 : Marquee(
                     text:
-                        '1등 총 ${context.watch<Store1>().lottoData['firstPrzwnerCo']}명, 1인당 당첨금액 ${intl.NumberFormat('###,###,###,###').format(context.watch<Store1>().lottoData['firstWinamnt']).replaceAll(' ', '')}원',
+                        '1등 총 ${context.watch<Mainpage_Store>().lottoData['firstPrzwnerCo']}명, 1인당 당첨금액 ${intl.NumberFormat('###,###,###,###').format(context.watch<Mainpage_Store>().lottoData['firstWinamnt']).replaceAll(' ', '')}원',
                     textDirection: TextDirection.ltr,
-                    style: TextStyle(fontSize: 15.sp),
+                    style: TextStyle(
+                        fontSize: 15.sp,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w900),
                     scrollAxis: Axis.horizontal,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     blankSpace: 100.0,
@@ -2141,7 +2510,7 @@ class textMarquee extends StatelessWidget {
                   ))
             : Marquee(
                 text:
-                    '1등 총 ${context.watch<firstLotto>().firstLottoNumNaver[7]}명, 1인당 당첨금액 ${context.watch<firstLotto>().firstLottoNumNaver[8].replaceAll(' ', '')}원',
+                    '1등 총 ${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[7]}명, 1인당 당첨금액 ${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[8].replaceAll(' ', '')}원',
                 textDirection: TextDirection.ltr,
                 style: TextStyle(fontSize: 15.sp),
                 scrollAxis: Axis.horizontal,
@@ -2194,7 +2563,7 @@ class _totalBallState extends State<totalBall> {
               child: Row(children: [
                 Container(
                     child: Text(
-                        '${context.watch<Store1>().totalLottoData[widget.a!]['drwNo']}회',
+                        '${context.watch<Mainpage_Store>().totalLottoData[widget.a!]['drwNo']}회',
                         softWrap: false,
                         style: TextStyle(
                           fontSize: 20.sp,
@@ -2204,7 +2573,7 @@ class _totalBallState extends State<totalBall> {
                     height: 25.h,
                     alignment: Alignment.center,
                     child: Text(
-                        '  ${context.watch<Store1>().totalLottoData[widget.a!]['drwNoDate']}')),
+                        '  ${context.watch<Mainpage_Store>().totalLottoData[widget.a!]['drwNoDate']}')),
               ])),
           Container(
             margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 5.h),
@@ -2221,62 +2590,62 @@ class _totalBallState extends State<totalBall> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                context.watch<Store1>().lottoData['drwtNo1'] == null
+                context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
                     ? SizedBox(
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
                     : getTotalBall(context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .totalLottoData[widget.a!]['drwtNo1']),
-                context.watch<Store1>().lottoData['drwtNo2'] == null
+                context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
                     ? SizedBox(
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
                     : getTotalBall(context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .totalLottoData[widget.a!]['drwtNo2']),
-                context.watch<Store1>().lottoData['drwtNo3'] == null
+                context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
                     ? SizedBox(
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
                     : getTotalBall(context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .totalLottoData[widget.a!]['drwtNo3']),
-                context.watch<Store1>().lottoData['drwtNo4'] == null
+                context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
                     ? SizedBox(
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
                     : getTotalBall(context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .totalLottoData[widget.a!]['drwtNo4']),
-                context.watch<Store1>().lottoData['drwtNo5'] == null
+                context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
                     ? SizedBox(
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
                     : getTotalBall(context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .totalLottoData[widget.a!]['drwtNo5']),
-                context.watch<Store1>().lottoData['drwtNo6'] == null
+                context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
                     ? SizedBox(
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
                     : getTotalBall(context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .totalLottoData[widget.a!]['drwtNo6']),
                 const Icon(Icons.add),
-                context.watch<Store1>().lottoData['bnusNo'] == null
+                context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
                     ? SizedBox(
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
                     : getTotalBall(context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .totalLottoData[widget.a!]['bnusNo']),
               ],
             ),
@@ -2358,7 +2727,7 @@ class _totalBallButton7State extends State<totalBallButton7> {
               child: Container(
                   alignment: Alignment.centerRight,
                   child: Text(
-                      '${context.watch<Store1>().totalLottoData[widget.a!]['drwNo']}회',
+                      '${context.watch<Mainpage_Store>().totalLottoData[widget.a!]['drwNo']}회',
                       softWrap: false,
                       style: TextStyle(
                         fontSize: 20.sp,
@@ -2386,49 +2755,49 @@ class _totalBallButton7State extends State<totalBallButton7> {
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo1'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo1'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
                         : getTotalBall(context
-                            .watch<Store1>()
+                            .watch<Mainpage_Store>()
                             .totalLottoData[widget.a!]['drwtNo1']),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo2'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo2'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
                         : getTotalBall(context
-                            .watch<Store1>()
+                            .watch<Mainpage_Store>()
                             .totalLottoData[widget.a!]['drwtNo2']),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo3'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo3'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
                         : getTotalBall(context
-                            .watch<Store1>()
+                            .watch<Mainpage_Store>()
                             .totalLottoData[widget.a!]['drwtNo3']),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo4'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo4'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
                         : getTotalBall(context
-                                .watch<Store1>()
+                                .watch<Mainpage_Store>()
                                 .totalLottoData[widget.a!]['drwtNo4']
                             // 0
                             ),
@@ -2436,37 +2805,37 @@ class _totalBallButton7State extends State<totalBallButton7> {
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo5'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo5'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
                         : getTotalBall(context
-                            .watch<Store1>()
+                            .watch<Mainpage_Store>()
                             .totalLottoData[widget.a!]['drwtNo5']),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo6'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo6'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
                         : getTotalBall(context
-                            .watch<Store1>()
+                            .watch<Mainpage_Store>()
                             .totalLottoData[widget.a!]['drwtNo6']),
                     const Icon(Icons.add),
                     // snapshot.data!=null
                     //     ? getTotalBall(snapshot.data[widget.a!]['bnusNo'])
                     //     :
-                    context.watch<Store1>().lottoData['bnusNo'] == null
+                    context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
                         : getTotalBall(context
-                            .watch<Store1>()
+                            .watch<Mainpage_Store>()
                             .totalLottoData[widget.a!]['bnusNo']),
                   ],
                 ),
@@ -2509,17 +2878,18 @@ class _newTotalBallButton7State extends State<newTotalBallButton7> {
         padding: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
         child: Row(
           children: [
-
-              Container(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  alignment: Alignment.centerRight,
-                  child: Text(softWrap: false,'${lottoTotalNumber[widget.a!][0]}회',
-
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w900,
-                      ))),
-              // flex: 1,
+            Container(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                alignment: Alignment.centerRight,
+                child: AutoSizeText(
+                    softWrap: false,
+                    '${lottoTotalNumber[widget.a!][0]}회',
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ))),
+            // flex: 1,
 
             Expanded(
               child: Container(
@@ -2541,74 +2911,87 @@ class _newTotalBallButton7State extends State<newTotalBallButton7> {
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo1'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo1'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
-                        : Expanded(child: getTotalBall(lottoTotalNumber[widget.a!][1])),
+                        : Expanded(
+                            child:
+                                getTotalBall(lottoTotalNumber[widget.a!][1])),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo2'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo2'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
-                        :  Expanded(child: getTotalBall(lottoTotalNumber[widget.a!][2])),
+                        : Expanded(
+                            child:
+                                getTotalBall(lottoTotalNumber[widget.a!][2])),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo3'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo3'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
-                        :  Expanded(child: getTotalBall(lottoTotalNumber[widget.a!][3])),
+                        : Expanded(
+                            child:
+                                getTotalBall(lottoTotalNumber[widget.a!][3])),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo4'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo4'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
-                        :  Expanded(child: getTotalBall(lottoTotalNumber[widget.a!][4]
-                            // 0
-    )),
+                        : Expanded(
+                            child: getTotalBall(lottoTotalNumber[widget.a!][4]
+                                // 0
+                                )),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo5'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo5'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
-                        : Expanded(child:  getTotalBall(lottoTotalNumber[widget.a!][5])),
+                        : Expanded(
+                            child:
+                                getTotalBall(lottoTotalNumber[widget.a!][5])),
                     // snapshot.data!=null
                     //     ? getTotalBall(
                     //     snapshot.data[widget.a!]['drwtNo6'])
                     //     :
-                    context.watch<Store1>().lottoData['drwtNo6'] == null
+                    context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
-                        :  Expanded(child: getTotalBall(lottoTotalNumber[widget.a!][6])),
+                        : Expanded(
+                            child:
+                                getTotalBall(lottoTotalNumber[widget.a!][6])),
                     const Icon(Icons.add),
                     // snapshot.data!=null
                     //     ? getTotalBall(snapshot.data[widget.a!]['bnusNo'])
                     //     :
-                    context.watch<Store1>().lottoData['bnusNo'] == null
+                    context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
                         ? SizedBox(
                             width: 10.w,
                             height: 10.h,
                             child: const CircularProgressIndicator())
-                        : Expanded(child:  getTotalBall(lottoTotalNumber[widget.a!][7])),
+                        : Expanded(
+                            child:
+                                getTotalBall(lottoTotalNumber[widget.a!][7])),
                   ],
                 ),
               ),
@@ -2620,6 +3003,7 @@ class _newTotalBallButton7State extends State<newTotalBallButton7> {
         ));
   }
 }
+
 class reTotalBall extends StatefulWidget {
   reTotalBall({Key? key, this.a}) : super(key: key);
 
@@ -2647,86 +3031,92 @@ class _reTotalBallState extends State<reTotalBall> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90.h,
+      height: 95.sp,
       padding: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
       child: Column(
         children: [
           Container(
               padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
               child: Row(children: [
+                AutoSizeText('${lottoTotalNumber[widget.a!][0]}회',
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    )),
                 Container(
-                    child: Text(
-                        '${lottoTotalNumber[widget.a!][0]}회',
-                        softWrap: false,
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w900,
-                        ))),
-                Container(
-                    height: 25.h,
+                    height: 25.sp,
                     alignment: Alignment.center,
+                    child: AutoSizeText(
+                        '  ${(lottoTotalNumber[widget.a!][8].toString().substring(0, 4))}-${lottoTotalNumber[widget.a!][8].toString().substring(4, 6)}-${lottoTotalNumber[widget.a!][8].toString().substring(6, 8)}',
+                        style: TextStyle(
+                          fontSize: 12.sp,
 
-                    child: Text('  ${(lottoTotalNumber[widget.a!][8].toString().substring(0,4))}-${lottoTotalNumber[widget.a!][8].toString().substring(4,6)}-${lottoTotalNumber[widget.a!][8].toString().substring(6,8)}')),
+                          // fontWeight: FontWeight.w900,
+                        ))),
               ])),
-          Container(
-            margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 5.h),
-            padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
-            // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-            decoration: const BoxDecoration(
-              color: Color(0xffe5e5e5),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                lottoTotalNumber[widget.a!][1] == null
-                    ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
-                    : getTotalBall(lottoTotalNumber[widget.a!][1]),
-                lottoTotalNumber[widget.a!][2] == null
-                    ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
-                    : getTotalBall(lottoTotalNumber[widget.a!][2]),
-                lottoTotalNumber[widget.a!][3] == null
-                    ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
-                    : getTotalBall(lottoTotalNumber[widget.a!][3]),
-                lottoTotalNumber[widget.a!][4] == null
-                    ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
-                    : getTotalBall(lottoTotalNumber[widget.a!][4]),
-                lottoTotalNumber[widget.a!][5] == null
-                    ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
-                    : getTotalBall(lottoTotalNumber[widget.a!][5]),
-                lottoTotalNumber[widget.a!][6]== null
-                    ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
-                    : getTotalBall(lottoTotalNumber[widget.a!][6]),
-                const Icon(Icons.add),
-                lottoTotalNumber[widget.a!][7] == null
-                    ? SizedBox(
-                    width: 10.w,
-                    height: 10.h,
-                    child: const CircularProgressIndicator())
-                    : getTotalBall(lottoTotalNumber[widget.a!][7]),
-              ],
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 5.h),
+              padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+              // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              decoration: const BoxDecoration(
+                color: Color(0xffe5e5e5),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  lottoTotalNumber[widget.a!][1] == null
+                      ? SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                          child: const CircularProgressIndicator())
+                      : getTotalBall(lottoTotalNumber[widget.a!][1]),
+                  lottoTotalNumber[widget.a!][2] == null
+                      ? SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                          child: const CircularProgressIndicator())
+                      : getTotalBall(lottoTotalNumber[widget.a!][2]),
+                  lottoTotalNumber[widget.a!][3] == null
+                      ? SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                          child: const CircularProgressIndicator())
+                      : getTotalBall(lottoTotalNumber[widget.a!][3]),
+                  lottoTotalNumber[widget.a!][4] == null
+                      ? SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                          child: const CircularProgressIndicator())
+                      : getTotalBall(lottoTotalNumber[widget.a!][4]),
+                  lottoTotalNumber[widget.a!][5] == null
+                      ? SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                          child: const CircularProgressIndicator())
+                      : getTotalBall(lottoTotalNumber[widget.a!][5]),
+                  lottoTotalNumber[widget.a!][6] == null
+                      ? SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                          child: const CircularProgressIndicator())
+                      : getTotalBall(lottoTotalNumber[widget.a!][6]),
+                  const Icon(Icons.add),
+                  lottoTotalNumber[widget.a!][7] == null
+                      ? SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                          child: const CircularProgressIndicator())
+                      : getTotalBall(lottoTotalNumber[widget.a!][7]),
+                ],
+              ),
             ),
           ),
         ],

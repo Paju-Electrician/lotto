@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class DataBase extends ChangeNotifier {
+class Gallery_Store extends ChangeNotifier {
   final firestore = FirebaseFirestore.instance;
   String collection = '게시판';
 

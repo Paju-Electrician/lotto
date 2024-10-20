@@ -1214,7 +1214,7 @@ class _button10PageState extends State<button10Page> {
                   children: <Widget>[
                     Text(
                       "과거당첨결과 확인",
-                      style: TextStyle(fontSize: 32.sp, fontFamily: 'DoHyeon'),
+                      style: TextStyle(fontSize: 32.sp, fontFamily: 'Pretendard'),
                     ),
                   ],
                 ),
@@ -1982,6 +1982,7 @@ class _button10ButtonListState extends State<button10ButtonList> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 17.sp,
+                                      fontFamily: 'Pretendard',
                                       fontWeight: FontWeight.bold)
                                   // fontWeight: FontWeight.w900,
                                   ),

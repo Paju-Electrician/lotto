@@ -1,11 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
-import 'package:lotto/provider/store2.dart';
+import 'package:lotto/provider/win_gallery_Provider.dart';
 import 'package:provider/provider.dart';
 
-import 'button22Page.dart';
+import 'button2Page.dart';
 
 String data_title = '';
 String data_content = '';
@@ -48,13 +49,13 @@ class _contentPageState extends State<contentPage> {
 
   likeplus() {
     if (data_id != null) {
-      context.read<DataBase>().likeupdate(data_id!, like + 1);
+      context.read<Gallery_Store>().likeupdate(data_id!, like + 1);
     }
   }
 
   envyplus() {
     if (data_id != null) {
-      context.read<DataBase>().envyupdate(data_id!, envy + 1);
+      context.read<Gallery_Store>().envyupdate(data_id!, envy + 1);
     }
   }
 
@@ -74,13 +75,13 @@ class _contentPageState extends State<contentPage> {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child:
 
-                  Text(
+                  AutoSizeText(
                     '로또당첨후기 익명게시판',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 30.sp,
                         fontWeight: FontWeight.w100,
-                        fontFamily: 'DoHyeon'),
+                        fontFamily: 'Pretendard'),
                   ),
 
 
@@ -98,13 +99,13 @@ class _contentPageState extends State<contentPage> {
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AutoSizeText(
                         '${data_id.toString()}번째 당첨게시글! 축하합니다!',
                         style: TextStyle(fontSize: 15.sp),
                       ),
                       Container(
                           padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 5.h)),
-                      Text('제목:$data_title',
+                      AutoSizeText('제목:$data_title',
                           maxLines: 2, style: TextStyle(fontSize: 20.sp)),
                       //제목
                     ],
@@ -159,7 +160,7 @@ class _contentPageState extends State<contentPage> {
                                             color: Colors.black,
                                             fontSize: 20.sp,
                                             fontWeight: FontWeight.w100,
-                                            fontFamily: 'DoHyeon'),
+                                            fontFamily: 'Pretendard'),
                                       ),
                                       const Icon(Icons.thumb_up, color: Colors.blue)
                                     ],
@@ -168,7 +169,7 @@ class _contentPageState extends State<contentPage> {
                           )),
                           StreamBuilder<QuerySnapshot>(
                               stream: context
-                                  .read<DataBase>()
+                                  .read<Gallery_Store>()
                                   .firestore
                                   .collection('게시판')
                                   .where('id', isEqualTo: data_id)
@@ -191,7 +192,7 @@ class _contentPageState extends State<contentPage> {
                                           color: Colors.black,
                                           fontSize: 30.sp,
                                           fontWeight: FontWeight.w100,
-                                          fontFamily: 'DoHyeon')),
+                                          fontFamily: 'Pretendard')),
                                 );
                               }),
                           Container(
@@ -208,7 +209,7 @@ class _contentPageState extends State<contentPage> {
                                               color: Colors.black,
                                               fontSize: 20.sp,
                                               fontWeight: FontWeight.w100,
-                                              fontFamily: 'DoHyeon')),
+                                              fontFamily: 'Pretendard')),
                                       const Icon(Icons.thumb_up, color: Colors.red)
                                     ],
                                   )),
@@ -216,7 +217,7 @@ class _contentPageState extends State<contentPage> {
                           )),
                           StreamBuilder<QuerySnapshot>(
                               stream: context
-                                  .read<DataBase>()
+                                  .read<Gallery_Store>()
                                   .firestore
                                   .collection('게시판')
                                   .where('id', isEqualTo: data_id)
@@ -238,7 +239,7 @@ class _contentPageState extends State<contentPage> {
                                           color: Colors.black,
                                           fontSize: 30.sp,
                                           fontWeight: FontWeight.w100,
-                                          fontFamily: 'DoHyeon')),
+                                          fontFamily: 'Pretendard')),
                                 );
                               }),
                         ],
@@ -381,7 +382,7 @@ class _contentPageState extends State<contentPage> {
                               clearText();
 
                               context
-                                  .read<DataBase>()
+                                  .read<Gallery_Store>()
                                   .replyupdate(data_id!, inputData); //댓글의 개수를 i
                             },
                             style: ElevatedButton.styleFrom(
@@ -420,7 +421,7 @@ class _replyState extends State<reply> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: context
-            .read<DataBase>()
+            .read<Gallery_Store>()
             .firestore
             .collection('게시판')
             .where('id', isEqualTo: data_id)

@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lotto/pages/content.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
-import 'package:lotto/provider/store2.dart';
+import 'package:lotto/provider/win_gallery_Provider.dart';
 import 'write.dart';
 
 import 'package:provider/provider.dart';
@@ -66,21 +68,26 @@ class _button2PageState extends State<button2Page>  {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xfff8f8f8),
-        leadingWidth: 0,
+    leading: IconButton(
+    icon: Icon(Icons.arrow_back),
+    onPressed: () {
+    // Navigate back to the previous screen by popping the current route
+    Navigator.of(context).pop();
+    },),
         centerTitle: true,
         title: Container(
-            padding: const EdgeInsets.fromLTRB(0, 7, 0, 0),
+            padding:  EdgeInsets.fromLTRB(0, 7.sp, 0, 0),
             child:
             // Row(
             //   children: [
                 // ElevatedButton(onPressed: (){testclear();}, child: Text('테스트버튼')),
-                const Text(
+                 AutoSizeText(
                   '로또당첨후기 익명게시판',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 30,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w100,
-                      fontFamily: 'DoHyeon'),
+                      fontFamily: 'Pretendard'),
                   textAlign: TextAlign.center,
                 ),
               // ],
@@ -100,17 +107,17 @@ class _button2PageState extends State<button2Page>  {
 
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   // height:50,
                   decoration: const BoxDecoration(color: Colors.blueAccent),
                   child: GestureDetector(
 
                     child: const Text(
-                      '< 공지사항 > 필독해주세요',
+                      '< 공지사항 >',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'DoHyeon',
+                          fontFamily: 'Pretendard',
                           fontSize: 25,
                           fontWeight: FontWeight.w100),
                     ),
@@ -124,6 +131,7 @@ class _button2PageState extends State<button2Page>  {
                                   borderRadius: BorderRadius.circular(10.0)),
                               //Dialog Main Title
                               title: const Column(
+
                                 children: <Widget>[
                                   Text("<로또당첨후기 익명게시판>"),
                                 ],
@@ -178,7 +186,7 @@ class _button2PageState extends State<button2Page>  {
                   children: <Widget>[
                     Expanded(
                       child: SizedBox(
-                        height: 600,
+                        height: 680,
                         child: sss(context),
                       ),
                     ),
@@ -194,11 +202,11 @@ class _button2PageState extends State<button2Page>  {
         onPressed: _incrementCounter,
         tooltip: '글쓰기',
         icon: const Icon(Icons.add,color: Colors.white),
-        label: const Text(
+        label: Text(
           '당첨후기작성하기',
           style: TextStyle(
             color: Colors.white,
-              fontSize: 25, fontWeight: FontWeight.w500, fontFamily: 'DoHyeon'),
+              fontSize: 25.sp, fontWeight: FontWeight.w500, fontFamily: 'Pretendard'),
         ),
       ),
     );
@@ -207,7 +215,7 @@ class _button2PageState extends State<button2Page>  {
   Widget sss(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: context
-          .read<DataBase>()
+          .read<Gallery_Store>()
           .firestore
           .collection('게시판')
           .orderBy('id', descending: true) //이건 정렬

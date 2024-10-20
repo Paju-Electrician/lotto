@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lotto/pages/lottoNumber.dart';
-import 'package:lotto/provider/store3.dart';
+import 'package:lotto/provider/naverSearch_Provider.dart';
 import 'package:lotto/widget/mainWidgets.dart';
 import 'package:provider/provider.dart';
 
@@ -29,12 +29,12 @@ class _button11PageState extends State<button11Page> {
 
   button11ListInit(){
     setState(() {
-      _button11firstRoundList =List<int>.generate(context.read<firstLotto>().firstLottoNumNaver[11], (int index) => index+1 );
-      _button11secondRoundList =List<int>.generate(context.read<firstLotto>().firstLottoNumNaver[11] , (int index) => index+1 ).reversed.toList();
+      _button11firstRoundList =List<int>.generate(context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11], (int index) => index+1 );
+      _button11secondRoundList =List<int>.generate(context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] , (int index) => index+1 ).reversed.toList();
 
 
       _button11firstRound  = 1;
-      _button11secondRound = context.read<firstLotto>().firstLottoNumNaver[11];
+      _button11secondRound = context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11];
 
     });
   }
@@ -156,10 +156,14 @@ class _button11PageState extends State<button11Page> {
     button11ListInit();
     dongbanMake();
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size);
+    print(MediaQuery.of(context).size.height);
+    print(MediaQuery.of(context).size.width);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(0.0),
@@ -184,7 +188,7 @@ class _button11PageState extends State<button11Page> {
           //       Text('동반수/미동반수 분석',
           //           style: TextStyle(
           //               fontWeight: FontWeight.w500,
-          //               fontFamily: 'DoHyeon',
+          //               fontFamily: 'Pretendard',
           //               fontSize: 30.sp)),
           //       IconButton(onPressed: null, icon: Icon(null)
           //       )
@@ -198,7 +202,7 @@ class _button11PageState extends State<button11Page> {
           //   child: Text('동반수/미동반수에서는 같이 출현한 번호의 확률을 볼수 있습니다. ',
           //       style: TextStyle(
           //           fontWeight: FontWeight.w500,
-          //           fontFamily: 'DoHyeon',
+          //           fontFamily: 'Pretendard',
           //           fontSize: 15.sp)),
           // ),
 

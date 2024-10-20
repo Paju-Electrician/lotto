@@ -4,22 +4,24 @@ import 'package:lottie/lottie.dart';
 import 'package:lotto/main.dart';
 import 'package:lotto/pages/button12Page.dart';
 import 'package:lotto/pages/notification.dart';
-import 'package:lotto/provider/store1.dart';
-import 'package:lotto/provider/store3.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
+import 'package:lotto/provider/naverSearch_Provider.dart';
 import 'package:provider/provider.dart';
 import 'package:in_app_update/in_app_update.dart';
 
 class Splash extends StatefulWidget {
-  Splash({Key? key,this.context,this.payload}) : super(key: key);
-final context;
-var payload;
+  Splash({Key? key, this.context, this.payload}) : super(key: key);
+  final context;
+  var payload;
+
   @override
   _SplashState createState() => _SplashState();
 }
 
 class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-   AppUpdateInfo? _updateInfo;
+  AppUpdateInfo? _updateInfo;
+
   Future<void> checkForUpdate() async {
     InAppUpdate.checkForUpdate().then((info) {
       setState(() {
@@ -29,6 +31,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
       print(e.toString());
     });
   }
+
   void _showError(dynamic exception) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Colors.black38,
@@ -36,13 +39,14 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         exception.toString(),
         style: const TextStyle(
           fontSize: 15,
-          color: Colors.white, fontFamily: "DoHyeon", fontWeight: FontWeight.bold,
+          color: Colors.white,
+          fontFamily: "Pretendard",
+          fontWeight: FontWeight.bold,
         ),
       ),
       duration: const Duration(seconds: 3),
     ));
   }
-
 
   @override
   void initState() {
@@ -51,8 +55,10 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     showNotification2(widget.context);
     // getData();
     checkForUpdate();
-    context.read<firstLotto>().getFirstLottoNaver();
-    context.read<Store1>().firstRound();
+    context.read<Mainpage_Store>().lottoRoundis();
+    context.read<naverSearch_FirstNum_Store>().getFirstLottonaver();
+    context.read<Mainpage_Store>().firstRound();
+    context.read<Mainpage_Store>().button5pageInfoSave();
 
     _controller = AnimationController(vsync: this);
 
@@ -69,27 +75,19 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   }
 
   goMain() {
-    if (context.read<firstLotto>().firstLottoNumNaver[0] != null) {
+    if (context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[0] !=
+        null) {
       if (widget.payload == '3') {
+        print('3333333333333333실행됨');
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return const MyApp();
+        }), (route) => false);
 
-          print('3333333333333333실행됨');
-        Navigator.pushAndRemoveUntil(
+        Navigator.push(
           context,
-            MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return   const MyApp();
-
-                })   ,(route) => false);
-
-
-
-
-                  Navigator.push(
-         context,
-          MaterialPageRoute(builder: (context) =>   const button12Page()),
+          MaterialPageRoute(builder: (context) => const button12Page()),
         );
-
-
 
         //
         // Navigator.pushAndRemoveUntil(
@@ -99,67 +97,57 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         //       return   button12Page();
         //
         // })   ,(route) => false);
-
-
-      }
-      else {
-        // if(context.read<Store1>().lottoData['drwNoDate']!=null){
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return _updateInfo?.updateAvailability ==
-                      UpdateAvailability.updateAvailable ? Container(
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/lotto.png"),
-                            fit: BoxFit.fill)
+      } else {
+        // if(context.read<Mainpage_Store>().lottoData['drwNoDate']!=null){
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (BuildContext context) {
+          return _updateInfo?.updateAvailability ==
+                  UpdateAvailability.updateAvailable
+              ? Container(
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/lotto.png"),
+                          fit: BoxFit.fill)),
+                  child: AlertDialog(
+                    backgroundColor: Colors.white70,
+                    title: const Text(
+                      "로또당첨자가 새로운 기능이 추가되었습니다. 업데이트 한번 부탁드립니다! 당신의 로또 1등을 기원합니다!!",
+                      style: TextStyle(
+                          fontFamily: "Pretendard",
+                          color: Colors.black,
+                          fontSize: 20),
                     ),
-                    child: AlertDialog(
-                      backgroundColor: Colors.white70,
-                      title: const Text(
-                        "로또당첨자가 새로운 기능이 추가되었습니다. 업데이트 한번 부탁드립니다! 당신의 로또 1등을 기원합니다!!",
-                        style: TextStyle(fontFamily: "DoHyeon",
-                            color: Colors.black,
-                            fontSize: 20
-                        ),),
-                      actions: [
-                        ElevatedButton(
-                            onPressed: _updateInfo?.updateAvailability ==
-                                UpdateAvailability.updateAvailable
-                                ? () {
-                              InAppUpdate.performImmediateUpdate().catchError((
-                                  e) => _showError(e));
-                            }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                                disabledForegroundColor: Colors.blue.withOpacity(0.38), disabledBackgroundColor: Colors.blue.withOpacity(0.12)),
-                            child: const Text("업데이트", style: TextStyle(
-                                fontFamily: "DoHyeon",
+                    actions: [
+                      ElevatedButton(
+                          onPressed: _updateInfo?.updateAvailability ==
+                                  UpdateAvailability.updateAvailable
+                              ? () {
+                                  InAppUpdate.performImmediateUpdate()
+                                      .catchError((e) => _showError(e));
+                                }
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                              disabledForegroundColor:
+                                  Colors.blue.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.blue.withOpacity(0.12)),
+                          child: const Text(
+                            "업데이트",
+                            style: TextStyle(
+                                fontFamily: "Pretendard",
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
-                                fontSize: 30
-                            ),))
-                      ],
-                    ),
-                    // MyApp()
-                  ) : const MyApp();
-                }
-            ),
-                (route) => false);
+                                fontSize: 30),
+                          ))
+                    ],
+                  ),
+                  // MyApp()
+                )
+              : const MyApp();
+        }), (route) => false);
       }
     }
-
-
-
-    }
-
-
-
-
-
-
-
+  }
 
   @override
   void dispose() {
@@ -167,14 +155,6 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
 
     super.dispose();
   }
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {

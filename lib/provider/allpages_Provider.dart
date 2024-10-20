@@ -9,36 +9,12 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:cp949/cp949.dart' as cp949;
 
-class Store1 extends ChangeNotifier {
-  Map<dynamic, dynamic> lottoData = {};
-  Map<dynamic, dynamic> placeLottoData = {};
-
+class Mainpage_Store extends ChangeNotifier {
   /*메인페이지 상단에 로또회차에 의한 번호정보만 담겨질것*/
-  var lottoRoundStandard = 1007;
   var lottoRound = 1007;
-  var placeLottoRound = 1007;
-  List<dynamic> totalLottoData = [];
 
-  /*역대 모든 로또번호 정보 */
-  var but1One;
-  var MarkerWhere = [];
-  List<Marker> markers = [];
-
-  Map<dynamic, dynamic> button2RoundInfo = {};
-
-  firstRound() async {
-    /*갱신된 로또라운드로 로또번호를 받아온다 */
-    lottoRoundis();
-    var result = await http.get(Uri.parse(
-        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$lottoRound'));
-    Map DataList = jsonDecode(result.body);
-    changelottoData(DataList);
-    button2pageMake(DataList);
-    // notifyListeners();
-  }
-
+  /*앱 제일 먼저 실행 해주는 함수 로또라운드가 몇회차인지 현재날짜기준으로 갱신 해준다 */
   lottoRoundis() {
-    /*앱 제일 먼저 실행해주는 함수 로또라운드 갱신 해준다 */
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
     DateTime now = tz.TZDateTime.now(tz.local);
@@ -51,33 +27,29 @@ class Store1 extends ChangeNotifier {
     placeLottoRound = placeLottoRound + dur;
   }
 
-  button2pageMake(Map<dynamic, dynamic> a) {
-    button2RoundInfo = a;
-  }
+    /*메인페이지에서 동행복권에서 가져오는 최신로또번호 저장*/
+  Map<dynamic, dynamic> lottoData = {};
 
+  /*메인페이지에서 동행복권에서 가져오는 최신로또번호 정보를 저장 하는 함수*/
   changelottoData(Map<dynamic, dynamic> a) {
     lottoData = a;
   }
 
-
-  getTotalLottoData() async {
-    /*갱신된 로또라운드 만큼 전체 로또번호를 받아온다 */
-    for (int i = lottoRound; i > 0; i--) {
-      var result = await http.get(Uri.parse(
-          'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$i'));
-      Map totalDataList = jsonDecode(result.body);
-      totalLottoData.add(totalDataList);
-    }
-     notifyListeners();
-  }
-
-  getbut1one() async {
-    /*버튼1페이지에서 로딩에 생기지 않도록 최초정보를 담기위한 함수*/
-    var result = await fetchPost(lottoRound);
-    but1One = result;
+  /*메인페이지에서 동행복권에서 lottoRound에 따른 정보를 가져오고 lottoData에 저장하는 함수 실행*/
+  firstRound() async {
+    /*갱신된 로또라운드로 로또번호를 받아온다 */
+    // lottoRoundis();
+    var result = await http.get(Uri.parse(
+        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$lottoRound'));
+    Map DataList = jsonDecode(result.body);
+    changelottoData(DataList);
+    // button5pageMake(DataList);
     // notifyListeners();
   }
 
+
+
+  /*메인페이지에서 동행복권에서 lottoRound에 1을 더하고,그 값에 따른 정보를 가져오고 lottoData에 저장하는 함수 실행*/
   changeRoundPlus() async {
     lottoRound++;
     var result = await http.get(Uri.parse(
@@ -88,14 +60,12 @@ class Store1 extends ChangeNotifier {
       changelottoData(DataList);
       notifyListeners();
     } else {
-
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception('Failed to load post');
-
     }
   }
 
-
+  /*메인페이지에서 동행복권에서 lottoRound에 1을 빼고,그 값에 따른 정보를 가져오고 lottoData에 저장하는 함수 실행*/
   changeRoundMinus() async {
     lottoRound--;
     var result = await http.get(Uri.parse(
@@ -105,11 +75,200 @@ class Store1 extends ChangeNotifier {
     notifyListeners();
   }
 
+    /*button1Page에서 회차에 따른 모든 당첨인원수와 상금 정보 */
+  var peoplemoney;
+
+  /*button1Page에서 로딩에 생기지 않도록 당첨인원수와 상금 최초정보를 담기위한 함수*/
+  peoplemoneyMake() async {
+    var result = await fetchPost(lottoRound);
+    peoplemoney = result;
+    // notifyListeners();
+  }
+
+  /*button1Page에서 회차i에 따라서 동행복권에서 당첨인원수와 상금을 가져오는 함수*/
+  Future<List<LottoWeb>> fetchPost(i) async {
+    List<LottoWeb> LottoWebData =
+        []; /*동행복권에서 당첨인원수와 상금을 가져와서 String을 LottoWeb으로 변환해서 최종 담는다*/
+    List<String> rawWebData = []; /*동행복권에서 당첨인원수와 상금을 String으로 담는다*/
+
+    var map = <String, dynamic>{};
+
+    map['drwNo'] = i.toString();
+    map['drwNoList'] = i.toString();
+    final response = await http.get(
+        Uri.parse('https://dhlottery.co.kr/gameResult.do?method=byWin'),
+        headers: {'Content-Type': 'application/json'});
+    final postResponse = await http.post(
+        Uri.parse('https://dhlottery.co.kr/gameResult.do?method=byWin'),
+        headers: <String, String>{
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: map);
+
+    var responseBody = cp949.decode(postResponse.bodyBytes);
+
+    BeautifulSoup bs = BeautifulSoup(responseBody);
+
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .findNextSibling('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .getText());
+    rawWebData.add(bs
+        .find('table', class_: 'tbl_data tbl_data_col')!
+        .find('tbody')!
+        .find('tr')!
+        .find('td', class_: 'tar')!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .findNextSibling("td")!
+        .getText());
+
+    LottoWebData.add(LottoWeb(
+        lotto1People: rawWebData[0],
+        lotto1Amount: rawWebData[1],
+        lotto2People: rawWebData[2],
+        lotto2Amount: rawWebData[3],
+        lotto3People: rawWebData[4],
+        lotto3Amount: rawWebData[5],
+        lotto4People: rawWebData[6],
+        lotto4Amount: rawWebData[7],
+        lotto5People: rawWebData[8],
+        lotto5Amount: rawWebData[9],
+        lottoWay: rawWebData[10]));
+
+    if (response.statusCode == 200) {
+      // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
+
+      return LottoWebData;
+    } else {
+      // 만약 요청이 실패하면, 에러를 던집니다.
+      print('서버요청실패');
+      throw Exception('Failed to load post');
+    }
+  }
+
+  /*button1Page에서 동행복권에 있는 1회차부터 모든 갱신된 로또라운드까지 전체 로또번호 정보 */
+  List<dynamic> totalLottoData = [];
+
+  /*button1Page에서 동행복권에 있는 1회차부터 모든 갱신된 로또라운드까지 전체 로또번호를 받아온다 */
+  getTotalLottoData() async {
+    for (int i = lottoRound; i > 0; i--) {
+      var result = await http.get(Uri.parse(
+          'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$i'));
+      Map totalDataList = jsonDecode(result.body);
+      totalLottoData.add(totalDataList);
+    }
+    notifyListeners();
+  }
+
+  /*button3Page에서 동행복권에서 가져오는 최신로또번호 저장 (네이버지도용 )*/
+  Map<dynamic, dynamic> placeLottoData = {};
+
+  /*button3Page에서  상단에 로또회차에 의한 번호정보만 담겨질것(네이버지도용 )*/
+  var placeLottoRound = 1007;
+
+  /*button3Page에서 동행복권 1등당첨장소 정보(네이버지도용 )  */
   var firstLottoPlace = [];
+
+  /*button3Page에서 동행복권 1등당첨장소 정보 세트 (네이버지도용 )*/
   var firstLottoPlaceSet = [];
+
   var map = <String, dynamic>{};
   var firstWay = [];
 
+    /*button3Page에서 동행복권 1등당첨장소 정보 불러오는 함수(네이버지도용 ) */
   getFirstLottoPlace() async {
     map['drwNo'] = '${lottoData['drwNo']}';
     var placeResponse = await http.post(
@@ -272,6 +431,10 @@ class Store1 extends ChangeNotifier {
     notifyListeners();
   }
 
+  /*button3Page에서 네이버지도 마커용 */
+  var MarkerWhere = [];
+  List<Marker> markers = [];
+
   firstLottoPlaceWhere() async {
     for (int i = 0; i < firstLottoPlaceSet.length - 1; i++) {
       var add = '${firstLottoPlaceSet[i][1].trim()}';
@@ -281,7 +444,7 @@ class Store1 extends ChangeNotifier {
       var headerss = <String, String>{};
       headerss['X-NCP-APIGW-API-KEY-ID'] = 'qrj5gubj5k';
       headerss['X-NCP-APIGW-API-KEY'] =
-      '72tgrH1uvwUDaoaegnpzmnFySQ2nPJskXrmaEm3q';
+          '72tgrH1uvwUDaoaegnpzmnFySQ2nPJskXrmaEm3q';
       final PlaceNumResponse = await http.get(
           Uri.parse(
               'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$add'),
@@ -310,7 +473,7 @@ class Store1 extends ChangeNotifier {
       var headerss = <String, String>{};
       headerss['X-NCP-APIGW-API-KEY-ID'] = 'qrj5gubj5k';
       headerss['X-NCP-APIGW-API-KEY'] =
-      '72tgrH1uvwUDaoaegnpzmnFySQ2nPJskXrmaEm3q';
+          '72tgrH1uvwUDaoaegnpzmnFySQ2nPJskXrmaEm3q';
       final PlaceNumResponse = await http.get(
           Uri.parse(
               'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$add'),
@@ -368,14 +531,13 @@ class Store1 extends ChangeNotifier {
           width: 20,
           height: 30,
           infoWindow: "${firstLottoPlaceSet[i][1].trim()}",
-          onMarkerTab: _onMarkerTap)
-      );
+          onMarkerTab: _onMarkerTap));
     } // infoWindow: "${firstLottoPlaceSet[i][0].trim()}",
 
     notifyListeners();
   }
 
- void _onMarkerTap(Marker? marker, Map<String, int?> iconSize) async {
+  void _onMarkerTap(Marker? marker, Map<String, int?> iconSize) async {
     NaverMapController naver = await abc.future;
 
     var cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(
@@ -386,10 +548,27 @@ class Store1 extends ChangeNotifier {
     naver.moveCamera(cameraUpdate);
   }
 
+  /*button5Page에서 동행복권에서 lottoRound에 따른 정보를 가져오고 button5pageMake에 저장하는 함수 실행 */
+  button5pageInfoSave() async {
+    // /*갱신된 로또라운드로 로또번호를 받아온다 */
+    // lottoRoundis();
+    var result = await http.get(Uri.parse(
+        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$lottoRound'));
+    Map DataList = jsonDecode(result.body);
+    // changelottoData(DataList);
+    button5pageMake(DataList);
+    // notifyListeners();
+  }
 
+  /*button5Page에서 동행복권에서 lottoRound에 따른 정보*/
+  Map<dynamic, dynamic> button5RoundInfo = {};
 
-  List saveNumberList = [];
+  /*button5Page에서 동행복권에서 lottoRound에 따른 정보 저장 하는 함수*/
+  button5pageMake(Map<dynamic, dynamic> a) {
+    button5RoundInfo = a;
+  }
 
+  // List saveNumberList = [];
 
 /////////////////////////////////button7page 만들자
 //   var totalNewDataList;
@@ -404,7 +583,4 @@ class Store1 extends ChangeNotifier {
 //     print(totalNewDataList);
 //     // notifyListeners();
 //   }
-
-
 }
-

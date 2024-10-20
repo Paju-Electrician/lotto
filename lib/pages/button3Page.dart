@@ -1,8 +1,10 @@
 
+import 'package:animated_button/animated_button.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:lotto/provider/store1.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
 import 'package:lotto/widget/base_map.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:provider/provider.dart';
@@ -25,24 +27,24 @@ class _button3PageState extends State<button3Page> {
     DateTime dateTime1 = DateTime(now.year, now.month, now.day);
     DateTime dateTime2 = DateTime(
         (DateTime.parse(
-                context.watch<Store1>().placeLottoData['drwNoDate'] ?? '2022-10-24'))
+                context.watch<Mainpage_Store>().placeLottoData['drwNoDate'] ?? '2022-10-24'))
             .year,
         (DateTime.parse(
-                context.watch<Store1>().placeLottoData['drwNoDate'] ?? '2022-10-24'))
+                context.watch<Mainpage_Store>().placeLottoData['drwNoDate'] ?? '2022-10-24'))
             .month,
         (DateTime.parse(
-                context.watch<Store1>().placeLottoData['drwNoDate'] ?? '2022-10-24'))
+                context.watch<Mainpage_Store>().placeLottoData['drwNoDate'] ?? '2022-10-24'))
             .day);
     Duration duration = dateTime2.difference(dateTime1);
     return duration.inDays;
   }
 
   seta(i) async {
-    NaverMapController controller = await context.read<Store1>().abc.future;
+    NaverMapController controller = await context.read<Mainpage_Store>().abc.future;
 
     var cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(
-      target: LatLng(context.read<Store1>().MarkerWhere[i][1],
-          context.read<Store1>().MarkerWhere[i][0]),
+      target: LatLng(context.read<Mainpage_Store>().MarkerWhere[i][1],
+          context.read<Mainpage_Store>().MarkerWhere[i][0]),
       zoom: 12.0,
     ));
 
@@ -50,7 +52,7 @@ class _button3PageState extends State<button3Page> {
   }
 
   setBasicPosition() async {
-    NaverMapController controller = await context.read<Store1>().abc.future;
+    NaverMapController controller = await context.read<Mainpage_Store>().abc.future;
     var cameraUpdate = CameraUpdate.toCameraPosition(const CameraPosition(
       target: LatLng(35.8, 127.6),
       zoom: 5,
@@ -87,7 +89,7 @@ class _button3PageState extends State<button3Page> {
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
               child: Column(
                 children: [
-                  // Text('${getToday()}', ),
+                  // AutoSizeText('${getToday()}', ),
                   Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,22 +97,24 @@ class _button3PageState extends State<button3Page> {
                         Container(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: (context
-                                        .watch<Store1>()
+                                        .watch<Mainpage_Store>()
                                         .placeLottoData['drwNoDate'] ==
                                     null
-                                ? Text(
-                                    DateFormat('yyyy.MM.dd').format(DateTime.parse(context.watch<Store1>().lottoData['drwNoDate'])),
-                                    style: const TextStyle(
+                                ? AutoSizeText(
+                                    DateFormat('yyyy.MM.dd').format(DateTime.parse(context.watch<Mainpage_Store>().lottoData['drwNoDate'])),
+                                    style:  TextStyle(
                                       color: Color(0xff767676),
-                                      fontSize: 20,
+                                      fontSize: 20.sp,
+                                      fontFamily: 'Pretendard',
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )
-                                : Text(
-                                    DateFormat('yyyy.MM.dd').format(DateTime.parse(context.watch<Store1>().placeLottoData['drwNoDate'])),
-                                    style: const TextStyle(
+                                : AutoSizeText(
+                                    DateFormat('yyyy.MM.dd').format(DateTime.parse(context.watch<Mainpage_Store>().placeLottoData['drwNoDate'])),
+                                    style:  TextStyle(
                                       color: Color(0xff767676),
-                                      fontSize: 20,
+                                      fontSize: 20.sp,
+                                      fontFamily: 'Pretendard',
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ))),
@@ -120,74 +124,91 @@ class _button3PageState extends State<button3Page> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ElevatedButton(
-                                  onPressed: () {
-                                    context.read<Store1>().placeMinus();
-                                    setBasicPosition();
-                                  },
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.fromLTRB(12.w, 5.h, 12.w, 0),
-                                    minimumSize: Size(50.0.w, 35.0.h),
-                                    backgroundColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                    ),
-
-                                  ),
-                                  child:  Text(
-                                    '<',
-                                    style: TextStyle(
+                             AnimatedButton(
+                                child: AutoSizeText(
+                                  textAlign: TextAlign.center,
+                                  '←',
+                                  style: TextStyle(
                                       color: Colors.white,
-                                        fontFamily: 'Jua',
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 30.sp),
-                                  )),
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 30.sp),
+                                ),
+                                color: Colors.red,
+                                    onPressed: () {
+                                      context.read<Mainpage_Store>().placeMinus();
+                                      setBasicPosition();
+                                    },
+                                width: 50.0.sp,
+                                height: 50.0.sp,
+                              ),
+                              // ElevatedButton(
+                              //     onPressed: () {
+                              //       context.read<Mainpage_Store>().placeMinus();
+                              //       setBasicPosition();
+                              //     },
+                              //     style: TextButton.styleFrom(
+                              //       padding: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0),
+                              //       minimumSize: Size(50.0.w, 45.0.h),
+                              //       backgroundColor: Colors.red,
+                              //       shape: RoundedRectangleBorder(
+                              //         borderRadius: const BorderRadius.all(Radius.circular(8)),
+                              //       ),
+                              //
+                              //     ),
+                              //     child:  AutoSizeAutoSizeText(
+                              //       textAlign: TextAlign.center,
+                              //       '←',
+                              //       style: TextStyle(
+                              //         color: Colors.white,
+                              //           fontFamily: 'Pretendard',
+                              //           fontWeight: FontWeight.w900,
+                              //           fontSize: 35.sp),
+                              //     )),
                               (context
-                                          .watch<Store1>()
+                                          .watch<Mainpage_Store>()
                                           .placeLottoData['drwNo'] ==
                                       null
-                                  ? Text(
-                                      '${context.watch<Store1>().lottoRound}회',
-                                      style: const TextStyle(
-                                        fontSize: 30,
+                                  ? AutoSizeText(
+                                      '${context.watch<Mainpage_Store>().lottoRound}회',
+                                      style:  TextStyle(
+                                        fontSize: 35.sp,
                                         fontWeight: FontWeight.w900,
+                                        fontFamily: 'Pretendard',
                                         color: Color(0xffd43301),
                                       ))
-                                  : Text(
-                                      '${context.watch<Store1>().placeLottoData['drwNo']}회',
-                                      style: const TextStyle(
-                                        fontSize: 30,
+                                  : AutoSizeText(
+                                      '${context.watch<Mainpage_Store>().placeLottoData['drwNo']}회',
+                                      style:  TextStyle(
+                                        fontSize: 35.sp,
                                         fontWeight: FontWeight.w900,
+                                        fontFamily: 'Pretendard',
                                         color: Color(0xffd43301),
                                       ))),
-                              ElevatedButton(
-                                  onPressed: (getToday() == null ||
-                                          (getToday()! <= 0 &&
-                                              getToday()! > -7))
-                                      ? null
-                                      : () {
-                                          context.read<Store1>().placePlus();
-                                          setBasicPosition();
-                                        },
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.fromLTRB(12.w, 5.h, 12.w, 0),
-                                    minimumSize: Size(50.0.w, 35.0.h),
-                                    backgroundColor: Colors.blue,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                    ),
 
-                                  ),
-                                  // context.read<Store1>().changeRoundPlus();
+                              AnimatedButton(
+                                child: AutoSizeText(
+                                  textAlign: TextAlign.center,
+                                  '→',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 30.sp),
+                                ),
+                                color: Colors.blue,
+                                onPressed:  (getToday() == null ||
+                                    (getToday()! <= 0 &&
+                                        getToday()! > -7))
+                                    ? (){}
+                                    : () {
+                                  context.read<Mainpage_Store>().placePlus();
+                                  setBasicPosition();
+                                },
+                                width: 50.0.sp,
+                                height: 50.0.sp,
+                              ),
 
-                                  child:  Text(
-                                    '>',
-                                    style: TextStyle(
-                                      color:Colors.white,
-                                        fontFamily: 'Jua',
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 30.sp),
-                                  )),
                             ],
                           ),
                         ),
@@ -209,9 +230,10 @@ class _button3PageState extends State<button3Page> {
                       onPressed: () {
                         setBasicPosition();
                       },
-                      child: const Text("전체보기",
+                      child: const AutoSizeText("전체보기",
                           style: TextStyle(
-                            color: Colors.white,fontWeight: FontWeight.bold, fontSize: 20)),
+                            color: Colors.white,fontWeight: FontWeight.bold,
+                              fontFamily:'Pretendard',fontSize: 20)),
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
@@ -226,7 +248,7 @@ class _button3PageState extends State<button3Page> {
               child: Container(
                 child: ListView.separated(
                   itemCount:
-                      context.watch<Store1>().firstLottoPlaceSet.length - 1,
+                      context.watch<Mainpage_Store>().firstLottoPlaceSet.length - 1,
                   itemBuilder: (c, i) {
                     return GestureDetector(
                         onTap: () {
@@ -241,55 +263,55 @@ class _button3PageState extends State<button3Page> {
                               Expanded(
                                 flex: 2,
                                 child: Container(
-                                  child: Text('${i + 1}',
+                                  child: AutoSizeText('${i + 1}',
                                       style: const TextStyle(fontSize: 20),
                                       textAlign: TextAlign.center),
                                 ),
                               ),
                               Expanded(
                                 flex: 13,
-                                child: Container(
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${context.watch<Store1>().firstLottoPlaceSet[i][0].trim()}',
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w200,
-                                              fontFamily: 'Jua'),
-                                        ),
-                                        Text(
-                                          '${context.watch<Store1>().firstLottoPlaceSet[i][1].trim()}',
-                                          style: const TextStyle(fontSize: 15),
-                                        ),
-                                      ]),
-                                ),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AutoSizeText(
+                                        '${context.watch<Mainpage_Store>().firstLottoPlaceSet[i][0].trim()}',
+                                        style:  TextStyle(
+                                            fontSize: 20.sp,
+                                            fontWeight: FontWeight.w200,
+                                            fontFamily: 'Pretendard'),
+                                      ),
+                                      AutoSizeText(
+                                        // softWrap: false,
+                                        // minFontSize: 20.sp,
+                                        '${context.watch<Mainpage_Store>().firstLottoPlaceSet[i][1].trim()}',
+                                          style:  TextStyle(fontSize: 15.sp),
+                                       ),
+                                    ]),
                               ),
-                              Expanded(
-                                flex: 4,
-                                child: SizedBox(
-                                  height: 50,
+                              SizedBox(
+                                height: 50,
+                                child: Padding(
+                                  padding:  EdgeInsets.fromLTRB(5.sp,0,0,0),
                                   child: Row(children: [
-                                    Text(
-                                      '${context.watch<Store1>().firstWay[i].trim()} ',
+                                    AutoSizeText(
+                                      '${context.watch<Mainpage_Store>().firstWay[i].trim()} ',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: context
-                                                      .watch<Store1>()
+                                                      .watch<Mainpage_Store>()
                                                       .firstWay[i]
                                                       .trim() ==
                                                   '반자동'
                                               ? 14
                                               : 20,
-                                          fontFamily: 'Jua'),
+                                          fontFamily: 'Pretendard'),
                                     ),
                                     Image.asset(
                                       'assets/mark.png',
-                                      width: 30,
-                                      height: 30,
+                                      width: 30.w,
+                                      height: 30.h,
                                     )
                                   ]),
                                 ),

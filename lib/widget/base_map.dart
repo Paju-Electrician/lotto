@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:lotto/provider/store1.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ class _BaseMapPageState extends State<BaseMapPage> {
           initLocationTrackingMode: _trackingMode,
           locationButtonEnable: false,
           indoorEnable: true,
-          markers: context.read<Store1>().markers,
+          markers: context.read<Mainpage_Store>().markers,
         ),
       ],
     );
@@ -40,10 +40,10 @@ class _BaseMapPageState extends State<BaseMapPage> {
   /// 지도 생성 완료시
   void onMapCreated(NaverMapController controller) {
     // if (widget.controller.isCompleted) widget.controller= Completer();
-    if (context.read<Store1>().abc.isCompleted) {
-      context.read<Store1>().abc = Completer();
+    if (context.read<Mainpage_Store>().abc.isCompleted) {
+      context.read<Mainpage_Store>().abc = Completer();
     }
     // widget.controller.complete(controller);
-    context.read<Store1>().abc.complete(controller);
+    context.read<Mainpage_Store>().abc.complete(controller);
   }
 }

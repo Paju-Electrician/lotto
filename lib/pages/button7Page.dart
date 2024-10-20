@@ -1,9 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lotto/pages/lottoNumber.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
-import 'package:lotto/provider/store1.dart';
-import 'package:lotto/provider/store3.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
+import 'package:lotto/provider/naverSearch_Provider.dart';
 import 'package:lotto/widget/mainWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -17,7 +19,6 @@ class button7Page extends StatefulWidget {
 
 class _button7PageState extends State<button7Page> {
   final ItemScrollController _scrollController = ItemScrollController();
-
   // int downward_num=0;
   // upNum(){
   //   setState(() {
@@ -66,21 +67,21 @@ class _button7PageState extends State<button7Page> {
   valueListInit() {
     setState(() {
       _valueList = List<int>.generate(
-          context.read<firstLotto>().firstLottoNumNaver[11] + 1,
+          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1,
           (int index) => index + 1);
       _valueListinit = List<int>.generate(
-          context.read<firstLotto>().firstLottoNumNaver[11] + 1,
+          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1,
           (int index) => index + 1).reversed.toList();
 
       // print(_valueListinit);
       _selectedValueinit =
-          context.read<firstLotto>().firstLottoNumNaver[11] + 1;
+          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1;
       // totalLottoData = getTotalDataList();
     });
   }
 
   makeInitContainer(i) {
-    if (i == context.read<firstLotto>().firstLottoNumNaver[11] + 1) {
+    if (i == context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1) {
       return Row(
         children: [
           Expanded(
@@ -88,22 +89,26 @@ class _button7PageState extends State<button7Page> {
             child: Container(
               // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
               alignment:Alignment.centerRight,
-              child:                 (context.watch<Store1>().button2RoundInfo['drwNo'] == null
-                      ? (context.watch<firstLotto>().firstLottoNumNaver.isEmpty
+              child:                 (context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] == null
+                      ? (context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum.isEmpty
                           ? const CircularProgressIndicator()
-                          : Text(
+                          : AutoSizeText(
                               softWrap: false,
-                              '${context.watch<firstLotto>().firstLottoNumNaver[11] + 1}회',
+                              '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1}회',
                               style: TextStyle(
                                 fontSize: 20.sp,
+                                fontFamily: 'Pretendard',
+
                                 fontWeight: FontWeight.w900,
                                 color: const Color(0xffd43301),
                               )))
-                      : Text(
+                      : AutoSizeText(
                           softWrap: false,
-                          '${context.watch<Store1>().button2RoundInfo['drwNo'] + 1}회',
+                          '${context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] + 1}회',
                           style: TextStyle(
                             fontSize: 20.sp,
+                            fontFamily: 'Pretendard',
+
                             fontWeight: FontWeight.w900,
                             color: const Color(0xffd43301),
                           )))
@@ -145,7 +150,7 @@ class _button7PageState extends State<button7Page> {
       );
     } else {
       return totalBallButton7(
-          a: context.read<firstLotto>().firstLottoNumNaver[11] - i);
+          a: context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] - i);
     }
   }
 
@@ -158,7 +163,7 @@ class _button7PageState extends State<button7Page> {
           backgroundColor: const Color(0xfff8f8f8),
           // backgroundColor:Colors.grey,
           elevation: 0,
-          // title: Text('로또당첨자가 만든 로또앱'),
+          // title: AutoSizeText('로또당첨자가 만든 로또앱'),
         ),
       ),
       body: Column(
@@ -172,15 +177,15 @@ class _button7PageState extends State<button7Page> {
                     onPressed: () {
                       setState(() {
                         _scrollController.scrollTo(
-                            index: context.read<Store1>().totalLottoData.length,
+                            index: context.read<Mainpage_Store>().totalLottoData.length,
                             duration: const Duration(milliseconds: 500));
                       });
                     },
                     icon: const Icon(Icons.refresh)),
-                Text('로또회귀분석',
+                AutoSizeText('로또회귀분석',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'DoHyeon',
+                        fontFamily: 'Pretendard',
                         fontSize: 30.sp)),
                 const IconButton(onPressed: null, icon: Icon(null))
               ],
@@ -189,12 +194,12 @@ class _button7PageState extends State<button7Page> {
 
           Container(
             padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 5.h),
-            child: Text('*회귀분석: 과거의 규칙이 일정한 간격으로 반복되는 것. ',
+            child: AutoSizeText('*회귀분석: 과거의 규칙이 일정한 간격으로 반복되는 것. ',
                 softWrap: false,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'DoHyeon',
+                    fontFamily: 'Pretendard',
                     fontSize: 15.sp)),
           ),
 
@@ -212,8 +217,11 @@ class _button7PageState extends State<button7Page> {
                           return DropdownMenuItem(
                             alignment: Alignment.center,
                             value: value,
-                            child: Text(value.toString(),
-                                style: TextStyle(fontSize: 20.sp)),
+                            child: AutoSizeText(value.toString(),
+                                style: TextStyle(fontSize: 20.sp
+                                  ,fontFamily: 'Pretendard',
+
+                                )),
                           );
                         }).toList(),
                         onChanged: (newVal) {
@@ -222,9 +230,13 @@ class _button7PageState extends State<button7Page> {
                           });
                         },
                       ),
-                      Text(
+                      AutoSizeText(
                         '기준회차선택',
-                        style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w900),
+                        style: TextStyle(fontSize: 20.sp,
+                            fontFamily: 'Pretendard',
+
+
+                            fontWeight: FontWeight.w900),
                       ),
                     ],
                   ),
@@ -239,8 +251,11 @@ class _button7PageState extends State<button7Page> {
                           return DropdownMenuItem(
                             value: value,
                             alignment: Alignment.center,
-                            child: Text(value.toString(),
-                                style: TextStyle(fontSize: 20.sp),
+                            child: AutoSizeText(value.toString(),
+                                style: TextStyle(fontSize: 20.sp,
+                                  fontFamily: 'Pretendard',
+
+                                ),
                                 textAlign: TextAlign.end),
                           );
                         }).toList(),
@@ -250,7 +265,11 @@ class _button7PageState extends State<button7Page> {
                           });
                         },
                       ),
-                      Text('회귀보기', style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20.sp))
+                      AutoSizeText('회귀보기', style:
+                      TextStyle(fontWeight: FontWeight.w900,
+                          fontFamily: 'Pretendard',
+
+                          fontSize: 20.sp))
                     ],
                   ),
                 ),
@@ -268,21 +287,21 @@ class _button7PageState extends State<button7Page> {
           //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           //         crossAxisAlignment: CrossAxisAlignment.center,
           //         children: [
-          //           (context.watch<Store1>().button2RoundInfo['drwNo'] == null
+          //           (context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] == null
           //               ? (context
-          //                       .watch<firstLotto>()
-          //                       .firstLottoNumNaver
+          //                       .watch<naverSearch_FirstNum_Store>()
+          //                       .naverSearch_FirstNum
           //                       .isEmpty
           //                   ? CircularProgressIndicator()
-          //                   : Text(
-          //                       '${context.watch<firstLotto>().firstLottoNumNaver[11] + 1}회',
+          //                   : AutoSizeText(
+          //                       '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1}회',
           //                       style: TextStyle(
           //                         fontSize: 20.sp,
           //                         fontWeight: FontWeight.w900,
           //                         color: Color(0xffd43301),
           //                       )))
-          //               : Text(
-          //                   '${context.watch<Store1>().button2RoundInfo['drwNo'] + 1}회',
+          //               : AutoSizeText(
+          //                   '${context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] + 1}회',
           //                   style: TextStyle(
           //                     fontSize: 20.sp,
           //                     fontWeight: FontWeight.w900,
@@ -321,24 +340,24 @@ class _button7PageState extends State<button7Page> {
           // ),
 
           Expanded(
-            // child: ListView.builder(itemCount:context.watch<Store1>().lottoData['drwNo'], itemBuilder: (c,i){
+            // child: ListView.builder(itemCount:context.watch<Mainpage_Store>().lottoData['drwNo'], itemBuilder: (c,i){
             child: Stack(children: [
               ScrollablePositionedList.builder(
-                  // itemCount: context.watch<Store1>().totalLottoData.length,
+                  // itemCount: context.watch<Mainpage_Store>().totalLottoData.length,
                   itemCount: lottoTotalNumber.length,
                   itemScrollController: _scrollController,
                   itemBuilder: (c, i) {
-                    // print(_selectedValueinit-context.read<firstLotto>().firstLottoNumNaver[11]);
+                    // print(_selectedValueinit-context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11]);
 
                     if (((i +
                                     _selectedValueinit -
                                     context
-                                        .read<firstLotto>()
-                                        .firstLottoNumNaver[11]) %
+                                        .read<naverSearch_FirstNum_Store>()
+                                        .naverSearch_FirstNum[11]) %
                                 _selectedValue ==
                             0) &&
                         (i >
-                            context.read<firstLotto>().firstLottoNumNaver[11] -
+                            context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] -
                                 _selectedValueinit)) {
                       return GestureDetector(
                           onTap: () {
@@ -360,7 +379,7 @@ class _button7PageState extends State<button7Page> {
                       return Container();
                     }
                   }
-                  //   return Text('a');
+                  //   return AutoSizeText('a');
 
                   ),
               Container(

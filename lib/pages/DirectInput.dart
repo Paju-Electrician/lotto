@@ -1,8 +1,10 @@
+import 'package:animated_button/animated_button.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:lotto/pages/lottoNumber.dart';
-import 'package:lotto/provider/store1.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
 import 'package:lotto/widget/mainWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -10,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-import '../provider/store3.dart';
+import '../provider/naverSearch_Provider.dart';
 
 class DirectInput extends StatefulWidget {
   const DirectInput({Key? key}) : super(key: key);
@@ -388,28 +390,28 @@ class _DirectInputState extends State<DirectInput> {
   var resultNum = [];
 
   seeMatchNum() {
-    var drwtNo1 = context.read<Store1>().lottoData == null
+    var drwtNo1 = context.read<Mainpage_Store>().lottoData == null
         ? 46
-        : (context.read<Store1>().lottoData['drwtNo1']);
-    var drwtNo2 = context.read<Store1>().lottoData == null
+        : (context.read<Mainpage_Store>().lottoData['drwtNo1']);
+    var drwtNo2 = context.read<Mainpage_Store>().lottoData == null
         ? 46
-        : (context.read<Store1>().lottoData['drwtNo2']);
-    var drwtNo3 = context.read<Store1>().lottoData == null
+        : (context.read<Mainpage_Store>().lottoData['drwtNo2']);
+    var drwtNo3 = context.read<Mainpage_Store>().lottoData == null
         ? 46
-        : (context.read<Store1>().lottoData['drwtNo3']);
-    var drwtNo4 = context.read<Store1>().lottoData == null
+        : (context.read<Mainpage_Store>().lottoData['drwtNo3']);
+    var drwtNo4 = context.read<Mainpage_Store>().lottoData == null
         ? 46
-        : (context.read<Store1>().lottoData['drwtNo4']);
-    var drwtNo5 = context.read<Store1>().lottoData == null
+        : (context.read<Mainpage_Store>().lottoData['drwtNo4']);
+    var drwtNo5 = context.read<Mainpage_Store>().lottoData == null
         ? 46
-        : (context.read<Store1>().lottoData['drwtNo5']);
-    var drwtNo6 = context.read<Store1>().lottoData == null
+        : (context.read<Mainpage_Store>().lottoData['drwtNo5']);
+    var drwtNo6 = context.read<Mainpage_Store>().lottoData == null
         ? 46
-        : (context.read<Store1>().lottoData['drwtNo6']);
+        : (context.read<Mainpage_Store>().lottoData['drwtNo6']);
 
-    var bnusNo = context.read<Store1>().lottoData == null
+    var bnusNo = context.read<Mainpage_Store>().lottoData == null
         ? 46
-        : (context.read<Store1>().lottoData['bnusNo']);
+        : (context.read<Mainpage_Store>().lottoData['bnusNo']);
     var lottoDataNumber = [
       drwtNo1,
       drwtNo2,
@@ -656,10 +658,11 @@ class _DirectInputState extends State<DirectInput> {
                         ),
                         minimumSize: Size(20.0.w, 35.0.h),
                       ),
-                      child: Text('초기화',
+                      child: AutoSizeText('초기화',
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
+                              fontFamily: 'Pretendard',
                               fontSize: 20.sp)))
                 ],
               )),
@@ -729,7 +732,7 @@ class _DirectInputState extends State<DirectInput> {
                                   Text(
                                     "과거당첨결과 확인",
                                     style: TextStyle(
-                                        fontSize: 32.sp, fontFamily: 'DoHyeon'),
+                                        fontSize: 32.sp, fontFamily: 'Pretendard'),
                                   ),
                                 ],
                               ),
@@ -773,6 +776,7 @@ class _DirectInputState extends State<DirectInput> {
                   child: Text('과거당첨보기',
                       style: TextStyle(
                           color: Colors.white,
+                          fontFamily: 'Pretendard',
                           fontWeight: FontWeight.bold,
                           fontSize: 20.sp)),
                 ),
@@ -824,10 +828,10 @@ class _DirectInputState extends State<DirectInput> {
                                 title: Column(
                                   children: <Widget>[
                                     Text(
-                                      "${context.watch<Store1>().lottoData['drwNo']}회 당첨결과확인",
+                                      "${context.watch<Mainpage_Store>().lottoData['drwNo']}회 당첨결과확인",
                                       style: TextStyle(
                                           fontSize: 30.sp,
-                                          fontFamily: 'DoHyeon'),
+                                          fontFamily: 'Pretendard'),
                                     ),
                                   ],
                                 ),
@@ -1642,13 +1646,13 @@ class _newlottoNumberState extends State<newlottoNumber> {
     DateTime dateTime1 = DateTime(now.year, now.month, now.day);
     DateTime dateTime2 = DateTime(
         (DateTime.parse(
-                context.watch<Store1>().lottoData['drwNoDate'] ?? '2022-10-24'))
+                context.watch<Mainpage_Store>().lottoData['drwNoDate'] ?? '2022-10-24'))
             .year,
         (DateTime.parse(
-                context.watch<Store1>().lottoData['drwNoDate'] ?? '2022-10-24'))
+                context.watch<Mainpage_Store>().lottoData['drwNoDate'] ?? '2022-10-24'))
             .month,
         (DateTime.parse(
-                context.watch<Store1>().lottoData['drwNoDate'] ?? '2022-10-24'))
+                context.watch<Mainpage_Store>().lottoData['drwNoDate'] ?? '2022-10-24'))
             .day);
     Duration duration = dateTime2.difference(dateTime1);
     return duration.inDays;
@@ -1701,29 +1705,30 @@ class _newlottoNumberState extends State<newlottoNumber> {
                 Container(
                   // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                     padding: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
-                    child: context.watch<Store1>().lottoData['drwNoDate'] ==
+                    child: context.watch<Mainpage_Store>().lottoData['drwNoDate'] ==
                         null
                         ? (context
-                        .watch<firstLotto>()
-                        .firstLottoNumNaver
+                        .watch<naverSearch_FirstNum_Store>()
+                        .naverSearch_FirstNum
                         .isEmpty
                         ? const CircularProgressIndicator()
                         : Text(
-                      '${context.watch<firstLotto>().firstLottoNumNaver[10]}',
+                      '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[10]}',
                       style: TextStyle(
                           color: const Color(0xff767676),
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold),
                     ))
-                        : Text(
+                        : AutoSizeText(
                       textAlign: TextAlign.center,
                       DateFormat('yyyy.MM.dd').format(DateTime.parse(
                           context
-                              .watch<Store1>()
+                              .watch<Mainpage_Store>()
                               .lottoData['drwNoDate'])),
                       style: TextStyle(
                           color: const Color(0xff767676),
                           fontSize: 20.sp,
+                          fontFamily: 'Pretendard',
                           fontWeight: FontWeight.bold),
                     )),
                 Container(
@@ -1732,85 +1737,75 @@ class _newlottoNumberState extends State<newlottoNumber> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                          onPressed:
-                          context.watch<Store1>().lottoData['drwtNo6'] ==
-                              null
-                              ? null
-                              : () {
-                            context.read<Store1>().changeRoundMinus();
-                          },
-                          style: TextButton.styleFrom(
-                            // alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.fromLTRB(12.w, 2.h, 12.w, 0),
-                            maximumSize: Size(50.0.w, 40.0.h),
-                            minimumSize: Size(50.0.w, 35.0.h),
-                            backgroundColor: Colors.red,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8)),
-                            ),
-
-                          ),
-                          child: Text(
-                            '<',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Jua',
-                                fontWeight: FontWeight.w900,
-                                fontSize: 30.sp),
-                          )),
-                      context.watch<Store1>().lottoData['drwNo'] == null
+                      AnimatedButton(
+                        child: AutoSizeText(
+                          textAlign: TextAlign.center,
+                          '←',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 30.sp),
+                        ),
+                        color: Colors.red,
+                        onPressed:
+                        context.watch<Mainpage_Store>().lottoData['drwtNo6'] ==
+                            null
+                            ? (){}
+                            : () {
+                          context.read<Mainpage_Store>().changeRoundMinus();
+                        },
+                        width: 50.0.sp,
+                        height: 50.0.sp,
+                      ),
+                      context.watch<Mainpage_Store>().lottoData['drwNo'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? const CircularProgressIndicator()
-                          : Text(
-                          '${context.watch<firstLotto>().firstLottoNumNaver[9]}',
+                          : AutoSizeText(
+                          '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[9]}',
                           style: TextStyle(
                             fontSize: 35.sp,
                             fontWeight: FontWeight.w900,
                             color: const Color(0xffd43301),
                           )))
-                          : Text(
-                          '${context.watch<Store1>().lottoData['drwNo']}회',
+                          : AutoSizeText(
+                          '${context.watch<Mainpage_Store>().lottoData['drwNo']}회',
                           style: TextStyle(
                             fontSize: 35.sp,
-                            fontWeight: FontWeight.w900,
+                            fontWeight: FontWeight.w900   ,
+                            fontFamily: 'Pretendard',
                             color: const Color(0xffd43301),
                           )),
-                      ElevatedButton(
-                          onPressed: (getToday() == null ||
-                              (getToday()! <= 0 && getToday()! > -7)) ||
-                              context
-                                  .watch<Store1>()
-                                  .lottoData['drwtNo6'] ==
-                                  null
-                              ? null
-                              : () {
-                            context.read<Store1>().changeRoundPlus();
-                          },
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.fromLTRB(12.w, 2.h, 12.w, 0),
-                            maximumSize: Size(50.0.w, 40.0.h),
-                            minimumSize: Size(50.0.w, 35.0.h),
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8)),
-                            ),
-
-                          ),
-                          child: Text(
-                            '>',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Jua',
-                                fontWeight: FontWeight.w900,
-                                fontSize: 30.sp),
-                          )),
+                      AnimatedButton(
+                        child: AutoSizeText(
+                          '→',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 30.sp),
+                        ),
+                        color: Colors.blue,
+                        onPressed:
+                        (getToday() == null ||
+                            (getToday()! <= 0 && getToday()! > -7)) ||
+                            context
+                                .watch<Mainpage_Store>()
+                                .lottoData['drwtNo6'] ==
+                                null
+                            ? (){}
+                            : () {
+                          context.read<Mainpage_Store>().changeRoundPlus();
+                        },
+                        width: 50.0.sp,
+                        height: 50.0.sp,
+                      ),
                       // ElevatedButton(
                       //     onPressed: () {
-                      //       context.read<Store1>().changeRoundMinus();
+                      //       context.read<Mainpage_Store>().changeRoundMinus();
                       //     },
                       //     style: TextButton.styleFrom(
                       //       backgroundColor: Colors.red,
@@ -1824,14 +1819,14 @@ class _newlottoNumberState extends State<newlottoNumber> {
                       //       '<',
                       //       style: TextStyle(
                       //           color: Colors.white,
-                      //           fontFamily: 'Jua',
+                      //           fontFamily: 'Pretendard',
                       //           fontWeight: FontWeight.w900,
                       //           fontSize: 20.sp),
                       //     )),
-                      // (context.watch<Store1>().lottoData['drwNo'] == null
+                      // (context.watch<Mainpage_Store>().lottoData['drwNo'] == null
                       //     ? const CircularProgressIndicator()
                       //     : Text(
-                      //         '${context.watch<Store1>().lottoData['drwNo']}회',
+                      //         '${context.watch<Mainpage_Store>().lottoData['drwNo']}회',
                       //         style: TextStyle(
                       //           fontSize: 35.sp,
                       //           fontWeight: FontWeight.w900,
@@ -1843,10 +1838,10 @@ class _newlottoNumberState extends State<newlottoNumber> {
                       //             (getToday()! <= 0 && getToday()! > -7))
                       //         ? null
                       //         : () {
-                      //             context.read<Store1>().changeRoundPlus();
+                      //             context.read<Mainpage_Store>().changeRoundPlus();
                       //           },
-                      //     // onPressed: (getToday() == null ||(getToday()! <= 0 && getToday()! > -7)) ||context.watch<Store1>().lottoData['drwtNo6'] ==null? null
-                      //     //     : () {context.read<Store1>().changeRoundPlus();},
+                      //     // onPressed: (getToday() == null ||(getToday()! <= 0 && getToday()! > -7)) ||context.watch<Mainpage_Store>().lottoData['drwtNo6'] ==null? null
+                      //     //     : () {context.read<Mainpage_Store>().changeRoundPlus();},
                       //     style: TextButton.styleFrom(
                       //       shape: RoundedRectangleBorder(
                       //         borderRadius:
@@ -1859,7 +1854,7 @@ class _newlottoNumberState extends State<newlottoNumber> {
                       //       '>',
                       //       style: TextStyle(
                       //           color: Colors.white,
-                      //           fontFamily: 'Jua',
+                      //           fontFamily: 'Pretendard',
                       //           fontWeight: FontWeight.w900,
                       //           fontSize: 20.sp),
                       //     )),
@@ -1880,112 +1875,112 @@ class _newlottoNumberState extends State<newlottoNumber> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // context.watch<Store1>().lottoData['drwtNo1'] == null
+                      // context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
                       //     ? SizedBox(
                       //         width: 10.w,
                       //         height: 10.h,
                       //         child: const CircularProgressIndicator())
                       //     : getBall(
-                      //         context.watch<Store1>().lottoData['drwtNo1']),
-                      context.watch<Store1>().lottoData['drwtNo1'] == null
+                      //         context.watch<Mainpage_Store>().lottoData['drwtNo1']),
+                      context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? SizedBox(
                           width: 10.w,
                           height: 10.h,
                           child: const CircularProgressIndicator())
                           : getBall(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[0]))
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[0]))
                           : getBall(
-                          context.watch<Store1>().lottoData['drwtNo1']),
-                      context.watch<Store1>().lottoData['drwtNo2'] == null
+                          context.watch<Mainpage_Store>().lottoData['drwtNo1']),
+                      context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? SizedBox(
                           width: 10.w,
                           height: 10.h,
                           child: const CircularProgressIndicator())
                           : getBall(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[1]))
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[1]))
                           : getBall(
-                          context.watch<Store1>().lottoData['drwtNo2']),
-                      context.watch<Store1>().lottoData['drwtNo3'] == null
+                          context.watch<Mainpage_Store>().lottoData['drwtNo2']),
+                      context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? SizedBox(
                           width: 10.w,
                           height: 10.h,
                           child: const CircularProgressIndicator())
                           : getBall(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[2]))
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[2]))
                           : getBall(
-                          context.watch<Store1>().lottoData['drwtNo3']),
-                      context.watch<Store1>().lottoData['drwtNo4'] == null
+                          context.watch<Mainpage_Store>().lottoData['drwtNo3']),
+                      context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? SizedBox(
                           width: 10.w,
                           height: 10.h,
                           child: const CircularProgressIndicator())
                           : getBall(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[3]))
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[3]))
                           : getBall(
-                          context.watch<Store1>().lottoData['drwtNo4']),
-                      context.watch<Store1>().lottoData['drwtNo5'] == null
+                          context.watch<Mainpage_Store>().lottoData['drwtNo4']),
+                      context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? SizedBox(
                           width: 10.w,
                           height: 10.h,
                           child: const CircularProgressIndicator())
                           : getBall(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[4]))
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[4]))
                           : getBall(
-                          context.watch<Store1>().lottoData['drwtNo5']),
-                      context.watch<Store1>().lottoData['drwtNo6'] == null
+                          context.watch<Mainpage_Store>().lottoData['drwtNo5']),
+                      context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? SizedBox(
                           width: 10.w,
                           height: 10.h,
                           child: const CircularProgressIndicator())
                           : getBall(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[5]))
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[5]))
                           : getBall(
-                          context.watch<Store1>().lottoData['drwtNo6']),
+                          context.watch<Mainpage_Store>().lottoData['drwtNo6']),
                       const Icon(Icons.add),
-                      context.watch<Store1>().lottoData['bnusNo'] == null
+                      context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? SizedBox(
                           width: 10.w,
                           height: 10.h,
                           child: const CircularProgressIndicator())
                           : getBall(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[6]))
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[6]))
                           : getBall(
-                          context.watch<Store1>().lottoData['bnusNo']),
+                          context.watch<Mainpage_Store>().lottoData['bnusNo']),
                     ],
                   ),
                 ),
@@ -2041,49 +2036,49 @@ class _resultNumBallState extends State<resultNumBall> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          context.watch<Store1>().lottoData['drwtNo1'] == null
+          context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
               ? SizedBox(
                   width: 10.w,
                   height: 10.h,
                   child: const CircularProgressIndicator())
-              : getBall(context.watch<Store1>().lottoData['drwtNo1']),
-          context.watch<Store1>().lottoData['drwtNo2'] == null
+              : getBall(context.watch<Mainpage_Store>().lottoData['drwtNo1']),
+          context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
               ? SizedBox(
                   width: 10.w,
                   height: 10.h,
                   child: const CircularProgressIndicator())
-              : getBall(context.watch<Store1>().lottoData['drwtNo2']),
-          context.watch<Store1>().lottoData['drwtNo3'] == null
+              : getBall(context.watch<Mainpage_Store>().lottoData['drwtNo2']),
+          context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
               ? SizedBox(
                   width: 10.w,
                   height: 10.h,
                   child: const CircularProgressIndicator())
-              : getBall(context.watch<Store1>().lottoData['drwtNo3']),
-          context.watch<Store1>().lottoData['drwtNo4'] == null
+              : getBall(context.watch<Mainpage_Store>().lottoData['drwtNo3']),
+          context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
               ? SizedBox(
                   width: 10.w,
                   height: 10.h,
                   child: const CircularProgressIndicator())
-              : getBall(context.watch<Store1>().lottoData['drwtNo4']),
-          context.watch<Store1>().lottoData['drwtNo5'] == null
+              : getBall(context.watch<Mainpage_Store>().lottoData['drwtNo4']),
+          context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
               ? SizedBox(
                   width: 10.w,
                   height: 10.h,
                   child: const CircularProgressIndicator())
-              : getBall(context.watch<Store1>().lottoData['drwtNo5']),
-          context.watch<Store1>().lottoData['drwtNo6'] == null
+              : getBall(context.watch<Mainpage_Store>().lottoData['drwtNo5']),
+          context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
               ? SizedBox(
                   width: 10.w,
                   height: 10.h,
                   child: const CircularProgressIndicator())
-              : getBall(context.watch<Store1>().lottoData['drwtNo6']),
+              : getBall(context.watch<Mainpage_Store>().lottoData['drwtNo6']),
           const Icon(Icons.add),
-          context.watch<Store1>().lottoData['bnusNo'] == null
+          context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
               ? SizedBox(
                   width: 10.w,
                   height: 10.h,
                   child: const CircularProgressIndicator())
-              : getBall(context.watch<Store1>().lottoData['bnusNo']),
+              : getBall(context.watch<Mainpage_Store>().lottoData['bnusNo']),
         ],
       ),
     );
@@ -2187,44 +2182,44 @@ class _resultAllNumBallState extends State<resultAllNumBall> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        context.watch<Store1>().lottoData['drwtNo1'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
                             ? SizedBox(
                                 width: 10.w,
                                 height: 10.h,
                                 child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][0]),
-                        context.watch<Store1>().lottoData['drwtNo2'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
                             ? SizedBox(
                                 width: 10.w,
                                 height: 10.h,
                                 child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][1]),
-                        context.watch<Store1>().lottoData['drwtNo3'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
                             ? SizedBox(
                                 width: 10.w,
                                 height: 10.h,
                                 child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][2]),
-                        context.watch<Store1>().lottoData['drwtNo4'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
                             ? SizedBox(
                                 width: 10.w,
                                 height: 10.h,
                                 child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][3]),
-                        context.watch<Store1>().lottoData['drwtNo5'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
                             ? SizedBox(
                                 width: 10.w,
                                 height: 10.h,
                                 child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][4]),
-                        context.watch<Store1>().lottoData['drwtNo6'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
                             ? SizedBox(
                                 width: 10.w,
                                 height: 10.h,
                                 child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][5]),
                         const Icon(Icons.add),
-                        context.watch<Store1>().lottoData['bnusNo'] == null
+                        context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
                             ? SizedBox(
                                 width: 10.w,
                                 height: 10.h,

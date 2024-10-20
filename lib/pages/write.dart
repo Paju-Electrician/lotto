@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lotto/provider/store2.dart';
+import 'package:lotto/provider/win_gallery_Provider.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -72,7 +72,7 @@ class _WritePageState extends State<WritePage> {
           backgroundColor: Colors.blueAccent,
           title: Container(
               padding: EdgeInsets.fromLTRB(0, 7.h, 0, 0),
-              child: Text("글쓰기", style:TextStyle(color:Colors.white,fontSize: 35.sp,fontFamily: 'DoHyeon'))),
+              child: Text("글쓰기", style:TextStyle(color:Colors.white,fontSize: 35.sp,fontFamily: 'Pretendard'))),
         ),
         body: Center(
             child: Column(
@@ -226,7 +226,7 @@ class _WritePageState extends State<WritePage> {
                     var now = DateTime.now();
 
                     context
-                        .read<DataBase>()
+                        .read<Gallery_Store>()
                         .add(title, content, '$now'); //제목 내용으로 저장
                     _uploadFile(context);
 
@@ -244,7 +244,7 @@ class _WritePageState extends State<WritePage> {
                   style: TextStyle(
                       fontSize: 30.sp,
                       fontWeight: FontWeight.w500,
-                      fontFamily:'DoHyeon',
+                      fontFamily:'Pretendard',
                       color: Colors.white),
                 ),
               ),

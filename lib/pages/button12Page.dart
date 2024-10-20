@@ -306,7 +306,7 @@ class _button12PageState extends State<button12Page> {
                 Text('내가 저장한 번호',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'DoHyeon',
+                        fontFamily: 'Pretendard',
                         fontSize: 30.sp)),
                 TextButton(
                     style: TextButton.styleFrom(
@@ -339,7 +339,7 @@ class _button12PageState extends State<button12Page> {
             child: Text('로또알람을 켜두시면, 토요일 저녁 9시에 당첨결과를 알려드립니다.',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'DoHyeon',
+                    fontFamily: 'Pretendard',
                     fontSize: 14.sp)),
           ),
           Container(
@@ -400,7 +400,7 @@ class _button12PageState extends State<button12Page> {
                                   Text(
                                     "${lottoTotalNumber[0][0]}회 당첨결과확인",
                                     style: TextStyle(
-                                        fontSize: 30.sp, fontFamily: 'DoHyeon'),
+                                        fontSize: 30.sp, fontFamily: 'Pretendard'),
                                   ),
                                   Row(children: [
                                     Expanded(

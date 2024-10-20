@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:lotto/pages/notification.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
-import 'package:lotto/provider/store1.dart';
-import 'package:lotto/provider/store3.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
+import 'package:lotto/provider/naverSearch_Provider.dart';
 import 'package:lotto/widget/mainWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -150,31 +150,33 @@ class _randomNumBallState extends State<randomNumBall> {
                     child:
 
                     (context
-                        .watch<Store1>()
+                        .watch<Mainpage_Store>()
                         .lottoData['drwNoDate'] == null
                         ? (context
-                        .watch<firstLotto>()
-                        .firstLottoNumNaver
+                        .watch<naverSearch_FirstNum_Store>()
+                        .naverSearch_FirstNum
                         .isEmpty
                         ? const CircularProgressIndicator()
                         : Text(
                       DateFormat('yyyy.MM.dd').format(DateTime.parse(context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver[10].replaceAll('.', '-')).add(
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum[10].replaceAll('.', '-')).add(
                           const Duration(days: 7))),
                       style: TextStyle(
                           color: const Color(0xff767676),
                           fontSize: 20.sp,
+                          fontFamily: 'Pretendard',
                           fontWeight: FontWeight.bold),
                     ))
                         : Text(
                       DateFormat('yyyy.MM.dd').format(DateTime.parse(context
-                          .watch<Store1>()
-                          .button2RoundInfo['drwNoDate']).add(
+                          .watch<Mainpage_Store>()
+                          .button5RoundInfo['drwNoDate']).add(
                           const Duration(days: 7))),
                       style: TextStyle(
                           color: const Color(0xff767676),
                           fontSize: 20.sp,
+                          fontFamily: 'Pretendard',
                           fontWeight: FontWeight.bold),
                     ))),
                 // ,style: TextStyle(color: Color(0xff767676),fontSize: 20,fontWeight: FontWeight.bold),)),
@@ -187,29 +189,31 @@ class _randomNumBallState extends State<randomNumBall> {
                     children: [
 
                       (context
-                          .watch<Store1>()
-                          .button2RoundInfo['drwNo'] == null
+                          .watch<Mainpage_Store>()
+                          .button5RoundInfo['drwNo'] == null
                           ? (context
-                          .watch<firstLotto>()
-                          .firstLottoNumNaver
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
                           .isEmpty
                           ? const CircularProgressIndicator()
                           : Text(
                           '${context
-                              .watch<firstLotto>()
-                              .firstLottoNumNaver[11] + 1}회 예상번호',
+                              .watch<naverSearch_FirstNum_Store>()
+                              .naverSearch_FirstNum[11] + 1}회 예상번호',
                           style: TextStyle(
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w900,
+                            fontFamily: 'Pretendard',
                             color: const Color(0xffd43301),
                           )))
                           : Text(
                           '${context
-                              .watch<Store1>()
-                              .button2RoundInfo['drwNo'] + 1}회 예상번호',
+                              .watch<Mainpage_Store>()
+                              .button5RoundInfo['drwNo'] + 1}회 예상번호',
                           style: TextStyle(
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w900,
+                            fontFamily: 'Pretendard',
                             color: const Color(0xffd43301),
                           )))
 
@@ -261,6 +265,7 @@ class _randomNumBallState extends State<randomNumBall> {
                             ),
                             child: Text('당첨번호구매하기', style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Pretendard',
                               fontSize: 25.sp, fontWeight: FontWeight.bold,)),
                           ),
 
@@ -327,6 +332,7 @@ class _randomNumBallState extends State<randomNumBall> {
                             ),
                             child: Text('번호저장', style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Pretendard',
                               fontSize: 25.sp, fontWeight: FontWeight.bold,)),
 
                     ),
@@ -396,42 +402,42 @@ class _randomNumBallListState extends State<randomNumBallList> {
                 Text('발행일: ${DateFormat('yyyy/MM/dd H시 m분 s초').format(
                     getToday())}'),
                 context
-                    .watch<Store1>()
-                    .button2RoundInfo['drwNoDate'] == null ?
+                    .watch<Mainpage_Store>()
+                    .button5RoundInfo['drwNoDate'] == null ?
                 (context
-                    .watch<firstLotto>()
-                    .firstLottoNumNaver[10] == null
+                    .watch<naverSearch_FirstNum_Store>()
+                    .naverSearch_FirstNum[10] == null
                     ? const CircularProgressIndicator()
                     :
                 Text('추첨일: ${DateFormat('yyyy/MM/dd').format(
                     DateTime.parse(context
-                        .watch<firstLotto>()
-                        .firstLottoNumNaver[10].replaceAll('.', '-')).add(
+                        .watch<naverSearch_FirstNum_Store>()
+                        .naverSearch_FirstNum[10].replaceAll('.', '-')).add(
                         const Duration(days: 7)))}')
                 ) : Text('추첨일: ${DateFormat('yyyy/MM/dd').format(
                     DateTime.parse(context
-                        .watch<Store1>()
-                        .button2RoundInfo['drwNoDate']).add(
+                        .watch<Mainpage_Store>()
+                        .button5RoundInfo['drwNoDate']).add(
                         const Duration(days: 7)))}'),
 
 
                 context
-                    .watch<Store1>()
-                    .button2RoundInfo['drwNoDate'] == null ?
+                    .watch<Mainpage_Store>()
+                    .button5RoundInfo['drwNoDate'] == null ?
                 (context
-                    .watch<firstLotto>()
-                    .firstLottoNumNaver[10] == null
+                    .watch<naverSearch_FirstNum_Store>()
+                    .naverSearch_FirstNum[10] == null
                     ? const CircularProgressIndicator()
                     :
                 Text('추첨일: ${DateFormat('yyyy/MM/dd').format(
                     DateTime.parse(context
-                        .watch<firstLotto>()
-                        .firstLottoNumNaver[10].replaceAll('.', '-')).add(
+                        .watch<naverSearch_FirstNum_Store>()
+                        .naverSearch_FirstNum[10].replaceAll('.', '-')).add(
                         const Duration(days: 372)))}')
                 ) : Text('지급기한: ${DateFormat('yyyy/MM/dd').format(
                     DateTime.parse(context
-                        .watch<Store1>()
-                        .button2RoundInfo['drwNoDate']).add(
+                        .watch<Mainpage_Store>()
+                        .button5RoundInfo['drwNoDate']).add(
                         const Duration(days: 372)))}'),
               ],
             ),

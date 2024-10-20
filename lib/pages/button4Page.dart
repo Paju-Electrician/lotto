@@ -1,13 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:lotto/pages/notification.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
-import 'package:lotto/provider/store1.dart';
+import 'package:lotto/provider/allpages_Provider.dart';
 import 'package:lotto/widget/mainWidgets.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../provider/allpages_Provider.dart';
 
 class button4Page extends StatefulWidget {
   const button4Page({Key? key}) : super(key: key);
@@ -37,24 +40,24 @@ class _button4PageState extends State<button4Page>
   }
 
   var button4RandomNumber =
-      (List<int>.generate(45, (i) => i + 1)..shuffle()).sublist(0, 6);
+  (List<int>.generate(45, (i) => i + 1)..shuffle()).sublist(0, 6);
 
-  late var alignmentList = [
+  var alignmentList = [
     Alignment(15.w, 190.h),
     Alignment(10.w, 190.h),
     Alignment(0, 190.h),
     Alignment(0, 190.h),
     Alignment(-10.w, 190.h),
     Alignment(-15.w, 190.h)
-  ];
+      ];
   var alignment = [
-    const Alignment(0, 0),
-    const Alignment(0, 0),
-    const Alignment(0, 0),
-    const Alignment(0, 0),
-    const Alignment(0, 0),
-    const Alignment(0, 0),
-    const Alignment(0, 0)
+     Alignment(0, 0),
+     Alignment(0, 0),
+     Alignment(0, 0),
+     Alignment(0, 0),
+     Alignment(0, 0),
+     Alignment(0, 0),
+     Alignment(0, 0)
   ];
 
   var switchbool1 = false;
@@ -172,16 +175,16 @@ class _button4PageState extends State<button4Page>
     ]; //L
     List<Map> lottoAllDataInfo = List<Map>.empty(growable: true);
     List<List> lottoAllDataNumberList = List<List>.empty(growable: true);
-    for (int i = 0; i < context.read<Store1>().totalLottoData.length; i++) {
+    for (int i = 0; i < context.read<Mainpage_Store>().totalLottoData.length; i++) {
       lottoAllDataInfo.add({
-        'drwNo': context.read<Store1>().totalLottoData[i]['drwNo'],
-        'drwtNo1': context.read<Store1>().totalLottoData[i]['drwtNo1'],
-        'drwtNo2': context.read<Store1>().totalLottoData[i]['drwtNo2'],
-        'drwtNo3': context.read<Store1>().totalLottoData[i]['drwtNo3'],
-        'drwtNo4': context.read<Store1>().totalLottoData[i]['drwtNo4'],
-        'drwtNo5': context.read<Store1>().totalLottoData[i]['drwtNo5'],
-        'drwtNo6': context.read<Store1>().totalLottoData[i]['drwtNo6'],
-        'bnusNo': context.read<Store1>().totalLottoData[i]['bnusNo']
+        'drwNo': context.read<Mainpage_Store>().totalLottoData[i]['drwNo'],
+        'drwtNo1': context.read<Mainpage_Store>().totalLottoData[i]['drwtNo1'],
+        'drwtNo2': context.read<Mainpage_Store>().totalLottoData[i]['drwtNo2'],
+        'drwtNo3': context.read<Mainpage_Store>().totalLottoData[i]['drwtNo3'],
+        'drwtNo4': context.read<Mainpage_Store>().totalLottoData[i]['drwtNo4'],
+        'drwtNo5': context.read<Mainpage_Store>().totalLottoData[i]['drwtNo5'],
+        'drwtNo6': context.read<Mainpage_Store>().totalLottoData[i]['drwtNo6'],
+        'bnusNo': context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']
       });
 
       lottoAllDataNumberList.add([
@@ -280,16 +283,14 @@ class _button4PageState extends State<button4Page>
             height: 200.h,
             child: Column(
               children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
-                    child: Text(
-                      '공 누르면 랜덤추첨 ',
-                      style: TextStyle(
-                          fontSize: 40.sp,
-                          fontFamily: 'DoHyeon',
-                          fontWeight: FontWeight.w900),
-                    ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 20.h, 0, 0),
+                  child: AutoSizeText(
+                    '공 누르면 랜덤추첨 ',
+                    style: TextStyle(
+                        fontSize: 40.sp,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w900),
                   ),
                 ),
                 Expanded(
@@ -381,7 +382,7 @@ class _button4PageState extends State<button4Page>
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       width: 320.w,
-                                      content: Text(
+                                      content: AutoSizeText(
                                         '내저장번호목록에 저장되었습니다.',
                                         style: TextStyle(fontSize: 18.sp),
                                         textAlign: TextAlign.center,
@@ -399,7 +400,7 @@ class _button4PageState extends State<button4Page>
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       width: 320.w,
-                                      content: Text(
+                                      content: AutoSizeText(
                                         '번호를 모두 추가해주세요.',
                                         style: TextStyle(fontSize: 18.sp),
                                         textAlign: TextAlign.center,
@@ -420,11 +421,11 @@ class _button4PageState extends State<button4Page>
                                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                               ),
                               padding: EdgeInsets.fromLTRB(10.w, 5.h, 10.w, 5.h)
-                              // primary: Colors.red
-                              ),
-                          child: Text('번호저장',
+                            // primary: Colors.red
+                          ),
+                          child: AutoSizeText('번호저장',
                               style: TextStyle(
-                                color: Colors.white,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20.sp)),
                         ),
@@ -440,11 +441,11 @@ class _button4PageState extends State<button4Page>
                                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                               ),
                               padding: EdgeInsets.fromLTRB(10.w, 5.h, 10.w, 5.h)
-                              // primary: Colors.red
-                              ),
-                          child: Text('숫자정렬하기',
+                            // primary: Colors.red
+                          ),
+                          child: AutoSizeText('숫자정렬하기',
                               style: TextStyle(
-                                color: Colors.white,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20.sp)),
                         ),
@@ -458,11 +459,11 @@ class _button4PageState extends State<button4Page>
                                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                               ),
                               padding: EdgeInsets.fromLTRB(10.w, 5.h, 10.w, 5.h)
-                              // primary: Colors.red
-                              ),
-                          child: Text('지우기',
+                            // primary: Colors.red
+                          ),
+                          child: AutoSizeText('지우기',
                               style: TextStyle(
-                                color: Colors.white,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20.sp)),
                         ),
@@ -474,25 +475,21 @@ class _button4PageState extends State<button4Page>
             ),
           ),
           Expanded(
-            child: Container(
-              // width: MediaQuery.of(context).size.width + 280.w,
-              // height: MediaQuery.of(context).size.height,
-              child: SizedBox(
-                child: FittedBox(
-                  fit: BoxFit.none,
-                  child: GestureDetector(
-                    onTap: onTapButton,
-                    onDoubleTap: onTapButton,
-                    child: Stack(children: [
-                      const Text('test'),
-                      Image.asset(
-                        'assets/tong.png',
-                        width: MediaQuery.of(context).size.width + 280.w,
-                        height: MediaQuery.of(context).size.height,
-                      ),
-                      animationWhat()
-                    ]),
-                  ),
+            child: SizedBox(
+              child: FittedBox(
+                fit: BoxFit.none,
+                child: GestureDetector(
+                  onTap: onTapButton,
+                  onDoubleTap: onTapButton,
+                  child: Stack(children: [
+                    const AutoSizeText('test'),
+                    Image.asset(
+                      'assets/tong.png',
+                      width: MediaQuery.of(context).size.width + 280.w,
+                      height: MediaQuery.of(context).size.height,
+                    ),
+                    animationWhat()
+                  ]),
                 ),
               ),
             ),
@@ -504,17 +501,17 @@ class _button4PageState extends State<button4Page>
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (context.read<Store1>().lottoData['drwtNo6'] == null) {
+                      if (context.read<Mainpage_Store>().lottoData['drwtNo6'] == null) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             width: 320.w,
-                            content: Text(
+                            content: AutoSizeText(
                               '서버점검시간',
                               style: TextStyle(
                                   fontSize: 25.sp, fontWeight: FontWeight.w900),
                               textAlign: TextAlign.center,
                             ),
                             padding:
-                                EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+                            EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
                             backgroundColor: Colors.red,
                             duration: const Duration(milliseconds: 1000),
                             behavior: SnackBarBehavior.floating,
@@ -530,13 +527,13 @@ class _button4PageState extends State<button4Page>
                             switchbool6 == false) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               width: 320.w,
-                              content: Text(
+                              content: AutoSizeText(
                                 '로또번호 6개를 모두 뽑아주세요',
                                 style: TextStyle(fontSize: 20.sp),
                                 textAlign: TextAlign.center,
                               ),
                               padding:
-                                  EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+                              EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
                               backgroundColor: Colors.grey,
                               duration: const Duration(milliseconds: 1000),
                               behavior: SnackBarBehavior.floating,
@@ -554,16 +551,16 @@ class _button4PageState extends State<button4Page>
                                       10.0.w, 0.0, 10.0.w, 0),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.circular(10.0)),
+                                      BorderRadius.circular(10.0)),
                                   //Dialog Main Title
                                   title: Column(
                                     children: <Widget>[
-                                      Text(
+                                      AutoSizeText(
                                         "과거당첨결과 확인",
                                         style: TextStyle(
                                           // color: Colors.blue,
                                             fontSize: 32.sp,
-                                            fontFamily: 'DoHyeon'),
+                                            fontFamily: 'Pretendard'),
                                       ),
                                     ],
                                   ),
@@ -571,7 +568,7 @@ class _button4PageState extends State<button4Page>
                                   content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Expanded(
                                           child: Container(
@@ -580,14 +577,14 @@ class _button4PageState extends State<button4Page>
                                                 allMatchRank: allMatchRank,
                                                 allMatchNumver: allMatchNumver,
                                                 allMatchAllNumber:
-                                                    allMatchAllNumber),
+                                                allMatchAllNumber),
                                           ),
                                         ),
                                       ]),
 
                                   actions: <Widget>[
                                     TextButton(
-                                      child: Text(
+                                      child: AutoSizeText(
                                         "확인",
                                         style: TextStyle(color:Colors.blue,fontSize: 25.sp),
                                       ),
@@ -609,9 +606,9 @@ class _button4PageState extends State<button4Page>
                         ),
                         padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h)),
 
-                    child: Text('과거당첨보기',
+                    child: AutoSizeText('과거당첨보기',
                         style: TextStyle(
-                          color: Colors.white,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold, fontSize: 30.sp)),
                   ),
                 ],
@@ -625,10 +622,10 @@ class _button4PageState extends State<button4Page>
 class button4resultAllNumBall extends StatefulWidget {
   button4resultAllNumBall(
       {Key? key,
-      this.allMatchList,
-      this.allMatchRank,
-      this.allMatchNumver,
-      this.allMatchAllNumber})
+        this.allMatchList,
+        this.allMatchRank,
+        this.allMatchNumver,
+        this.allMatchAllNumber})
       : super(key: key);
   var allMatchList;
   var allMatchRank;
@@ -688,7 +685,7 @@ class _button4resultAllNumBallState extends State<button4resultAllNumBall> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                            child: Text('${widget.allMatchList[i]}회',
+                            child: AutoSizeText('${widget.allMatchList[i]}회',
                                 style: TextStyle(
                                     fontSize: 27.sp,
                                     fontWeight: FontWeight.w900,
@@ -696,7 +693,7 @@ class _button4resultAllNumBallState extends State<button4resultAllNumBall> {
                         Container(
                             height: 25.h,
                             alignment: Alignment.center,
-                            child: Text('  ${widget.allMatchRank[i]}',
+                            child: AutoSizeText('  ${widget.allMatchRank[i]}',
                                 style: TextStyle(
                                     fontSize: 20.sp,
                                     fontWeight: FontWeight.w900)))
@@ -717,48 +714,48 @@ class _button4resultAllNumBallState extends State<button4resultAllNumBall> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        context.watch<Store1>().lottoData['drwtNo1'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
                             ? SizedBox(
-                                width: 10.w,
-                                height: 10.h,
-                                child: const CircularProgressIndicator())
+                            width: 10.w,
+                            height: 10.h,
+                            child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][0]),
-                        context.watch<Store1>().lottoData['drwtNo2'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
                             ? SizedBox(
-                                width: 10.w,
-                                height: 10.h,
-                                child: const CircularProgressIndicator())
+                            width: 10.w,
+                            height: 10.h,
+                            child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][1]),
-                        context.watch<Store1>().lottoData['drwtNo3'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
                             ? SizedBox(
-                                width: 10.w,
-                                height: 10.h,
-                                child: const CircularProgressIndicator())
+                            width: 10.w,
+                            height: 10.h,
+                            child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][2]),
-                        context.watch<Store1>().lottoData['drwtNo4'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
                             ? SizedBox(
-                                width: 10.w,
-                                height: 10.h,
-                                child: const CircularProgressIndicator())
+                            width: 10.w,
+                            height: 10.h,
+                            child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][3]),
-                        context.watch<Store1>().lottoData['drwtNo5'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
                             ? SizedBox(
-                                width: 10.w,
-                                height: 10.h,
-                                child: const CircularProgressIndicator())
+                            width: 10.w,
+                            height: 10.h,
+                            child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][4]),
-                        context.watch<Store1>().lottoData['drwtNo6'] == null
+                        context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
                             ? SizedBox(
-                                width: 10.w,
-                                height: 10.h,
-                                child: const CircularProgressIndicator())
+                            width: 10.w,
+                            height: 10.h,
+                            child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][5]),
                         const Icon(Icons.add),
-                        context.watch<Store1>().lottoData['bnusNo'] == null
+                        context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
                             ? SizedBox(
-                                width: 10.w,
-                                height: 10.h,
-                                child: const CircularProgressIndicator())
+                            width: 10.w,
+                            height: 10.h,
+                            child: const CircularProgressIndicator())
                             : getBall(i, widget.allMatchAllNumber[i][6]),
                       ],
                     ),
