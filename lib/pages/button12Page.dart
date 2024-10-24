@@ -110,14 +110,22 @@ class _button12PageState extends State<button12Page> {
     setState(() {});
     return FutureBuilder<dynamic>(
         future: getBell(),
-        builder: (context, snapi) {
-          bellBool = snapi.data;
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          bool? bellBool = snapshot.data; // null-aware 연산자 사용
           if (bellBool == true || button12ResultNum.isNotEmpty) {
             return const Icon(Icons.notifications_active);
           } else {
             return const Icon(Icons.notifications_off);
           }
-        });
+        } else if (snapshot.hasError) {
+          return CircularProgressIndicator();
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+
+        );
   }
 
   List<String> button12ResultNum = [];
@@ -517,10 +525,10 @@ class _button12PageState extends State<button12Page> {
             // child: ListView.builder(itemCount:context.watch<Store1>().lottoData['drwNo'], itemBuilder: (c,i){
             child: FutureBuilder<dynamic>(
                 future: getLottoNumberList(),
-                builder: (context, snapi) {
-                  List tempLottoList = snapi.data;
-
-                  button12ResultNum = snapi.data;
+    builder: (context, snapshot) {
+    if (snapshot.hasData && snapshot.data != null) { // null 확인 추가
+    List<String> tempLottoList = snapshot.data!; // null-aware 연산자 사용
+    button12ResultNum = tempLottoList; //
                   // print(tempLottoList[0]);
                   // print(tempLottoList[0].split(','));
 
@@ -608,7 +616,15 @@ class _button12PageState extends State<button12Page> {
                             ),
                           ],
                         );
-                      });
+                      });}
+    else if (snapshot.hasError) {
+      return CircularProgressIndicator();
+    } else {
+      return CircularProgressIndicator();
+    }
+
+
+
                 }),
           ),
         ],
@@ -649,71 +665,82 @@ class _button12ResultNumBallState extends State<button12ResultNumBall> {
     return FutureBuilder<dynamic>(
         future: getLottoNumberList(),
         builder: (context, snapi) {
-          List tempLottoList = snapi.data;
+    if (snapi.hasData && snapi.data != null) {
+      List tempLottoList = snapi.data;
+      // print(tempLottoList);
+      // print(tempLottoList[0].split(','));
+      ItemScrollController scrollController = ItemScrollController();
 
-          print(tempLottoList);
-          // print(tempLottoList[0].split(','));
+      return ScrollablePositionedList.builder(
+        // itemCount: context.watch<Store1>().totalLottoData.length,
+          itemCount: tempLottoList == null ? 0 : tempLottoList.length,
+          itemScrollController: scrollController,
+          itemBuilder: (c, i) {
+            var lottoList = tempLottoList[i].toString().split(',');
 
-          ItemScrollController scrollController = ItemScrollController();
+            lottoList[0] = lottoList[0].replaceAll('[', '');
+            lottoList[5] = lottoList[5].replaceAll(']', '');
 
-          return ScrollablePositionedList.builder(
-              // itemCount: context.watch<Store1>().totalLottoData.length,
-              itemCount: tempLottoList == null ? 0 : tempLottoList.length,
-              itemScrollController: scrollController,
-              itemBuilder: (c, i) {
-                var lottoList = tempLottoList[i].toString().split(',');
+            var intLottoList = [
+              int.parse(lottoList[0]),
+              int.parse(lottoList[1]),
+              int.parse(lottoList[2]),
+              int.parse(lottoList[3]),
+              int.parse(lottoList[4]),
+              int.parse(lottoList[5])
+            ];
+            intLottoList.sort();
 
-                lottoList[0] = lottoList[0].replaceAll('[', '');
-                lottoList[5] = lottoList[5].replaceAll(']', '');
+            //
+            //
+            // print(lottoList);
+            // print(_selectedValueinit-context.read<firstLotto>().firstLottoNumNaver[11]);
+            //
+            // if(((i+_selectedValueinit-context.read<firstLotto>().firstLottoNumNaver[11])%_selectedValue==0)&&(i>context.read<firstLotto>().firstLottoNumNaver[11]-_selectedValueinit)) {
 
-                var intLottoList = [
-                  int.parse(lottoList[0]),
-                  int.parse(lottoList[1]),
-                  int.parse(lottoList[2]),
-                  int.parse(lottoList[3]),
-                  int.parse(lottoList[4]),
-                  int.parse(lottoList[5])
-                ];
-                intLottoList.sort();
-
-                //
-                //
-                // print(lottoList);
-                // print(_selectedValueinit-context.read<firstLotto>().firstLottoNumNaver[11]);
-                //
-                // if(((i+_selectedValueinit-context.read<firstLotto>().firstLottoNumNaver[11])%_selectedValue==0)&&(i>context.read<firstLotto>().firstLottoNumNaver[11]-_selectedValueinit)) {
-
-                return Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 10.h),
-                        padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
-                        // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                        decoration: const BoxDecoration(
-                          color: Color(0xffe5e5e5),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            getBall(intLottoList[0], i),
-                            getBall(intLottoList[1], i),
-                            getBall(intLottoList[2], i),
-                            getBall(intLottoList[3], i),
-                            getBall(intLottoList[4], i),
-                            getBall(intLottoList[5], i),
-                          ],
-                        ),
-                      ),
+            return Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 10.h),
+                    padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                    // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffe5e5e5),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
                     ),
-                  ],
-                );
-              });
-        });
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        getBall(intLottoList[0], i),
+                        getBall(intLottoList[1], i),
+                        getBall(intLottoList[2], i),
+                        getBall(intLottoList[3], i),
+                        getBall(intLottoList[4], i),
+                        getBall(intLottoList[5], i),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          });}
+    else if (snapi.hasError) {
+      return CircularProgressIndicator();
+    } else {
+      return CircularProgressIndicator();
+    }
+        }
+
+        );
   }
+
+
+
+
+
 }

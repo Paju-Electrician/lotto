@@ -23,6 +23,7 @@ import 'package:lotto/provider/naverSearch_Provider.dart';
 
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class xNumBall extends StatelessWidget {
   xNumBall({Key? key, this.b}) : super(key: key);
@@ -662,6 +663,7 @@ class _button1State extends State<button1> {
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
                     '당첨번호보기',
+                    softWrap: true,
                     // softWrap: false,
                     maxLines: 1,
                     style: TextStyle(
@@ -762,6 +764,7 @@ class _button5State extends State<button5> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '로또번호생성',
                     style: TextStyle(
@@ -880,6 +883,7 @@ class _button3State extends State<button3> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '당첨지역보기',
                     style: TextStyle(
@@ -980,6 +984,7 @@ class _button4State extends State<button4> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '로또번호뽑기',
                     style: TextStyle(
@@ -1079,6 +1084,7 @@ class _button2State extends State<button2> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '로또당첨후기',
                     style: TextStyle(
@@ -1179,6 +1185,7 @@ class _button6State extends State<button6> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '꿈풀이분석기',
                     style: TextStyle(
@@ -1396,6 +1403,7 @@ class _button7State extends State<button7> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '로또회귀분석',
                     style: TextStyle(
@@ -1514,6 +1522,7 @@ class _button8State extends State<button8> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '출현/미출현수',
                     style: TextStyle(
@@ -1715,6 +1724,7 @@ class _button9State extends State<button9> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '강력추천번호',
                     style: TextStyle(
@@ -1816,6 +1826,7 @@ class _button10State extends State<button10> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '제외수/고정수',
                     style: TextStyle(
@@ -2017,6 +2028,7 @@ class _button11State extends State<button11> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '동반/미동반수',
                     style: TextStyle(
@@ -2218,6 +2230,7 @@ class _button12State extends State<button12> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '저장번호목록',
                     style: TextStyle(
@@ -2255,18 +2268,63 @@ class button13 extends StatefulWidget {
 }
 
 class _button13State extends State<button13> {
+
+ _openKakaoChat() async{
+    final Uri kakaoUrl= Uri.parse('https://open.kakao.com/o/gopckofe');
+    if (await canLaunchUrl(kakaoUrl)){
+      await launchUrl(kakaoUrl);
+    }else{
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)),
+        //Dialog Main Title
+        title: const Column(
+          children: <Widget>[
+            Text("로딩중입니다.."),
+          ],
+        ),
+        //
+
+        content: SizedBox(
+            width: 200.w,
+            height: 100.h,
+            child: FittedBox(
+                fit: BoxFit.none,
+                child: Lottie.asset('assets/lottie/bounce.json',
+                    width: 200.w))),
+        actions: <Widget>[
+          TextButton(
+            child: Text(
+              "확인",
+              style: TextStyle(color: Colors.blue, fontSize: 20.sp),
+            ),
+            onPressed: () {
+              _openKakaoChat();
+            // else {
+            //     Navigator.pop(context);
+            //   }
+            },
+          ),
+        ],
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         child: ElevatedButton(
-          onPressed: () {
-            // Navigator.of(context)..pop()..pop();
-            // button12MakeFullLottoTotalNumberStart();
-            // Navigator.push(context, MaterialPageRoute(builder: (c) {
-            //   return button12Page();
-            // }));
-          },
+          onPressed:  _openKakaoChat,
+          //     () {
+          //   Navigator.of(context)..pop()..pop();
+          //   button12MakeFullLottoTotalNumberStart();
+          //   Navigator.push(context, MaterialPageRoute(builder: (c) {
+          //     return button12Page();
+          //   }));
+          //
+          //
+          // },
           style: ButtonStyle(
             animationDuration: const Duration(microseconds: 100),
 
@@ -2319,8 +2377,9 @@ class _button13State extends State<button13> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
-                    '후나츠사카이',
+                    '로또커뮤니티',
                     style: TextStyle(
                       fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w600,
@@ -2335,7 +2394,7 @@ class _button13State extends State<button13> {
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
                           fit: BoxFit.contain,
-                          child: Lottie.asset('assets/lottie/japan.json',
+                          child: Lottie.asset('assets/lottie/kakaotalk.json',
                               fit: BoxFit.fill))),
                 )
               ],
@@ -2420,6 +2479,7 @@ class _button14State extends State<button14> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: AutoSizeText(
+                    softWrap: true,
                     maxLines: 1,
                     '로또커뮤니티',
                     style: TextStyle(
@@ -2718,133 +2778,132 @@ class _totalBallButton7State extends State<totalBallButton7> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                      '${context.watch<Mainpage_Store>().totalLottoData[widget.a!]['drwNo']}회',
-                      softWrap: false,
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w900,
-                      ))),
+    return Row(
+      children: [
+        Container(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            alignment: Alignment.centerRight,
+            child: AutoSizeText(
+                '${context.watch<Mainpage_Store>().totalLottoData[widget.a!]['drwNo']}회',
+                softWrap: true,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Pretendard'
+                )))
+        ,
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
+            padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+            // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+            decoration: const BoxDecoration(
+              color: Color(0xffe5e5e5),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
             ),
-            Expanded(
-              flex: 5,
-              child: Container(
-                margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
-                padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
-                // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                decoration: const BoxDecoration(
-                  color: Color(0xffe5e5e5),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    // snapshot.data!=null
-                    //     ? getTotalBall(
-                    //     snapshot.data[widget.a!]['drwtNo1'])
-                    //     :
-                    context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
-                        ? SizedBox(
-                            width: 10.w,
-                            height: 10.h,
-                            child: const CircularProgressIndicator())
-                        : getTotalBall(context
-                            .watch<Mainpage_Store>()
-                            .totalLottoData[widget.a!]['drwtNo1']),
-                    // snapshot.data!=null
-                    //     ? getTotalBall(
-                    //     snapshot.data[widget.a!]['drwtNo2'])
-                    //     :
-                    context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
-                        ? SizedBox(
-                            width: 10.w,
-                            height: 10.h,
-                            child: const CircularProgressIndicator())
-                        : getTotalBall(context
-                            .watch<Mainpage_Store>()
-                            .totalLottoData[widget.a!]['drwtNo2']),
-                    // snapshot.data!=null
-                    //     ? getTotalBall(
-                    //     snapshot.data[widget.a!]['drwtNo3'])
-                    //     :
-                    context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
-                        ? SizedBox(
-                            width: 10.w,
-                            height: 10.h,
-                            child: const CircularProgressIndicator())
-                        : getTotalBall(context
-                            .watch<Mainpage_Store>()
-                            .totalLottoData[widget.a!]['drwtNo3']),
-                    // snapshot.data!=null
-                    //     ? getTotalBall(
-                    //     snapshot.data[widget.a!]['drwtNo4'])
-                    //     :
-                    context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
-                        ? SizedBox(
-                            width: 10.w,
-                            height: 10.h,
-                            child: const CircularProgressIndicator())
-                        : getTotalBall(context
-                                .watch<Mainpage_Store>()
-                                .totalLottoData[widget.a!]['drwtNo4']
-                            // 0
-                            ),
-                    // snapshot.data!=null
-                    //     ? getTotalBall(
-                    //     snapshot.data[widget.a!]['drwtNo5'])
-                    //     :
-                    context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
-                        ? SizedBox(
-                            width: 10.w,
-                            height: 10.h,
-                            child: const CircularProgressIndicator())
-                        : getTotalBall(context
-                            .watch<Mainpage_Store>()
-                            .totalLottoData[widget.a!]['drwtNo5']),
-                    // snapshot.data!=null
-                    //     ? getTotalBall(
-                    //     snapshot.data[widget.a!]['drwtNo6'])
-                    //     :
-                    context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
-                        ? SizedBox(
-                            width: 10.w,
-                            height: 10.h,
-                            child: const CircularProgressIndicator())
-                        : getTotalBall(context
-                            .watch<Mainpage_Store>()
-                            .totalLottoData[widget.a!]['drwtNo6']),
-                    const Icon(Icons.add),
-                    // snapshot.data!=null
-                    //     ? getTotalBall(snapshot.data[widget.a!]['bnusNo'])
-                    //     :
-                    context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
-                        ? SizedBox(
-                            width: 10.w,
-                            height: 10.h,
-                            child: const CircularProgressIndicator())
-                        : getTotalBall(context
-                            .watch<Mainpage_Store>()
-                            .totalLottoData[widget.a!]['bnusNo']),
-                  ],
-                ),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // snapshot.data!=null
+                //     ? getTotalBall(
+                //     snapshot.data[widget.a!]['drwtNo1'])
+                //     :
+                context.watch<Mainpage_Store>().lottoData['drwtNo1'] == null
+                    ? SizedBox(
+                        width: 10.w,
+                        height: 10.h,
+                        child: const CircularProgressIndicator())
+                    : Expanded(child: getTotalBall(context
+                    .watch<Mainpage_Store>()
+                    .totalLottoData[widget.a!]['drwtNo1'])),
+                // snapshot.data!=null
+                //     ? getTotalBall(
+                //     snapshot.data[widget.a!]['drwtNo2'])
+                //     :
+                context.watch<Mainpage_Store>().lottoData['drwtNo2'] == null
+                    ? SizedBox(
+                        width: 10.w,
+                        height: 10.h,
+                        child: const CircularProgressIndicator())
+                    : Expanded(child: getTotalBall(context
+                    .watch<Mainpage_Store>()
+                    .totalLottoData[widget.a!]['drwtNo2'])),
+                // snapshot.data!=null
+                //     ? getTotalBall(
+                //     snapshot.data[widget.a!]['drwtNo3'])
+                //     :
+                context.watch<Mainpage_Store>().lottoData['drwtNo3'] == null
+                    ? SizedBox(
+                        width: 10.w,
+                        height: 10.h,
+                        child: const CircularProgressIndicator())
+                    : Expanded(child: getTotalBall(context
+                    .watch<Mainpage_Store>()
+                    .totalLottoData[widget.a!]['drwtNo3'])),
+                // snapshot.data!=null
+                //     ? getTotalBall(
+                //     snapshot.data[widget.a!]['drwtNo4'])
+                //     :
+                context.watch<Mainpage_Store>().lottoData['drwtNo4'] == null
+                    ? SizedBox(
+                        width: 10.w,
+                        height: 10.h,
+                        child: const CircularProgressIndicator())
+                    : Expanded(child: getTotalBall(context
+                    .watch<Mainpage_Store>()
+                    .totalLottoData[widget.a!]['drwtNo4']
+                  // 0
+                )),
+                // snapshot.data!=null
+                //     ? getTotalBall(
+                //     snapshot.data[widget.a!]['drwtNo5'])
+                //     :
+                context.watch<Mainpage_Store>().lottoData['drwtNo5'] == null
+                    ? SizedBox(
+                        width: 10.w,
+                        height: 10.h,
+                        child: const CircularProgressIndicator())
+                    : Expanded(child: getTotalBall(context
+                    .watch<Mainpage_Store>()
+                    .totalLottoData[widget.a!]['drwtNo5'])),
+                // snapshot.data!=null
+                //     ? getTotalBall(
+                //     snapshot.data[widget.a!]['drwtNo6'])
+                //     :
+                context.watch<Mainpage_Store>().lottoData['drwtNo6'] == null
+                    ? SizedBox(
+                        width: 10.w,
+                        height: 10.h,
+                        child: const CircularProgressIndicator())
+                    : Expanded(child: getTotalBall(context
+                    .watch<Mainpage_Store>()
+                    .totalLottoData[widget.a!]['drwtNo6'])),
+                const Icon(Icons.add),
+                // snapshot.data!=null
+                //     ? getTotalBall(snapshot.data[widget.a!]['bnusNo'])
+                //     :
+                context.watch<Mainpage_Store>().lottoData['bnusNo'] == null
+                    ? SizedBox(
+                        width: 10.w,
+                        height: 10.h,
+                        child: const CircularProgressIndicator())
+                    : Expanded(child: getTotalBall(context
+                    .watch<Mainpage_Store>()
+                    .totalLottoData[widget.a!]['bnusNo'])),
+              ],
             ),
-          ],
-          //   );
-          // }
-        ));
+          ),
+        ),
+
+      ],
+      //   );
+      // }
+    );
   }
 }
 
@@ -2882,7 +2941,8 @@ class _newTotalBallButton7State extends State<newTotalBallButton7> {
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 alignment: Alignment.centerRight,
                 child: AutoSizeText(
-                    softWrap: false,
+                    softWrap: true,
+                    maxLines: 1,
                     '${lottoTotalNumber[widget.a!][0]}회',
                     style: TextStyle(
                       fontSize: 20.sp,
@@ -3039,7 +3099,8 @@ class _reTotalBallState extends State<reTotalBall> {
               padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
               child: Row(children: [
                 AutoSizeText('${lottoTotalNumber[widget.a!][0]}회',
-                    softWrap: false,
+                    softWrap: true,
+                    maxLines: 1,
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontFamily: 'Pretendard',

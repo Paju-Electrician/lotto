@@ -83,43 +83,41 @@ class _button7PageState extends State<button7Page> {
   makeInitContainer(i) {
     if (i == context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1) {
       return Row(
+
         children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-              alignment:Alignment.centerRight,
-              child:                 (context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] == null
-                      ? (context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum.isEmpty
-                          ? const CircularProgressIndicator()
-                          : AutoSizeText(
-                              softWrap: false,
-                              '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1}회',
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontFamily: 'Pretendard',
+          Container(
+            // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+            alignment:Alignment.centerRight,
+            child:                 (context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] == null
+                    ? (context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum.isEmpty
+                        ? const CircularProgressIndicator()
+                        : AutoSizeText(
+                maxLines:1,softWrap: true,                            '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1}회',
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              fontFamily: 'Pretendard',
+          
+                              fontWeight: FontWeight.w900,
+                              color: const Color(0xffd43301),
+                            )))
+                    : AutoSizeText(
+                maxLines:1,softWrap: true,
+                '${context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] + 1}회',
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontFamily: 'Pretendard',
+          
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xffd43301),
+                        )))
 
-                                fontWeight: FontWeight.w900,
-                                color: const Color(0xffd43301),
-                              )))
-                      : AutoSizeText(
-                          softWrap: false,
-                          '${context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] + 1}회',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontFamily: 'Pretendard',
+                    ),
 
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xffd43301),
-                          )))
-                ,
-          )),
 
 
           // flex: 1,
 
           Expanded(
-            flex: 5,
             child: Container(
               margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
               padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -144,7 +142,6 @@ class _button7PageState extends State<button7Page> {
                 ],
               ),
             ),
-            // flex: 5,
           ),
         ],
       );
@@ -183,6 +180,7 @@ class _button7PageState extends State<button7Page> {
                     },
                     icon: const Icon(Icons.refresh)),
                 AutoSizeText('로또회귀분석',
+                    maxLines:1,softWrap: true,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontFamily: 'Pretendard',
@@ -195,8 +193,7 @@ class _button7PageState extends State<button7Page> {
           Container(
             padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 5.h),
             child: AutoSizeText('*회귀분석: 과거의 규칙이 일정한 간격으로 반복되는 것. ',
-                softWrap: false,
-                textAlign: TextAlign.center,
+                maxLines:1,softWrap: true,                     textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Pretendard',
@@ -231,6 +228,7 @@ class _button7PageState extends State<button7Page> {
                         },
                       ),
                       AutoSizeText(
+                        maxLines:1,softWrap: true,
                         '기준회차선택',
                         style: TextStyle(fontSize: 20.sp,
                             fontFamily: 'Pretendard',
@@ -265,7 +263,7 @@ class _button7PageState extends State<button7Page> {
                           });
                         },
                       ),
-                      AutoSizeText('회귀보기', style:
+                      AutoSizeText('회귀보기',maxLines:1,softWrap: true,      style:
                       TextStyle(fontWeight: FontWeight.w900,
                           fontFamily: 'Pretendard',
 

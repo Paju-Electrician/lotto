@@ -76,6 +76,7 @@ class _contentPageState extends State<contentPage> {
               child:
 
                   AutoSizeText(
+                    maxLines:1,softWrap: true,
                     '로또당첨후기 익명게시판',
                     style: TextStyle(
                         color: Colors.white,
@@ -100,6 +101,7 @@ class _contentPageState extends State<contentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
+                        maxLines:1,softWrap: true,
                         '${data_id.toString()}번째 당첨게시글! 축하합니다!',
                         style: TextStyle(fontSize: 15.sp),
                       ),

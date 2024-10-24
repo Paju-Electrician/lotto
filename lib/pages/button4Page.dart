@@ -43,21 +43,21 @@ class _button4PageState extends State<button4Page>
   (List<int>.generate(45, (i) => i + 1)..shuffle()).sublist(0, 6);
 
   var alignmentList = [
-    Alignment(15.w, 190.h),
-    Alignment(10.w, 190.h),
-    Alignment(0, 190.h),
-    Alignment(0, 190.h),
-    Alignment(-10.w, 190.h),
-    Alignment(-15.w, 190.h)
-      ];
+    Alignment(15.w, 160.h),
+    Alignment(10.w, 160.h),
+    Alignment(0, 160.h),
+    Alignment(0, 160.h),
+    Alignment(-10.w, 160.h),
+    Alignment(-15.w, 160.h)
+  ];
   var alignment = [
-     Alignment(0, 0),
-     Alignment(0, 0),
-     Alignment(0, 0),
-     Alignment(0, 0),
-     Alignment(0, 0),
-     Alignment(0, 0),
-     Alignment(0, 0)
+    Alignment(0, 0),
+    Alignment(0, 0),
+    Alignment(0, 0),
+    Alignment(0, 0),
+    Alignment(0, 0),
+    Alignment(0, 0),
+    Alignment(0, 0)
   ];
 
   var switchbool1 = false;
@@ -144,12 +144,12 @@ class _button4PageState extends State<button4Page>
       switchbool4 = false;
       switchbool5 = false;
       switchbool6 = false;
-      alignmentList[0] = Alignment(15.w, 190.h);
-      alignmentList[1] = Alignment(10.w, 190.h);
-      alignmentList[2] = Alignment(0, 190.h);
-      alignmentList[3] = Alignment(0, 190.h);
-      alignmentList[4] = Alignment(-10.w, 190.h);
-      alignmentList[5] = Alignment(-15.w, 190.h);
+      alignmentList[0] = Alignment(15.w, 160.h);
+      alignmentList[1] = Alignment(10.w, 160.h);
+      alignmentList[2] = Alignment(0, 160.h);
+      alignmentList[3] = Alignment(0, 160.h);
+      alignmentList[4] = Alignment(-10.w, 160.h);
+      alignmentList[5] = Alignment(-15.w, 160.h);
       button4RandomNumber =
           (List<int>.generate(45, (i) => i + 1)..shuffle()).sublist(0, 6);
     });
@@ -555,7 +555,7 @@ class _button4PageState extends State<button4Page>
                                   //Dialog Main Title
                                   title: Column(
                                     children: <Widget>[
-                                      AutoSizeText(
+                                      Text(
                                         "과거당첨결과 확인",
                                         style: TextStyle(
                                           // color: Colors.blue,
@@ -571,20 +571,18 @@ class _button4PageState extends State<button4Page>
                                       CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Expanded(
-                                          child: Container(
-                                            child: button4resultAllNumBall(
-                                                allMatchList: allMatchList,
-                                                allMatchRank: allMatchRank,
-                                                allMatchNumver: allMatchNumver,
-                                                allMatchAllNumber:
-                                                allMatchAllNumber),
-                                          ),
+                                          child: button4resultAllNumBall(
+                                              allMatchList: allMatchList,
+                                              allMatchRank: allMatchRank,
+                                              allMatchNumver: allMatchNumver,
+                                              allMatchAllNumber:
+                                              allMatchAllNumber),
                                         ),
                                       ]),
 
                                   actions: <Widget>[
                                     TextButton(
-                                      child: AutoSizeText(
+                                      child: Text(
                                         "확인",
                                         style: TextStyle(color:Colors.blue,fontSize: 25.sp),
                                       ),
@@ -606,7 +604,7 @@ class _button4PageState extends State<button4Page>
                         ),
                         padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h)),
 
-                    child: AutoSizeText('과거당첨보기',
+                    child: Text('과거당첨보기',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold, fontSize: 30.sp)),

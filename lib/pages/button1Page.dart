@@ -148,7 +148,8 @@ class _button1PageState extends State<button1Page> {
                                   if (snapshot.hasData) {
                                     return AutoSizeText(
                                       // 'AAAAAAAAAA원',
-                                      softWrap: false,
+                                        maxLines: 1,
+                                      softWrap: true,
                                         snapshot.data![0].lotto1Amount,
 
                                         textAlign: TextAlign.end,
@@ -165,7 +166,8 @@ class _button1PageState extends State<button1Page> {
                                   return context.read<Mainpage_Store>().peoplemoney == null
                                       ? const CircularProgressIndicator()
                                       : (AutoSizeText(
-                                    softWrap: false,
+                                    maxLines: 1,
+                                    softWrap: true,
                                           '${context.read<Mainpage_Store>().peoplemoney[0].lotto1Amount}',
                                           textAlign: TextAlign.end,
                                       style: TextStyle(fontSize: 15.sp)
@@ -176,7 +178,7 @@ class _button1PageState extends State<button1Page> {
                         ),
                        Padding(
                          padding: EdgeInsets.fromLTRB(5.w, 0, 0, 0),
-                         child: SizedBox(child: AutoSizeText('당첨번호 6개 일치',softWrap: false, textAlign: TextAlign.center,
+                         child: SizedBox(child: AutoSizeText('당첨번호 6개 일치', maxLines: 1,softWrap: true, textAlign: TextAlign.center,
                              // style: TextStyle(fontSize: 15.sp)
                          )),
                        ),
@@ -436,7 +438,8 @@ class _button1PageState extends State<button1Page> {
                                   return Container(
                                     padding: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
                                     child: AutoSizeText(
-                                      softWrap: false,
+                                        maxLines: 1,
+                                      softWrap: true,
                                         '${snapshot.data![0].lotto5People}명',
                                         textAlign: TextAlign.end,style: TextStyle(fontSize: 15.sp)),
                                   );

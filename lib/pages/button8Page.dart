@@ -39,12 +39,20 @@ class _button8PageState extends State<button8Page> {
     // print('바뀜');
   }
 
+  bool _isLoading = true;
+  Future<void> _loadWhatMaxNumData() async { // 데이터 로드 함수
+    await whatMaxNum();
+    setState(() {
+      _isLoading = false; // 데이터 로딩 완료
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     button8ListInit();
     getButton8Info();
     super.initState();
+    _loadWhatMaxNumData();
   }
   getBall(b) {
     if (b == 0) {
@@ -306,38 +314,63 @@ whatMaxNum();
             //
             //   ],
             // ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 5.h),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      border:
-                      Border.all(color: const Color(0xffe5e5e5), width: 10.w),
-                      color: const Color(0xfff8f8f8),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              AutoSizeText(
-                                '보너스번호  ',
-                                style: TextStyle(
-                                    fontSize: 25.sp,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w900),
-                              ),
+            Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 5.h),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border:
+                    Border.all(color: const Color(0xffe5e5e5), width: 10.w),
+                    color: const Color(0xfff8f8f8),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AutoSizeText(
+                              maxLines:1,softWrap: true,
+                              '보너스번호  ',
+                              style: TextStyle(
+                                  fontSize: 25.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            DropdownButton(
+                              value: _bonusValue,
+                              items: _bonusValueList.map((value) {
+                                return DropdownMenuItem(
+                                  value: value,
+                                  child: AutoSizeText(
+                                    value.toString(),
+                                    style: TextStyle(
+                                        fontSize: 25.sp,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (newVal) {
+                                setState(() {
+                                  _bonusValue = newVal.toString();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(children: [
                               DropdownButton(
-                                value: _bonusValue,
-                                items: _bonusValueList.map((value) {
+                                value: _firstRound,
+                                items: _firstRoundList.map((value) {
                                   return DropdownMenuItem(
                                     value: value,
                                     child: AutoSizeText(
@@ -350,370 +383,321 @@ whatMaxNum();
                                   );
                                 }).toList(),
                                 onChanged: (newVal) {
-                                  setState(() {
-                                    _bonusValue = newVal.toString();
-                                  });
+                                  if (_secondRound >= newVal) {
+                                    setState(() {
+                                      _firstRound = newVal;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                        SnackBar(
+                                            width: 320.w,
+                                            content: AutoSizeText(
+                                              maxLines:1,softWrap: true,                                                   '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
+                                              style: TextStyle(
+                                                  fontSize: 18.sp,
+                                                  fontWeight: FontWeight
+                                                      .w900),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 10.h, 0, 10.h),
+                                            backgroundColor: Colors.red,
+                                            duration: const Duration(
+                                                milliseconds: 1000),
+                                            behavior: SnackBarBehavior
+                                                .floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(20),
+                                            )));
+                                  }
                                 },
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(children: [
-                                DropdownButton(
-                                  value: _firstRound,
-                                  items: _firstRoundList.map((value) {
-                                    return DropdownMenuItem(
-                                      value: value,
-                                      child: AutoSizeText(
-                                        value.toString(),
-                                        style: TextStyle(
-                                            fontSize: 25.sp,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (newVal) {
-                                    if (_secondRound >= newVal) {
-                                      setState(() {
-                                        _firstRound = newVal;
-                                      });
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                          SnackBar(
-                                              width: 320.w,
-                                              content: AutoSizeText(
-                                                softWrap: false,
-                                                '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
-                                                style: TextStyle(
-                                                    fontSize: 18.sp,
-                                                    fontWeight: FontWeight
-                                                        .w900),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              padding: EdgeInsets.fromLTRB(
-                                                  0, 10.h, 0, 10.h),
-                                              backgroundColor: Colors.red,
-                                              duration: const Duration(
-                                                  milliseconds: 1000),
-                                              behavior: SnackBarBehavior
-                                                  .floating,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(20),
-                                              )));
-                                    }
-                                  },
-                                ),
-                                AutoSizeText('회차',
-                                    style: TextStyle(
-                                        fontSize: 25.sp,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w900))
-                              ]),
-                              AutoSizeText('~',
+                              AutoSizeText('회차',
                                   style: TextStyle(
                                       fontSize: 25.sp,
                                       fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w900)),
-                              Row(children: [
-                                DropdownButton(
-                                  value: _secondRound,
-                                  items: _secondRoundList.map((value) {
-                                    return DropdownMenuItem(
-                                      value: value,
-                                      child: AutoSizeText(
-                                        value.toString(),
-                                        style: TextStyle(
-                                            fontSize: 25.sp,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (newVal) {
-                                    if (int.parse(newVal.toString()) >=
-                                        _firstRound) {
-                                      setState(() {
-                                        _secondRound = newVal;
-                                      });
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                          SnackBar(
-                                              width: 320.w,
-                                              content: AutoSizeText(
-                                                '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
-                                                style: TextStyle(
-                                                  fontSize: 18.sp,
-                                                  fontFamily: 'Pretendard',
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              padding: EdgeInsets.fromLTRB(
-                                                  10.w, 10.h, 10.w, 10.h),
-                                              backgroundColor: Colors.grey,
-                                              duration: const Duration(
-                                                  milliseconds: 1000),
-                                              behavior: SnackBarBehavior
-                                                  .floating,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(20),
-                                              )));
-                                    }
-                                  },
-                                ),
-                                AutoSizeText('회차',
-                                    style: TextStyle(
-                                        fontSize: 25.sp,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w900))
-                              ]),
-                            ],
-                          ),
-                        ],
-                      ),
-                      e.isEmpty
-                          ? Container(
-                          child: const AutoSizeText('그래프를 불러오고 있습니다...'))
-                          : chartTest(e: e),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  e.isEmpty
-                                      ? Container(
-                                    child: const Text('준비중..'),
-                                  )
-                                      : Container(
-                                      padding: EdgeInsets.fromLTRB(
-                                          10.w, 0, 0, 0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-
-                                              AutoSizeText(
-                                                  '최대출현번호 : ',
-                                                  style: const TextStyle(
-                                                    // fontSize: 30.sp,
-                                                      fontFamily: 'Pretendard')),
-                                              SizedBox(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child: FittedBox(
-                                                      fit: BoxFit.fitHeight,
-                                                      child: getBall(int.parse(typE[0])))),
-                                              AutoSizeText(
-                                                  '  , ${MaxMake()
-                                                      .toStringAsFixed(0)
-                                                      .toString()} 회',
-                                                  style: const TextStyle(
-                                                    // fontSize: 30.sp,
-                                                      fontFamily: 'Pretendard'))
-                                            ],
-                                          ),
-
-                                        ],
-                                      )),
-                                  e.isEmpty
-                                      ? Container(
-                                    child: const Text('준비중..'),
-                                  )
-                                      : Container(
-                                      padding: EdgeInsets.fromLTRB(
-                                          10.w, 0, 0, 0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-
-                                              AutoSizeText(
-                                                  '최소출현번호 : ',
-                                                  style: const TextStyle(
-                                                    // fontSize: 30.sp,
-                                                      fontFamily: 'Pretendard')),
-                                              SizedBox(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child: FittedBox(
-                                                      fit: BoxFit.fitHeight,
-                                                      child: getBall(int.parse(typE[44])))),
-                                              AutoSizeText(
-                                                  '  , ${minMake()
-                                                      .toStringAsFixed(0)
-                                                      .toString()} 회',
-                                                  style: const TextStyle(
-                                                    // fontSize: 30.sp,
-                                                      fontFamily: 'Pretendard'))
-                                            ],
-                                          ),
-
-                                        ],
-                                      )),
-                                  //
-                                  // e.isEmpty
-                                  //     ? Container(
-                                  //         child: const Text('준비중..'),
-                                  //       )
-                                  //     : Container(
-                                  //         padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
-                                  //         child: Row(
-                                  //           children: [
-                                  //             const Column(
-                                  //               children: [
-                                  //                 AutoSizeText('중간출현번호 : ',
-                                  //                     style: TextStyle(
-                                  //                       // fontSize: 30.sp,
-                                  //
-                                  //                       fontFamily: 'Pretendard',
-                                  //                     )),
-                                  //                 AutoSizeText('(후나츠사카이)',
-                                  //                     style: TextStyle(
-                                  //                       // fontSize: 30.sp,
-                                  //                       fontFamily: 'Pretendard',
-                                  //                     )),
-                                  //               ],
-                                  //             ),
-                                  //             Expanded(
-                                  //               child: Container(
-                                  //                 decoration: BoxDecoration(
-                                  //                     border: Border.all(
-                                  //                         color: Colors.black)),
-                                  //                 child: AutoSizeText(
-                                  //                     middleNumber()
-                                  //                         .toString()
-                                  //                         .replaceAll('{', '')
-                                  //                         .replaceAll('}', ''),
-                                  //                     style: TextStyle(
-                                  //                         // fontSize: 30.sp,
-                                  //                         fontFamily: 'Pretendard',
-                                  //                         color: Colors.red)),
-                                  //               ),
-                                  //             ),
-                                  //           ],
-                                  //         )),
-                                ],
-                              )),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-
-                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: FittedBox(
-                                              fit: BoxFit.fitHeight,
-                                              child: getBall(selectNum))),
-                                      const AutoSizeText(' 의 출현횟수 : ',
-                                          style: TextStyle(
-                                            // fontSize: 30.sp,
-                                              fontFamily: 'Pretendard')),
-                                      a == null || makeAbool == true
-                                          ? const SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: FittedBox(
-                                              fit: BoxFit.fitHeight,
-                                              child:
-                                              // width: 40.w, height: 40.h,
-                                              CircularProgressIndicator()))
-                                          : FutureBuilder<dynamic>(
-                                          future: makeA(),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.data != null) {
-                                              return Row(
-                                                children: [
-                                                  AutoSizeText(
-                                                      snapshot.data
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                        // fontSize: 40.sp,
-                                                          fontFamily:
-                                                          'Pretendard',
-                                                          color:
-                                                          Colors.blue)),
-                                                  const AutoSizeText(' 회',
-                                                      style: TextStyle(
-                                                        // fontSize: 40.sp,
-                                                          fontFamily:
-                                                          'Pretendard')),
-                                                ],
-                                              );
-                                            } else {
-                                              return const SizedBox(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child: FittedBox(
-                                                      fit: BoxFit.fitHeight,
-                                                      child:
-                                                      CircularProgressIndicator()));
-                                            }
-                                          })
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: FittedBox(
-                                              fit: BoxFit.fitHeight,
-                                              child: getBall(selectNum))),
-                                      const AutoSizeText(' 의 미출현횟수 : ',
-                                          style: TextStyle(
-                                            // fontSize: 30.sp,
-                                              fontFamily: 'Pretendard')),
-                                      a == null
-                                          ? const SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: FittedBox(
-                                              fit: BoxFit.fitHeight,
-                                              child:
-                                              // width: 40.w, height: 40.h,
-                                              CircularProgressIndicator()))
-                                          : Row(
-                                        children: [
-                                          AutoSizeText(
-                                              '${_secondRound - _firstRound != 0
-                                                  ? (_secondRound -
-                                                  _firstRound - a + 1)
-                                                  .toString()
-                                                  : 1 - a}',
-                                              style: const TextStyle(
-                                                // fontSize: 40.sp,
-                                                  fontFamily:
-                                                  'Pretendard')),
-                                          const AutoSizeText(' 회',
+                                      fontWeight: FontWeight.w900))
+                            ]),
+                            AutoSizeText('~',
+                                style: TextStyle(
+                                    fontSize: 25.sp,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w900)),
+                            Row(children: [
+                              DropdownButton(
+                                value: _secondRound,
+                                items: _secondRoundList.map((value) {
+                                  return DropdownMenuItem(
+                                    value: value,
+                                    child: AutoSizeText(
+                                      value.toString(),
+                                      style: TextStyle(
+                                          fontSize: 25.sp,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (newVal) {
+                                  if (int.parse(newVal.toString()) >=
+                                      _firstRound) {
+                                    setState(() {
+                                      _secondRound = newVal;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                        SnackBar(
+                                            width: 320.w,
+                                            content: AutoSizeText(
+                                              maxLines:1,softWrap: true,
+                                              '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
                                               style: TextStyle(
-                                                // fontSize: 40.sp,
-                                                  fontFamily:
-                                                  'Pretendard')),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Row(children: [
+                                                fontSize: 18.sp,
+                                                fontFamily: 'Pretendard',
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            padding: EdgeInsets.fromLTRB(
+                                                10.w, 10.h, 10.w, 10.h),
+                                            backgroundColor: Colors.grey,
+                                            duration: const Duration(
+                                                milliseconds: 1000),
+                                            behavior: SnackBarBehavior
+                                                .floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(20),
+                                            )));
+                                  }
+                                },
+                              ),
+                              AutoSizeText('회차',
+                                  style: TextStyle(
+                                      fontSize: 25.sp,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w900))
+                            ]),
+                          ],
+                        ),
+                      ],
+                    ),
+                    e.isEmpty
+                        ? Container(
+                        child: const AutoSizeText( '그래프를 불러오고 있습니다...'))
+                        : chartTest(e: e),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                e.isEmpty
+                                    ? Container(
+                                  child: const Text('준비중..'),
+                                )
+                                    : Container(
+                                    padding: EdgeInsets.fromLTRB(
+                                        10.w, 0, 0, 0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+
+                                            AutoSizeText(
+                                                '최대출현번호 : ',
+                                                style: const TextStyle(
+                                                  // fontSize: 30.sp,
+                                                    fontFamily: 'Pretendard')),
+                                            _isLoading // 데이터 로딩 상태에 따라 위젯 표시
+                                                ? const SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: FittedBox(
+                                                    fit: BoxFit.fitHeight,
+                                                    child:
+                                                    // width: 40.w, height: 40.h,
+                                                    CircularProgressIndicator()))
+                                                : SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: FittedBox(
+                                                    fit: BoxFit.fitHeight,
+                                                    child: getBall(int.parse(typE[0])))),
+                                            AutoSizeText(
+                                                '  , ${MaxMake()
+                                                    .toStringAsFixed(0)
+                                                    .toString()} 회',
+                                                style: const TextStyle(
+                                                  // fontSize: 30.sp,
+                                                    fontFamily: 'Pretendard'))
+                                          ],
+                                        ),
+
+                                      ],
+                                    )),
+                                e.isEmpty
+                                    ? Container(
+                                  child: const Text('준비중..'),
+                                )
+                                    : Container(
+                                    padding: EdgeInsets.fromLTRB(
+                                        10.w, 0, 0, 0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+
+                                            AutoSizeText(
+                                                '최소출현번호 : ',
+                                                style: const TextStyle(
+                                                  // fontSize: 30.sp,
+                                                    fontFamily: 'Pretendard')),
+                                            _isLoading // 데이터 로딩 상태에 따라 위젯 표시
+                                                ? const SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: FittedBox(
+                                                    fit: BoxFit.fitHeight,
+                                                    child:
+                                                    // width: 40.w, height: 40.h,
+                                                    CircularProgressIndicator()))
+                                                : SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: FittedBox(
+                                                    fit: BoxFit.fitHeight,
+                                                    child: getBall(int.parse(typE[44])))),
+                                            AutoSizeText(
+                                                '  , ${minMake()
+                                                    .toStringAsFixed(0)
+                                                    .toString()} 회',
+                                                style: const TextStyle(
+                                                  // fontSize: 30.sp,
+                                                    fontFamily: 'Pretendard'))
+                                          ],
+                                        ),
+
+                                      ],
+                                    )),
+                                //
+                                // e.isEmpty
+                                //     ? Container(
+                                //         child: const Text('준비중..'),
+                                //       )
+                                //     : Container(
+                                //         padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
+                                //         child: Row(
+                                //           children: [
+                                //             const Column(
+                                //               children: [
+                                //                 AutoSizeText('중간출현번호 : ',
+                                //                     style: TextStyle(
+                                //                       // fontSize: 30.sp,
+                                //
+                                //                       fontFamily: 'Pretendard',
+                                //                     )),
+                                //                 AutoSizeText('(후나츠사카이)',
+                                //                     style: TextStyle(
+                                //                       // fontSize: 30.sp,
+                                //                       fontFamily: 'Pretendard',
+                                //                     )),
+                                //               ],
+                                //             ),
+                                //             Expanded(
+                                //               child: Container(
+                                //                 decoration: BoxDecoration(
+                                //                     border: Border.all(
+                                //                         color: Colors.black)),
+                                //                 child: AutoSizeText(
+                                //                     middleNumber()
+                                //                         .toString()
+                                //                         .replaceAll('{', '')
+                                //                         .replaceAll('}', ''),
+                                //                     style: TextStyle(
+                                //                         // fontSize: 30.sp,
+                                //                         fontFamily: 'Pretendard',
+                                //                         color: Colors.red)),
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         )),
+                              ],
+                            )),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+
+                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  children: [
                                     SizedBox(
                                         height: 20,
                                         width: 20,
                                         child: FittedBox(
                                             fit: BoxFit.fitHeight,
                                             child: getBall(selectNum))),
-                                    const AutoSizeText(' 의 출현확률 :',
+                                    const AutoSizeText(' 의 출현횟수 : ',
+                                        style: TextStyle(
+                                          // fontSize: 30.sp,
+                                            fontFamily: 'Pretendard')),
+                                    a == null || makeAbool == true
+                                        ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: FittedBox(
+                                            fit: BoxFit.fitHeight,
+                                            child:
+                                            // width: 40.w, height: 40.h,
+                                            CircularProgressIndicator()))
+                                        : FutureBuilder<dynamic>(
+                                        future: makeA(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.data != null) {
+                                            return Row(
+                                              children: [
+                                                AutoSizeText(
+                                                    snapshot.data
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      // fontSize: 40.sp,
+                                                        fontFamily:
+                                                        'Pretendard',
+                                                        color:
+                                                        Colors.blue)),
+                                                const AutoSizeText(' 회',
+                                                    style: TextStyle(
+                                                      // fontSize: 40.sp,
+                                                        fontFamily:
+                                                        'Pretendard')),
+                                              ],
+                                            );
+                                          } else {
+                                            return const SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: FittedBox(
+                                                    fit: BoxFit.fitHeight,
+                                                    child:
+                                                    CircularProgressIndicator()));
+                                          }
+                                        })
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: FittedBox(
+                                            fit: BoxFit.fitHeight,
+                                            child: getBall(selectNum))),
+                                    const AutoSizeText(' 의 미출현횟수 : ',
                                         style: TextStyle(
                                           // fontSize: 30.sp,
                                             fontFamily: 'Pretendard')),
@@ -726,26 +710,66 @@ whatMaxNum();
                                             child:
                                             // width: 40.w, height: 40.h,
                                             CircularProgressIndicator()))
-                                        : AutoSizeText(
-                                        '${(a /
-                                            (_secondRound - _firstRound + 1) *
-                                            100).toStringAsFixed(2)}%',
-                                        style: const TextStyle(
-                                          // fontSize: 40.sp,
-                                            fontFamily: 'Pretendard')),
-                                  ]),
-                                ],
-                              ),
+                                        : Row(
+                                      children: [
+                                        AutoSizeText(
+                                            '${_secondRound - _firstRound != 0
+                                                ? (_secondRound -
+                                                _firstRound - a + 1)
+                                                .toString()
+                                                : 1 - a}',
+                                            style: const TextStyle(
+                                              // fontSize: 40.sp,
+                                                fontFamily:
+                                                'Pretendard')),
+                                        const AutoSizeText(' 회',
+                                            style: TextStyle(
+                                              // fontSize: 40.sp,
+                                                fontFamily:
+                                                'Pretendard')),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Row(children: [
+                                  SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: FittedBox(
+                                          fit: BoxFit.fitHeight,
+                                          child: getBall(selectNum))),
+                                  const AutoSizeText(' 의 출현확률 :',
+                                      style: TextStyle(
+                                        // fontSize: 30.sp,
+                                          fontFamily: 'Pretendard')),
+                                  a == null
+                                      ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: FittedBox(
+                                          fit: BoxFit.fitHeight,
+                                          child:
+                                          // width: 40.w, height: 40.h,
+                                          CircularProgressIndicator()))
+                                      : AutoSizeText(
+                                      '${(a /
+                                          (_secondRound - _firstRound + 1) *
+                                          100).toStringAsFixed(2)}%',
+                                      style: const TextStyle(
+                                        // fontSize: 40.sp,
+                                          fontFamily: 'Pretendard')),
+                                ]),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  )),
-            ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )),
 
             Expanded(
-              flex: 2,
+
               child: buttonBox(makeSelectNum: makeSelectNum),
             )
           ])
@@ -1099,11 +1123,15 @@ whatMaxNum();
   // width: double.infinity,
   state: ChartState(
   ChartData(
-  [
-  List<ChartItem>.generate(
-  45, (i) => ChartItem(i, 0, int.parse(widget.e[i]).toDouble()))
-  // List<ChartItem>.generate(45, (i) => ChartItem(i as double?, value: 0, min: int.parse(widget.e[i]).toDouble()))
-  ],
+      [
+        widget.e.isNotEmpty // widget.e 리스트가 비어 있지 않은지 확인
+            ? List<ChartItem>.generate(
+            widget.e.length, // widget.e 리스트의 길이만큼 ChartItem 객체 생성
+                (i) => ChartItem(i, 0, widget.e.isNotEmpty && widget.e.length > i // widget.e 리스트가 비어 있지 않고 i가 widget.e 리스트의 범위를 벗어나지 않는지 확인
+                ? int.parse(widget.e[i]).toDouble() // 기존 로직 유지
+                : 0.0)) // widget.e 리스트가 비어 있거나 i가 widget.e 리스트의 범위를 벗어나는 경우 0.0으로 채움
+            : List<ChartItem>.generate(45, (i) => ChartItem(i, 0, 0.0)), // widget.e 리스트가 비어 있는 경우 0.0으로 채움
+      ],
   // [
   //   [int.parse(widget.e[0]), int.parse(widget.e[1]), int.parse(widget.e[2]), int.parse(widget.e[3]), int.parse(widget.e[4]), int.parse(widget.e[5]), int.parse(widget.e[6]), int.parse(widget.e[7]), int.parse(widget.e[8]),int.parse(widget.e[9]),int.parse(widget.e[10]),int.parse(widget.e[11]),int.parse(widget.e[12]),int.parse(widget.e[13]),int.parse(widget.e[14]),int.parse(widget.e[15]),int.parse(widget.e[16]),int.parse(widget.e[17]),int.parse(widget.e[18]),int.parse(widget.e[19]),int.parse(widget.e[20]),int.parse(widget.e[21]),int.parse(widget.e[22]),int.parse(widget.e[23]),int.parse(widget.e[24]),int.parse(widget.e[25]),int.parse(widget.e[26]),int.parse(widget.e[27]),int.parse(widget.e[28]),int.parse(widget.e[29]),int.parse(widget.e[30]),int.parse(widget.e[31]),int.parse(widget.e[32]),int.parse(widget.e[33]),int.parse(widget.e[34]),int.parse(widget.e[35]),int.parse(widget.e[36]),int.parse(widget.e[37]),int.parse(widget.e[38]),int.parse(widget.e[39]),int.parse(widget.e[40]),int.parse(widget.e[41]),int.parse(widget.e[42]),int.parse(widget.e[43]),int.parse(widget.e[44])].map((e) => BarValue<void>(e.toDouble())).toList(),
   //
@@ -1118,7 +1146,7 @@ whatMaxNum();
   behaviour: const ChartBehaviour(
   // 1) Make sure the chart can scroll
   isScrollable: true,
-  // scrollSettings: ScrollSettings.none()
+  // scrollSettings: ScrollSettings.noneㅊ
   ),
   itemOptions: BarItemOptions(
   // color: Colors.black,

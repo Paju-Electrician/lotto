@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lotto/pages/DirectInput.dart';
@@ -1925,9 +1926,10 @@ class _button10ButtonListState extends State<button10ButtonList> {
                                   const BorderRadius.all(Radius.circular(8)),
                             ),
                             backgroundColor: widget.removeButtonColor),
-                        child: Text(
+                        child: AutoSizeText(
                           '제외수켜기/끄기',
-                          softWrap: false,
+                          maxLines: 1,
+                          softWrap: true,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17.sp,
@@ -1956,8 +1958,9 @@ class _button10ButtonListState extends State<button10ButtonList> {
                                       Radius.circular(8)),
                                 ),
                                 backgroundColor: widget.removeSaveButtonColor),
-                            child: Text('제외수고정',
-                                softWrap: false,
+                            child: AutoSizeText('제외수고정',
+                                maxLines: 1,
+                                softWrap: true,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 17.sp,
@@ -1976,8 +1979,9 @@ class _button10ButtonListState extends State<button10ButtonList> {
                                 widget.saveButton10l();
                                 showNotification3(context);
                               },
-                              child: Text('번호저장',
-                                  softWrap: false,
+                              child: AutoSizeText('번호저장',
+                                  maxLines: 1,
+                                  softWrap: true,
                                   overflow: TextOverflow.visible,
                                   style: TextStyle(
                                       color: Colors.white,
@@ -2058,9 +2062,10 @@ class _button10ButtonListState extends State<button10ButtonList> {
                       onPressed: () {
                         widget.lottoMan();
                       },
-                      child: Text(
+                      child: AutoSizeText(
                         '로또당첨자공식랜덤',
-                        softWrap: false,
+                        maxLines: 1,
+                        softWrap: true,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 17.sp,
@@ -2091,9 +2096,10 @@ class _button10ButtonListState extends State<button10ButtonList> {
                         onPressed: () {
                           widget.allMake5WeekRandom();
                         },
-                        child: Text(
+                        child: AutoSizeText(
                           '최근5주번호랜덤',
-                          softWrap: false,
+                          maxLines: 1,
+                          softWrap: true,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17.sp,
@@ -2119,9 +2125,10 @@ class _button10ButtonListState extends State<button10ButtonList> {
                       onPressed: () {
                         widget.allMake10WeekRandom();
                       },
-                      child: Text(
+                      child: AutoSizeText(
                         '최근10주번호랜덤',
-                        softWrap: false,
+                        maxLines: 1,
+                        softWrap: true,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 17.sp,
@@ -2179,10 +2186,11 @@ class _button10ButtonListState extends State<button10ButtonList> {
                             onPressed: () {
                               widget.sortNumber();
                             },
-                            child: Text(
+                            child: AutoSizeText(
                               '숫자정렬',
                               overflow: TextOverflow.visible,
-                              softWrap: false,
+                              maxLines: 1,
+                              softWrap: true,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 17.sp,

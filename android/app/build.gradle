@@ -101,4 +101,10 @@ dependencies {
 //    implementation 'com.google.android.gms:play-services-ads:20.6.0'
     implementation 'com.google.android.gms:play-services-ads:23.4.0'
    // 출처: https://zzaps.tistory.com/362 [궁극의 잡 블로그:티스토리]
+//    implementation 'com.naver.maps:map-sdk:3.19.1'
+
+
 }
+
+
+

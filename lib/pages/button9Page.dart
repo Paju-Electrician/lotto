@@ -1,4 +1,5 @@
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lotto/pages/notification.dart';
@@ -864,10 +865,10 @@ class _newRandomNumBallState extends State<newRandomNumBall> {
             Container(
               child: Column(
                 children: [
-                  Text('로또당첨자에서 강력추천하는 번호',style: TextStyle(fontWeight: FontWeight.w100,fontSize: 25.sp,fontFamily: 'Pretendard'),),
-                  Text('로또당첨자에서 만든 공식으로 추출하오니,',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.sp),),
-                  Text('약간의 시간이 걸리는점 양해부탁드립니다.',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.sp),),
-                  Text('당첨이 되시면 후기게시판 작성 부탁드립니다!!',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.sp),)
+                  AutoSizeText(maxLines:1,softWrap: true,'로또당첨자에서 강력추천하는 번호',style: TextStyle(fontWeight: FontWeight.w100,fontSize: 25.sp,fontFamily: 'Pretendard'),),
+                  AutoSizeText(maxLines:1,softWrap: true,'로또당첨자에서 만든 공식으로 추출하오니,',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.sp),),
+                  AutoSizeText(maxLines:1,softWrap: true,'약간의 시간이 걸리는점 양해부탁드립니다.',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.sp),),
+                  AutoSizeText(maxLines:1,softWrap: true,'당첨이 되시면 후기게시판 작성 부탁드립니다!!',style: TextStyle(fontWeight: FontWeight.w900,fontSize: 16.sp),)
                 ],
               ),
             ),
@@ -901,17 +902,19 @@ class _newRandomNumBallState extends State<newRandomNumBall> {
                   (context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] == null
                       ? (context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum.isEmpty
                           ? const CircularProgressIndicator()
-                          : Text(
+                          : AutoSizeText(
                               '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1}회 예상번호',
                               style: TextStyle(
                                 fontSize: 30.sp,
                                 fontWeight: FontWeight.w900,
+                                fontFamily: 'Pretendard',
                                 color: const Color(0xffd43301),
                               )))
-                      : Text(
+                      : AutoSizeText(
                           '${context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] + 1}회 예상번호',
                           style: TextStyle(
                             fontSize: 30.sp,
+                            fontFamily: 'Pretendard',
                             fontWeight: FontWeight.w900,
                             color: const Color(0xffd43301),
                           )))
@@ -958,10 +961,11 @@ class _newRandomNumBallState extends State<newRandomNumBall> {
                         ),
                         minimumSize: Size(20.0.w, 35.0.h),
                         padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 3.h)),
-                    child: Text('당첨번호구매하기',
+                    child: AutoSizeText('당첨번호구매하기',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 25.sp,
+                          fontFamily: 'Pretendard',
                           fontWeight: FontWeight.bold,
                         )),
                   ),
@@ -1024,7 +1028,7 @@ class _newRandomNumBallState extends State<newRandomNumBall> {
                         ),
                         minimumSize: Size(20.0.w, 35.0.h),
                         padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 3.h)),
-                    child: Text('번호저장',
+                    child: AutoSizeText('번호저장',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Pretendard',
