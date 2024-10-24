@@ -17,6 +17,7 @@ import 'package:lotto/pages/button8Page.dart';
 import 'package:lotto/pages/button9Page.dart';
 import 'package:lotto/pages/lottoNumber.dart';
 import 'package:lotto/pages/notification.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:lotto/provider/allpages_Provider.dart';
 import 'package:lotto/provider/naverSearch_Provider.dart';
@@ -2421,11 +2422,12 @@ class _button14State extends State<button14> {
       child: Container(
         child: ElevatedButton(
           onPressed: () {
-            // Navigator.of(context)..pop()..pop();
-            // button12MakeFullLottoTotalNumberStart();
-            // Navigator.push(context, MaterialPageRoute(builder: (c) {
-            //   return button12Page();
-            // }));
+
+              final shareCourtUrl = 'https://play.google.com/store/apps/details?id=com.khs.lotto&pcampaignid=web_share';
+              Share.share(
+                shareCourtUrl,
+              );
+
           },
           style: ButtonStyle(
             animationDuration: const Duration(microseconds: 100),
@@ -2481,7 +2483,7 @@ class _button14State extends State<button14> {
                   child: AutoSizeText(
                     softWrap: true,
                     maxLines: 1,
-                    '로또커뮤니티',
+                    '어플공유하기',
                     style: TextStyle(
                       fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w600,
@@ -2496,7 +2498,7 @@ class _button14State extends State<button14> {
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
                           fit: BoxFit.contain,
-                          child: Lottie.asset('assets/lottie/kakaotalk.json',
+                          child: Lottie.asset('assets/lottie/share.json',
                               fit: BoxFit.fill
                           )
 

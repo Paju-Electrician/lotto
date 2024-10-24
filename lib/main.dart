@@ -88,10 +88,10 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   // getData() async {
   //   // print('3');
   //   var result = await http.get(Uri.parse(
@@ -112,22 +112,23 @@ class _MyAppState extends State<MyApp> {
 
   // final String androidTestUnitId = 'ca-app-pub-3525010127354180/7867321461'; // 실제 광고 아이디
 
-  BannerAd? banner;
+   BannerAd? banner;
 
   returnAd() {
     return banner == null
         ? Container()
-        // : SizedBox(
-        //     // height: 49.h,
-        //     height: 49.h,
-        //     child: AdWidget(ad: banner!),
-        //   );
+    // : SizedBox(
+    //     // height: 49.h,
+    //     height: 49.h,
+    //     child: AdWidget(ad: banner!),
+    //   );
 
         : Container(
-            height: 50.h,
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-            child: AdWidget(ad: banner!));
+        height: 50.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        child: AdWidget(ad: banner!));
   }
+
 
   @override
   void initState() {
@@ -824,6 +825,7 @@ class _lottoGridViewState extends State<lottoGridView> {
     const button11(),
     const button12(),
     const button13(),
+    const button14(),
     // const button14()
   ];
 
@@ -850,7 +852,7 @@ class _lottoGridViewState extends State<lottoGridView> {
               // decoration: BoxDecoration(border : Border.all(color: Colors.black)),
               child: button[i]);
         },
-        itemCount: 13,
+        itemCount: 14,
       ),
     );
   }

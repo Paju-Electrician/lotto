@@ -2,9 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lotto/pages/content.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
 import 'package:lotto/provider/win_gallery_Provider.dart';
+import 'ad_number.dart';
 import 'write.dart';
 
 import 'package:provider/provider.dart';
@@ -19,6 +21,59 @@ class button2Page extends StatefulWidget {
 
 class _button2PageState extends State<button2Page>  {
 
+
+  BannerAd? banner;
+
+  returnAd() {
+    return banner == null
+        ? Container()
+    // : SizedBox(
+    //     // height: 49.h,
+    //     height: 49.h,
+    //     child: AdWidget(ad: banner!),
+    //   );
+
+        : Container(
+        height: 50.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        child: AdWidget(ad: banner!));
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    print('dispose실행됨');
+
+    banner!.dispose();
+
+    super.dispose();
+  }
   // final List<String> ImagesList = [
   //   //배너 사진들
   //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI2c7QfmDSyMdzugD_z5nzHCORhvnVqiT14w&usqp=CAU",
@@ -197,6 +252,7 @@ class _button2PageState extends State<button2Page>  {
           ],
         ),
       ),
+      bottomNavigationBar: returnAd(),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.blueAccent,
         onPressed: _incrementCounter,

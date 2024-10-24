@@ -2,6 +2,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lotto/pages/notification.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
 import 'package:lotto/provider/allpages_Provider.dart';
@@ -14,6 +15,8 @@ import 'dart:math';
 
 import 'package:lotto/pages/lottoNumber.dart';
 
+import 'ad_number.dart';
+
 class button9Page extends StatefulWidget {
   const button9Page({Key? key}) : super(key: key);
 
@@ -22,6 +25,62 @@ class button9Page extends StatefulWidget {
 }
 
 class _button9PageState extends State<button9Page> {
+
+
+  BannerAd? banner;
+
+  returnAd() {
+    return banner == null
+        ? Container()
+    // : SizedBox(
+    //     // height: 49.h,
+    //     height: 49.h,
+    //     child: AdWidget(ad: banner!),
+    //   );
+
+        : Container(
+        height: 50.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        child: AdWidget(ad: banner!));
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    print('dispose실행됨');
+
+    banner!.dispose();
+
+    super.dispose();
+  }
+
+
   var number5 = [0, 0, 0, 0, 0, 0];
   var number1 = [0, 0, 0, 0, 0, 0];
   var number2 = [0, 0, 0, 0, 0, 0];
@@ -759,30 +818,7 @@ class _button9PageState extends State<button9Page> {
     //   });
     // }
   }
-@override
-  void dispose() {
-    // TODO: implement dispose
-  // predictNumber1.clear();
-  // realPredictNumber1=[0, 0, 0, 0, 0, 0];
-  // predictNumber2.clear();
-  // realPredictNumber2=[0, 0, 0, 0, 0, 0];
-  // predictNumber3.clear();
-  // realPredictNumber4=[0, 0, 0, 0, 0, 0];
-  // predictNumber5.clear();
-  // realPredictNumber5=[0, 0, 0, 0, 0, 0];
-  //
-  //   aa = 0;
-  //   a =0;
-  //   b = 0;
-  //   c = 0;
-  //   d = 0;
-  //   e = 0;
-  //   f = 0;
-  //   g = 0;
 
-
-    super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -796,7 +832,7 @@ class _button9PageState extends State<button9Page> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 50.h),
+        padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0.h),
         child: Column(children: [
          newRandomNumBall(number1:number1,number2:number2,number3: number3,number4: number4,number5: number5, onPressBuy: onPressBuy),
           Expanded(
@@ -808,6 +844,7 @@ class _button9PageState extends State<button9Page> {
                   number5: number5),),
         ]),
       ),
+      bottomNavigationBar: returnAd(),
     );
   }
 }

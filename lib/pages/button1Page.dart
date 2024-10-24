@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lotto/pages/lottoNumber.dart';
 import 'package:lotto/provider/allpages_Provider.dart';
 import 'package:lotto/widget/mainWidgets.dart';
@@ -9,6 +10,8 @@ import 'package:cp949/cp949.dart' as cp949;
 import 'package:http/http.dart' as http;
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import 'ad_number.dart';
 
 
 
@@ -49,6 +52,24 @@ class button1Page extends StatefulWidget {
 
 class _button1PageState extends State<button1Page> {
 
+
+
+  BannerAd? banner;
+
+  returnAd() {
+    return banner == null
+        ? Container()
+    // : SizedBox(
+    //     // height: 49.h,
+    //     height: 49.h,
+    //     child: AdWidget(ad: banner!),
+    //   );
+
+        : Container(
+        height: 50.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        child: AdWidget(ad: banner!));
+  }
   int postNum = 1007;
   // final firestore = FirebaseFirestore.instance;
   late Future<List<LottoWeb>> lottoWeb;
@@ -67,6 +88,32 @@ class _button1PageState extends State<button1Page> {
   void initState() {
     super.initState();
     lottoWeb = context.read<Mainpage_Store>().fetchPost(context.read<Mainpage_Store>().lottoRound);
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+  @override
+  void dispose() {
+    banner?.dispose();
+    super.dispose();
   }
   void _scrollToIndex(index) {
     controller.animateTo(
@@ -620,6 +667,7 @@ class _button1PageState extends State<button1Page> {
           ]))
         ],
       ),
+      bottomNavigationBar: returnAd(),
     );
   }
 }

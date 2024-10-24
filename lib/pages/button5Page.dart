@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:lotto/pages/notification.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
@@ -12,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
+import 'ad_number.dart';
+
 class button5Page extends StatefulWidget {
   const button5Page({Key? key}) : super(key: key);
 
@@ -21,6 +24,23 @@ class button5Page extends StatefulWidget {
 
 class _button5PageState extends State<button5Page> {
 
+
+  BannerAd? banner;
+
+  returnAd() {
+    return banner == null
+        ? Container()
+    // : SizedBox(
+    //     // height: 49.h,
+    //     height: 49.h,
+    //     child: AdWidget(ad: banner!),
+    //   );
+
+        : Container(
+        height: 50.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        child: AdWidget(ad: banner!));
+  }
   var number5 = [0, 0, 0, 0, 0, 0];
   var number1 = [0, 0, 0, 0, 0, 0];
   var number2 = [0, 0, 0, 0, 0, 0];
@@ -52,8 +72,39 @@ class _button5PageState extends State<button5Page> {
       });
     }
   }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+@override
+  void dispose() {
+    // TODO: implement dispose
+  banner!.dispose();
+    super.dispose();
 
-
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,6 +139,7 @@ class _button5PageState extends State<button5Page> {
             ]
         ),
       ),
+      bottomNavigationBar: returnAd(),
     );
   }
 }
@@ -376,7 +428,7 @@ class _randomNumBallListState extends State<randomNumBallList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 5.h, 0, 60.h),
+      margin: EdgeInsets.fromLTRB(0, 5.h, 0, 0.h),
       width: double.infinity,
       // height: 505.h,
       decoration: BoxDecoration(

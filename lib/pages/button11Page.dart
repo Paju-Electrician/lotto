@@ -4,10 +4,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lotto/pages/lottoNumber.dart';
 import 'package:lotto/provider/naverSearch_Provider.dart';
 import 'package:lotto/widget/mainWidgets.dart';
 import 'package:provider/provider.dart';
+
+import 'ad_number.dart';
 
 class button11Page extends StatefulWidget {
   const button11Page({Key? key}) : super(key: key);
@@ -20,6 +23,60 @@ class _button11PageState extends State<button11Page> {
 
 
 
+  BannerAd? banner;
+
+  returnAd() {
+    return banner == null
+        ? Container()
+    // : SizedBox(
+    //     // height: 49.h,
+    //     height: 49.h,
+    //     child: AdWidget(ad: banner!),
+    //   );
+
+        : Container(
+        height: 50.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        child: AdWidget(ad: banner!));
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    button11ListInit();
+    dongbanMake();
+    super.initState();
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    print('dispose실행됨');
+
+    banner!.dispose();
+
+    super.dispose();
+  }
   List _button11firstRoundList =[];
   var _button11firstRound ;
 
@@ -150,14 +207,7 @@ class _button11PageState extends State<button11Page> {
 
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    button11ListInit();
-    dongbanMake();
-    super.initState();
 
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -323,6 +373,7 @@ class _button11PageState extends State<button11Page> {
 
         ],
       ),
+      bottomNavigationBar: returnAd(),
     );
   }
 }

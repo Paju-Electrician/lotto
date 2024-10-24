@@ -3,6 +3,7 @@ import 'package:animated_button/animated_button.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:lotto/provider/allpages_Provider.dart';
 import 'package:lotto/widget/base_map.dart';
@@ -10,6 +11,8 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+
+import 'ad_number.dart';
 
 class button3Page extends StatefulWidget {
   const button3Page({Key? key}) : super(key: key);
@@ -20,6 +23,59 @@ class button3Page extends StatefulWidget {
 
 class _button3PageState extends State<button3Page> {
 
+
+  BannerAd? banner;
+
+  returnAd() {
+    return banner == null
+        ? Container()
+    // : SizedBox(
+    //     // height: 49.h,
+    //     height: 49.h,
+    //     child: AdWidget(ad: banner!),
+    //   );
+
+        : Container(
+        height: 50.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        child: AdWidget(ad: banner!));
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    print('dispose실행됨');
+
+    banner!.dispose();
+
+    super.dispose();
+  }
   getToday() {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
@@ -327,6 +383,8 @@ class _button3PageState extends State<button3Page> {
               ),
             )
           ],
-        ));
+        ),
+    bottomNavigationBar: returnAd(),
+    );
   }
 }
