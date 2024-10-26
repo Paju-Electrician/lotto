@@ -545,13 +545,15 @@ class _button1PageState extends State<button1Page> {
                 ],
               )),
           Expanded(
-              // child: ListView.builder(itemCount:context.watch<Mainpage_Store>().lottoData['drwNo'], itemBuilder: (c,i){
-              child: Stack(children: [
+
+
+
+                child: Stack(children: [
             Container(
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 // color: Colors.transparent,
                 width: double.infinity,
-                height: 95.sp,
+                height: 90.h,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 4.w),
                     borderRadius: const BorderRadius.only(
@@ -565,7 +567,7 @@ class _button1PageState extends State<button1Page> {
                     if (snapshot.hasData) {
                       return Container(
                         // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                          padding: EdgeInsets.fromLTRB(0, 4.sp, 20.w, 0),
+                          padding: EdgeInsets.fromLTRB(0, 4.h, 20.w, 0),
                           child: AutoSizeText(
                               snapshot.data![0].lottoWay.replaceAll('\n', '').replaceAll(' ', '').replaceAll('\t', '').replaceAll('1등', '1등  ').replaceAll('수동', '  수동').replaceAll('반자동', '  반자동').replaceAll('동', '동 ').trim(),
                               textAlign: TextAlign.end
@@ -582,7 +584,7 @@ class _button1PageState extends State<button1Page> {
 
                     // 기본적으로 로딩 Spinner를 보여줍니다.
                     return Container(
-                        padding: EdgeInsets.fromLTRB(0, 4.sp, 20.w, 0),
+                        padding: EdgeInsets.fromLTRB(0, 4.h, 20.w, 0),
                         child: context.read<Mainpage_Store>().peoplemoney == null
                             ? const CircularProgressIndicator()
                             : (AutoSizeText(
@@ -630,6 +632,8 @@ class _button1PageState extends State<button1Page> {
                         child: reTotalBall(a: i));
                     //   return Text('a');
                   }),
+                              ),
+          ])
 
 
 
@@ -639,32 +643,8 @@ class _button1PageState extends State<button1Page> {
 
 
 
-              // ScrollablePositionedList.builder(
-              //     // itemCount: context.read<Mainpage_Store>().totalLottoData.length,
-              //     itemCount: lottoTotalNumber.length,
-              //     itemScrollController: _scrollController,
-              //     itemBuilder: (c, i) {
-              //       return GestureDetector(
-              //           onTap: () {
-              //             // setState(() {
-              //               _scrollController.scrollTo(
-              //                   index: i, duration: Duration(milliseconds: 500));
-              //               changeLottoWeb(i);
-              //             // });
-              //
-              //             print('클림됨${i}');
-              //           },
-              //           // child: totalBall(a: i));
-              //       child: reTotalBall(a: i));
-              //       //   return Text('a');
-              //     }),
-              //
 
-
-
-
-            ),
-          ]))
+          )
         ],
       ),
       bottomNavigationBar: returnAd(),

@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:lotto/pages/button10Page.dart';
 import 'package:lotto/pages/button11Page.dart';
 import 'package:lotto/pages/button12Page.dart';
+import 'package:lotto/pages/button15Page.dart';
 import 'package:lotto/pages/button1Page.dart';
 import 'package:lotto/pages/button5Page.dart';
 import 'package:lotto/pages/button3Page.dart';
@@ -2513,7 +2514,110 @@ class _button14State extends State<button14> {
   }
 }
 
+class button15 extends StatefulWidget {
+  const button15({super.key});
 
+  @override
+  State<button15> createState() => _button15State();
+}
+
+class _button15State extends State<button15> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: ElevatedButton(
+          onPressed:
+              () {
+
+            Navigator.push(context, MaterialPageRoute(builder: (c) {
+              return button15Page();
+            }));
+
+
+          },
+          style: ButtonStyle(
+            animationDuration: const Duration(microseconds: 100),
+
+            foregroundColor: WidgetStateProperty.all(Colors.black),
+            //syleForm에서  primarycolor랑 같다.
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return const Color(0xffffffff);
+              } else {
+                return const Color(0xffffffff);
+              }
+            }),
+            textStyle: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return TextStyle(
+                  fontSize: 25.sp,
+                );
+              } else {
+                return TextStyle(fontSize: 27.sp);
+              }
+            }),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: const BorderSide(color: Colors.white60))),
+
+            maximumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(double.infinity, 140.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            minimumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(160.w, 130.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
+          ),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    softWrap: true,
+                    maxLines: 1,
+                    '로또뉴스보기',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: 96.h,
+                      width: double.infinity,
+                      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/news.json',
+                              fit: BoxFit.fill))),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
 
@@ -3093,7 +3197,7 @@ class _reTotalBallState extends State<reTotalBall> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 95.sp,
+      height: 90.h,
       padding: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
       child: Column(
         children: [
