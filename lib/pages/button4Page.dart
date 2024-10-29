@@ -261,22 +261,6 @@ class _button4PageState extends State<button4Page>
   bool selected = false;
 
 
-  BannerAd? banner;
-
-  returnAd() {
-    return banner == null
-        ? Container()
-    // : SizedBox(
-    //     // height: 49.h,
-    //     height: 49.h,
-    //     child: AdWidget(ad: banner!),
-    //   );
-
-        : Container(
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-        child: AdWidget(ad: banner!));
-  }
   @override
   void initState() {
     // TODO: implement initState
@@ -697,7 +681,9 @@ class _button4PageState extends State<button4Page>
           ],
         )],
       ),
-      bottomNavigationBar: returnAd(),
+      bottomNavigationBar:  SafeArea(
+        child: returnAd(), // 광고 배너만 SafeArea로 감싸서 네비게이션 바 위에 표시
+      ),
     );
   }
 }

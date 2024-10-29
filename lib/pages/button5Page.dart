@@ -123,7 +123,9 @@ class _button5PageState extends State<button5Page> {
             ]
         ),
       ),
-      bottomNavigationBar: returnAd(),
+      bottomNavigationBar:  SafeArea(
+        child: returnAd(), // 광고 배너만 SafeArea로 감싸서 네비게이션 바 위에 표시
+      ),
     );
   }
 }

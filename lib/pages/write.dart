@@ -152,106 +152,110 @@ class _WritePageState extends State<WritePage> {
                 ),
               ),
             )),
-            Container(
-              padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
-              margin: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 20.h),
-
-              child: TextButton(
-                onPressed: () {
-                  if (userImage == null) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            //Dialog Main Title
-                            title: const Column(
-                              children: <Widget>[
-                                Text("<로또당첨후기 익명게시판>"),
-                              ],
-                            ),
-                            //
-                            content: const Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[Text('당첨사진 등록해주셔야해요!')],
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text("확인"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
+            SafeArea(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 5.h),
+                margin: EdgeInsets.fromLTRB(20.w, 5.h, 20.w, 20.h),
+              
+                child: TextButton(
+                  onPressed: () {
+                    if (userImage == null) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              //Dialog Main Title
+                              title: const Column(
+                                children: <Widget>[
+                                  Text("<로또당첨후기 익명게시판>"),
+                                ],
                               ),
-                            ],
-                          );
-                        });
-                  } else if (title == '' ||
-                      title == ' ' ||
-                      title == '  ' ||
-                      content == '' ||
-                      content == ' ' ||
-                      content == '  ') {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            //Dialog Main Title
-                            title: const Column(
-                              children: <Widget>[
-                                Text("<로또당첨후기 익명게시판>"),
-                              ],
-                            ),
-                            //
-                            content: const Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[Text('제목이나 내용이 비어있어요!')],
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text("확인"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
+                              //
+                              content: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[Text('당첨사진 등록해주셔야해요!')],
                               ),
-                            ],
-                          );
-                        });
-                  } else {
-                    //네트워크상 시간 (스마트폰의 위치에 따라 시간대가 바뀜)
-                    var now = DateTime.now();
-
-                    context
-                        .read<Gallery_Store>()
-                        .add(title, content, '$now'); //제목 내용으로 저장
-                    _uploadFile(context);
-
-                    Navigator.pop(context);
-                  }
-                },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.fromLTRB(0, 10.h, 0, 5.h),
-                  backgroundColor: Colors.blueAccent,
-                  minimumSize: Size(400.w, 50.h),
-                  maximumSize: Size(400.w,200.h)
-                ),
-                child: Text(
-                  '당첨후기 등록',
-                  style: TextStyle(
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
-                      fontFamily:'Pretendard',
-                      color: Colors.white),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text("확인"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    } else if (title == '' ||
+                        title == ' ' ||
+                        title == '  ' ||
+                        content == '' ||
+                        content == ' ' ||
+                        content == '  ') {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              //Dialog Main Title
+                              title: const Column(
+                                children: <Widget>[
+                                  Text("<로또당첨후기 익명게시판>"),
+                                ],
+                              ),
+                              //
+                              content: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[Text('제목이나 내용이 비어있어요!')],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text("확인"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    } else {
+                      //네트워크상 시간 (스마트폰의 위치에 따라 시간대가 바뀜)
+                      var now = DateTime.now();
+              
+                      context
+                          .read<Gallery_Store>()
+                          .add(title, content, '$now'); //제목 내용으로 저장
+                      _uploadFile(context);
+              
+                      Navigator.pop(context);
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.fromLTRB(0, 10.h, 0, 5.h),
+                    backgroundColor: Colors.blueAccent,
+                    minimumSize: Size(400.w, 50.h),
+                    maximumSize: Size(400.w,200.h)
+                  ),
+                  child: Text(
+                    '당첨후기 등록',
+                    style: TextStyle(
+                        fontSize: 30.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily:'Pretendard',
+                        color: Colors.white),
+                  ),
                 ),
               ),
             ),
           ],
-        )));
+        ))
+
+    );
   }
 }

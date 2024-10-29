@@ -172,6 +172,7 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(0.0),
           child: AppBar(
@@ -179,15 +180,37 @@ class MyAppState extends State<MyApp> {
             elevation: 0,
           ),
         ),
-        body: Column(
-          children: [
-            const lottoNumber(),
-            const Expanded(child: lottoGridView()),
-            // returnAd()
-            // BannerAdContainer()
+        body:
+
+
+        Stack(
+          children:[ Positioned.fill(
+            child: Column(
+              children: [
+                const lottoNumber(),
+                const Expanded(child: lottoGridView()),
+                // returnAd()
+                // BannerAdContainer()
+              ],
+            ),
+          ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                child: returnAd(),
+              ),
+            ),
+
           ],
         ),
-    bottomNavigationBar: returnAd(),
+
+
+
+
+
+    // bottomNavigationBar: returnAd(),
     );
   }
 }

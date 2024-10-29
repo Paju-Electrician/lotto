@@ -54,22 +54,7 @@ class _button1PageState extends State<button1Page> {
 
 
 
-  BannerAd? banner;
 
-  returnAd() {
-    return banner == null
-        ? null
-    // : SizedBox(
-    //     // height: 49.h,
-    //     height: 49.h,
-    //     child: AdWidget(ad: banner!),
-    //   );
-
-        : Container(
-        height: banner!.size.height.toDouble(),
-         margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
-        child: AdWidget(ad: banner!));
-  }
 
   int postNum = 1007;
   // final firestore = FirebaseFirestore.instance;
@@ -645,10 +630,18 @@ class _button1PageState extends State<button1Page> {
 
 
 
-          )
+          ),
+
+          SafeArea(
+            child: returnAd(), // 광고 배너만 SafeArea로 감싸서 네비게이션 바 위에 표시
+          ),
+
+
         ],
+
+
       ),
-      bottomNavigationBar: returnAd(),
+      // bottomNavigationBar: returnAd(),
     );
   }
 }

@@ -19,6 +19,6 @@ returnAd() {
 
       : Container(
       height: banner!.size.height.toDouble(),
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: AdWidget(ad: banner!));
 }
