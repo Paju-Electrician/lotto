@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:charts_painter/chart.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
@@ -22,22 +23,7 @@ class button8Page extends StatefulWidget {
 
 class _button8PageState extends State<button8Page> {
 
-  BannerAd? banner;
 
-  returnAd() {
-    return banner == null
-        ? Container()
-        // : SizedBox(
-        //     // height: 49.h,
-        //     height: 49.h,
-        //     child: AdWidget(ad: banner!),
-        //   );
-
-        : Container(
-            height: 50.h,
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-            child: AdWidget(ad: banner!));
-  }
 
   final List _bonusValueList = ['포함', '미포함'];
   var _bonusValue = '포함';
@@ -98,6 +84,12 @@ class _button8PageState extends State<button8Page> {
         adUnitId: androidTestUnitId,
         request: const AdRequest())
       ..load();
+
+    // FocusNode의 포커스 상태 변화 감지
+    _focusNode.addListener(() {
+      setState(() {}); // 상태를 업데이트하여 UI를 다시 그리도록 합니다.
+    });
+
   }
 
   @override
@@ -107,7 +99,7 @@ class _button8PageState extends State<button8Page> {
     print('dispose실행됨');
 
     banner!.dispose();
-
+    _focusNode.dispose(); // 메모리 누수를 방지하기 위해 FocusNode를 dispose 합니다.
     super.dispose();
   }
 
@@ -325,6 +317,11 @@ class _button8PageState extends State<button8Page> {
     return tempset;
   }
 
+  final FocusNode _focusNode = FocusNode();
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -411,123 +408,322 @@ class _button8PageState extends State<button8Page> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Row(children: [
-                          DropdownButton(
-                            value: _firstRound,
-                            items: _firstRoundList.map((value) {
-                              return DropdownMenuItem(
-                                value: value,
-                                child: AutoSizeText(
-                                  value.toString(),
-                                  style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w900),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (newVal) {
-                              if (_secondRound >= newVal) {
-                                setState(() {
-                                  _firstRound = newVal;
-                                });
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        width: 320.w,
-                                        content: AutoSizeText(
-                                          maxLines: 1,
-                                          softWrap: true,
-                                          '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
-                                          style: TextStyle(
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w900),
-                                          textAlign: TextAlign.center,
+                        Expanded(
+                          child: Row(children: [
+                            Expanded(
+                                child: DropdownSearch<int>(
+
+                                  selectedItem: _firstRound,
+                                  items: (String filter, LoadProps? loadProps) async {
+                                    // 입력된 필터에 따라 항목을 필터링
+                                    return  _firstRoundList
+                                        .where((item) => item.toString().contains(filter))
+                                        .cast<int>() // List<dynamic>을 List<int>로 변환
+                                        .toList(); // List<int>로 변환된 리스트 반환
+                                  },
+                                  popupProps: PopupProps.menu(
+                                    menuProps: MenuProps(align: MenuAlign.topCenter),
+                                                          // listViewProps: ListViewProps(),
+                                    searchFieldProps: TextFieldProps(
+                                        style: TextStyle(fontFamily: 'Pretendard',fontSize: 20.sp),
+                                      focusNode: _focusNode, // FocusNode를 여기 설정
+
+                                    ),
+                                    scrollbarProps:  ScrollbarProps(thickness: 20,thumbVisibility:true,trackVisibility:true),
+                                    showSearchBox: true,
+                                    // suggestedItemProps: SuggestedItemProps(suggestedItemsAlignment: MainAxisAlignment.center)
+                                    itemBuilder: (BuildContext context, int item, bool isSelected, bool isHighlighted) {
+                                      return Container(
+                                        padding: const EdgeInsets.all(10.0), // 항목의 패딩 조절
+                                        color: isHighlighted ? Colors.grey[300] : Colors.transparent, // 강조 표시 색상 설정
+                                        child: Text(
+                                          // textAlign: TextAlign.center,
+                                          item.toString(),
+                                          style: TextStyle(fontFamily: 'Pretendard', fontSize: 25.sp), // 항목의 글꼴 크기 설정
                                         ),
-                                        padding: EdgeInsets.fromLTRB(
-                                            0, 10.h, 0, 10.h),
-                                        backgroundColor: Colors.red,
-                                        duration:
-                                            const Duration(milliseconds: 1000),
-                                        behavior: SnackBarBehavior.floating,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        )));
-                              }
-                            },
-                          ),
-                          AutoSizeText('회차',
-                              style: TextStyle(
-                                  fontSize: 25.sp,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w900))
-                        ]),
+                                      );
+                                    },
+                                  ),
+                                  decoratorProps: DropDownDecoratorProps(
+                                    baseStyle: TextStyle(fontFamily: 'Pretendard',fontSize: 25.sp),
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none
+                                      // labelText: "회차선택",
+                                      // border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  onChanged: (newVal) {
+                                    if (_secondRound >= newVal) {
+                                      setState(() {
+                                        _firstRound = newVal;
+                                      });
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                              width: 320.w,
+                                              content: AutoSizeText(
+                                                maxLines: 1,
+                                                softWrap: true,
+                                                '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
+                                                style: TextStyle(
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.w900),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 10.h, 0, 10.h),
+                                              backgroundColor: Colors.red,
+                                              duration:
+                                              const Duration(milliseconds: 1000),
+                                              behavior: SnackBarBehavior.floating,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(20),
+                                              )));
+                                    }
+                                  },
+                                ),
+                            ),
+
+
+
+
+
+                            //
+                            // DropdownButton(
+                            //   value: _firstRound,
+                            //   items: _firstRoundList.map((value) {
+                            //     return DropdownMenuItem(
+                            //       value: value,
+                            //       child: AutoSizeText(
+                            //         value.toString(),
+                            //         style: TextStyle(
+                            //             fontSize: 25.sp,
+                            //             fontFamily: 'Pretendard',
+                            //             fontWeight: FontWeight.w900),
+                            //       ),
+                            //     );
+                            //   }).toList(),
+                            //   onChanged: (newVal) {
+                            //     if (_secondRound >= newVal) {
+                            //       setState(() {
+                            //         _firstRound = newVal;
+                            //       });
+                            //     } else {
+                            //       ScaffoldMessenger.of(context).showSnackBar(
+                            //           SnackBar(
+                            //               width: 320.w,
+                            //               content: AutoSizeText(
+                            //                 maxLines: 1,
+                            //                 softWrap: true,
+                            //                 '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
+                            //                 style: TextStyle(
+                            //                     fontSize: 18.sp,
+                            //                     fontWeight: FontWeight.w900),
+                            //                 textAlign: TextAlign.center,
+                            //               ),
+                            //               padding: EdgeInsets.fromLTRB(
+                            //                   0, 10.h, 0, 10.h),
+                            //               backgroundColor: Colors.red,
+                            //               duration:
+                            //                   const Duration(milliseconds: 1000),
+                            //               behavior: SnackBarBehavior.floating,
+                            //               shape: RoundedRectangleBorder(
+                            //                 borderRadius:
+                            //                     BorderRadius.circular(20),
+                            //               )));
+                            //     }
+                            //   },
+                            // ),
+
+
+
+
+
+
+
+                            AutoSizeText('회차  ',
+                                style: TextStyle(
+                                    fontSize: 25.sp,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w900))
+                          ]),
+                        ),
                         AutoSizeText('~',
                             style: TextStyle(
                                 fontSize: 25.sp,
                                 fontFamily: 'Pretendard',
                                 fontWeight: FontWeight.w900)),
-                        Row(children: [
-                          DropdownButton(
-                            value: _secondRound,
-                            items: _secondRoundList.map((value) {
-                              return DropdownMenuItem(
-                                value: value,
-                                child: AutoSizeText(
-                                  value.toString(),
-                                  style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w900),
+                        Expanded(
+                          child: Row(children: [
+
+
+
+
+                            Expanded(
+                              child: DropdownSearch<int>(
+
+                                selectedItem: _secondRound,
+                                items: (String filter, LoadProps? loadProps) async {
+                                  // 입력된 필터에 따라 항목을 필터링
+                                  return  _secondRoundList
+                                      .where((item) => item.toString().contains(filter))
+                                      .cast<int>() // List<dynamic>을 List<int>로 변환
+                                      .toList(); // List<int>로 변환된 리스트 반환
+                                },
+                                popupProps: PopupProps.menu(
+                                  menuProps: MenuProps(align: MenuAlign.topCenter),
+                                  // listViewProps: ListViewProps(),
+                                  searchFieldProps: TextFieldProps(maxLines:1,style:TextStyle(fontFamily: 'Pretendard',fontSize: 20.sp)),
+                                  scrollbarProps:  ScrollbarProps(thickness: 20,thumbVisibility:true,trackVisibility:true),
+                                  showSearchBox: true,
+                                  // suggestedItemProps: SuggestedItemProps(suggestedItemsAlignment: MainAxisAlignment.center)
+                                  itemBuilder: (BuildContext context, int item, bool isSelected, bool isHighlighted) {
+                                    return Container(
+                                      padding: const EdgeInsets.all(10.0), // 항목의 패딩 조절
+                                      color: isHighlighted ? Colors.grey[300] : Colors.transparent, // 강조 표시 색상 설정
+                                      child: Text(
+                                        // softWrap: true,
+                                        // maxLines: 1,
+                                        // textAlign: TextAlign.center,
+                                        item.toString(),
+                                        style: TextStyle(fontFamily: 'Pretendard', fontSize: 25.sp), // 항목의 글꼴 크기 설정
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            }).toList(),
-                            onChanged: (newVal) {
-                              if (int.parse(newVal.toString()) >= _firstRound) {
-                                setState(() {
-                                  _secondRound = newVal;
-                                });
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        width: 320.w,
-                                        content: AutoSizeText(
-                                          maxLines: 1,
-                                          softWrap: true,
-                                          '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
-                                          style: TextStyle(
-                                            fontSize: 18.sp,
-                                            fontFamily: 'Pretendard',
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        padding: EdgeInsets.fromLTRB(
-                                            10.w, 10.h, 10.w, 10.h),
-                                        backgroundColor: Colors.grey,
-                                        duration:
+                                decoratorProps: DropDownDecoratorProps(
+                                  baseStyle: TextStyle(fontFamily: 'Pretendard',fontSize: 25.sp),
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+
+                                      border: InputBorder.none
+                                    // labelText: "회차선택",
+                                    // border: OutlineInputBorder(),
+                                  ),
+
+                                ),
+                                onChanged: (newVal) {
+                                  if (int.parse(newVal.toString()) >= _firstRound) {
+                                    setState(() {
+                                      _secondRound = newVal;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            width: 320.w,
+                                            content: AutoSizeText(
+                                              maxLines: 1,
+                                              softWrap: true,
+                                              '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
+                                              style: TextStyle(
+                                                fontSize: 18.sp,
+                                                fontFamily: 'Pretendard',
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            padding: EdgeInsets.fromLTRB(
+                                                10.w, 10.h, 10.w, 10.h),
+                                            backgroundColor: Colors.grey,
+                                            duration:
                                             const Duration(milliseconds: 1000),
-                                        behavior: SnackBarBehavior.floating,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
                                               BorderRadius.circular(20),
-                                        )));
-                              }
-                            },
-                          ),
-                          AutoSizeText('회차',
-                              style: TextStyle(
-                                  fontSize: 25.sp,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w900))
-                        ]),
+                                            )));
+                                  }
+                                },
+                              ),
+                            ),
+
+
+
+
+
+
+
+
+
+
+
+
+                            // DropdownButton(
+                            //   value: _secondRound,
+                            //   items: _secondRoundList.map((value) {
+                            //     return DropdownMenuItem(
+                            //       value: value,
+                            //       child: AutoSizeText(
+                            //         value.toString(),
+                            //         style: TextStyle(
+                            //             fontSize: 25.sp,
+                            //             fontFamily: 'Pretendard',
+                            //             fontWeight: FontWeight.w900),
+                            //       ),
+                            //     );
+                            //   }).toList(),
+                            //   onChanged: (newVal) {
+                            //     if (int.parse(newVal.toString()) >= _firstRound) {
+                            //       setState(() {
+                            //         _secondRound = newVal;
+                            //       });
+                            //     } else {
+                            //       ScaffoldMessenger.of(context).showSnackBar(
+                            //           SnackBar(
+                            //               width: 320.w,
+                            //               content: AutoSizeText(
+                            //                 maxLines: 1,
+                            //                 softWrap: true,
+                            //                 '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
+                            //                 style: TextStyle(
+                            //                   fontSize: 18.sp,
+                            //                   fontFamily: 'Pretendard',
+                            //                 ),
+                            //                 textAlign: TextAlign.center,
+                            //               ),
+                            //               padding: EdgeInsets.fromLTRB(
+                            //                   10.w, 10.h, 10.w, 10.h),
+                            //               backgroundColor: Colors.grey,
+                            //               duration:
+                            //                   const Duration(milliseconds: 1000),
+                            //               behavior: SnackBarBehavior.floating,
+                            //               shape: RoundedRectangleBorder(
+                            //                 borderRadius:
+                            //                     BorderRadius.circular(20),
+                            //               )));
+                            //     }
+                            //   },
+                            // ),
+                            //
+                            //
+
+
+
+
+
+
+
+
+
+                            AutoSizeText('회차  ',
+                                style: TextStyle(
+                                    fontSize: 25.sp,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w900))
+                          ]),
+                        ),
                       ],
                     ),
                   ],
                 ),
-                e.isEmpty
-                    ? Container(child: const AutoSizeText('그래프를 불러오고 있습니다...'))
-                    : chartTest(e: e),
+
+                if (!_focusNode.hasFocus) ...[
+                  e.isEmpty
+                      ? Container(child: const AutoSizeText('그래프를 불러오고 있습니다...'))
+                      : chartTest(e: e),
+                ],
+
                 Row(
                   children: [
                     Expanded(
@@ -539,32 +735,38 @@ class _button8PageState extends State<button8Page> {
                                 child: const Text('준비중..'),
                               )
                             : Container(
-                                padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
                                         AutoSizeText('최대출현번호 : ',
+                                            softWrap: true,
                                             style: const TextStyle(
                                                 // fontSize: 30.sp,
                                                 fontFamily: 'Pretendard')),
                                         _isLoading // 데이터 로딩 상태에 따라 위젯 표시
-                                            ? const SizedBox(
-                                                height: 20,
-                                                width: 20,
-                                                child: FittedBox(
-                                                    fit: BoxFit.fitHeight,
-                                                    child:
-                                                        // width: 40.w, height: 40.h,
-                                                        CircularProgressIndicator()))
-                                            : SizedBox(
-                                                height: 20,
-                                                width: 20,
-                                                child: FittedBox(
-                                                    fit: BoxFit.fitHeight,
-                                                    child: getBall(
-                                                        int.parse(typE[0])))),
+                                            ?  Expanded(
+                                              child: SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child:
+                                                          // width: 40.w, height: 40.h,
+                                                          CircularProgressIndicator())),
+                                            )
+                                            : Expanded(
+                                              child: SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: getBall(
+                                                          int.parse(typE[0])))),
+                                            ),
                                         AutoSizeText(
+                                            softWrap: true,
                                             '  , ${MaxMake().toStringAsFixed(0).toString()} 회',
                                             style: const TextStyle(
                                                 // fontSize: 30.sp,
@@ -578,7 +780,7 @@ class _button8PageState extends State<button8Page> {
                                 child: const Text('준비중..'),
                               )
                             : Container(
-                                padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Column(
                                   children: [
                                     Row(
@@ -588,21 +790,25 @@ class _button8PageState extends State<button8Page> {
                                                 // fontSize: 30.sp,
                                                 fontFamily: 'Pretendard')),
                                         _isLoading // 데이터 로딩 상태에 따라 위젯 표시
-                                            ? const SizedBox(
-                                                height: 20,
-                                                width: 20,
-                                                child: FittedBox(
-                                                    fit: BoxFit.fitHeight,
-                                                    child:
-                                                        // width: 40.w, height: 40.h,
-                                                        CircularProgressIndicator()))
-                                            : SizedBox(
-                                                height: 20,
-                                                width: 20,
-                                                child: FittedBox(
-                                                    fit: BoxFit.fitHeight,
-                                                    child: getBall(
-                                                        int.parse(typE[44])))),
+                                            ?  Expanded(
+                                              child: SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child:
+                                                          // width: 40.w, height: 40.h,
+                                                          CircularProgressIndicator())),
+                                            )
+                                            : Expanded(
+                                              child: SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: getBall(
+                                                          int.parse(typE[44])))),
+                                            ),
                                         AutoSizeText(
                                             '  , ${minMake().toStringAsFixed(0).toString()} 회',
                                             style: const TextStyle(
@@ -666,12 +872,14 @@ class _button8PageState extends State<button8Page> {
                           children: [
                             Row(
                               children: [
-                                SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: FittedBox(
-                                        fit: BoxFit.fitHeight,
-                                        child: getBall(selectNum))),
+                                Expanded(
+                                  child: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: FittedBox(
+                                          fit: BoxFit.fitHeight,
+                                          child: getBall(selectNum))),
+                                ),
                                 const AutoSizeText(' 의 출현횟수 : ',
                                     style: TextStyle(
                                         // fontSize: 30.sp,
@@ -698,7 +906,7 @@ class _button8PageState extends State<button8Page> {
                                                         fontFamily:
                                                             'Pretendard',
                                                         color: Colors.blue)),
-                                                const AutoSizeText(' 회',
+                                                const AutoSizeText('회',
                                                     style: TextStyle(
                                                         // fontSize: 40.sp,
                                                         fontFamily:
@@ -719,25 +927,29 @@ class _button8PageState extends State<button8Page> {
                             ),
                             Row(
                               children: [
-                                SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: FittedBox(
-                                        fit: BoxFit.fitHeight,
-                                        child: getBall(selectNum))),
+                                Expanded(
+                                  child: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: FittedBox(
+                                          fit: BoxFit.fitHeight,
+                                          child: getBall(selectNum))),
+                                ),
                                 const AutoSizeText(' 의 미출현횟수 : ',
                                     style: TextStyle(
                                         // fontSize: 30.sp,
                                         fontFamily: 'Pretendard')),
                                 a == null
-                                    ? const SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: FittedBox(
-                                            fit: BoxFit.fitHeight,
-                                            child:
-                                                // width: 40.w, height: 40.h,
-                                                CircularProgressIndicator()))
+                                    ?  Expanded(
+                                      child: SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: FittedBox(
+                                              fit: BoxFit.fitHeight,
+                                              child:
+                                                  // width: 40.w, height: 40.h,
+                                                  CircularProgressIndicator())),
+                                    )
                                     : Row(
                                         children: [
                                           AutoSizeText(
@@ -745,7 +957,7 @@ class _button8PageState extends State<button8Page> {
                                               style: const TextStyle(
                                                   // fontSize: 40.sp,
                                                   fontFamily: 'Pretendard')),
-                                          const AutoSizeText(' 회',
+                                          const AutoSizeText('회',
                                               style: TextStyle(
                                                   // fontSize: 40.sp,
                                                   fontFamily: 'Pretendard')),
@@ -754,12 +966,14 @@ class _button8PageState extends State<button8Page> {
                               ],
                             ),
                             Row(children: [
-                              SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child: getBall(selectNum))),
+                              Expanded(
+                                child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: FittedBox(
+                                        fit: BoxFit.fitHeight,
+                                        child: getBall(selectNum))),
+                              ),
                               const AutoSizeText(' 의 출현확률 :',
                                   style: TextStyle(
                                       // fontSize: 30.sp,
@@ -788,9 +1002,11 @@ class _button8PageState extends State<button8Page> {
               ],
             )),
 
-        Expanded(
-          child: buttonBox(makeSelectNum: makeSelectNum),
-        )
+          Expanded(
+            child: buttonBox(makeSelectNum: makeSelectNum),
+          )
+
+
       ]),
       bottomNavigationBar: returnAd(),
 

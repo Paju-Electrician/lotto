@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'ad_number.dart';
+import 'lottoNumber.dart';
 
 class button7Page extends StatefulWidget {
   const button7Page({Key? key}) : super(key: key);
@@ -21,26 +22,8 @@ class button7Page extends StatefulWidget {
 }
 
 class _button7PageState extends State<button7Page> {
-
-
-  BannerAd? banner;
-
-  returnAd() {
-    return banner == null
-        ? Container()
-    // : SizedBox(
-    //     // height: 49.h,
-    //     height: 49.h,
-    //     child: AdWidget(ad: banner!),
-    //   );
-
-        : Container(
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-        child: AdWidget(ad: banner!));
-  }
-
   final ItemScrollController _scrollController = ItemScrollController();
+
   // int downward_num=0;
   // upNum(){
   //   setState(() {
@@ -100,6 +83,7 @@ class _button7PageState extends State<button7Page> {
         request: const AdRequest())
       ..load();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -110,6 +94,7 @@ class _button7PageState extends State<button7Page> {
 
     super.dispose();
   }
+
   // List totalLottoData = [];
   List<int> _valueList = [];
   List<int> _valueListinit = [];
@@ -119,53 +104,60 @@ class _button7PageState extends State<button7Page> {
   valueListInit() {
     setState(() {
       _valueList = List<int>.generate(
-          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1,
+          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] +
+              1,
           (int index) => index + 1);
       _valueListinit = List<int>.generate(
-          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1,
+          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] +
+              1,
           (int index) => index + 1).reversed.toList();
 
       // print(_valueListinit);
       _selectedValueinit =
-          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1;
+          context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] +
+              1;
+
       // totalLottoData = getTotalDataList();
     });
   }
 
   makeInitContainer(i) {
-    if (i == context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1) {
-      return Row(
+    if (i ==context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] +1) {
 
+      return Row(
         children: [
           Container(
-            // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-            alignment:Alignment.centerRight,
-            child:                 (context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] == null
-                    ? (context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum.isEmpty
-                        ? const CircularProgressIndicator()
-                        : AutoSizeText(
-                maxLines:1,softWrap: true,                            '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1}회',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontFamily: 'Pretendard',
-          
-                              fontWeight: FontWeight.w900,
-                              color: const Color(0xffd43301),
-                            )))
-                    : AutoSizeText(
-                maxLines:1,softWrap: true,
-                '${context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] + 1}회',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontFamily: 'Pretendard',
-          
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xffd43301),
-                        )))
-
-                    ),
-
-
+              // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              alignment: Alignment.centerRight,
+              child: (context
+                          .watch<Mainpage_Store>()
+                          .button5RoundInfo['drwNo'] ==
+                      null
+                  ? (context
+                          .watch<naverSearch_FirstNum_Store>()
+                          .naverSearch_FirstNum
+                          .isEmpty
+                      ? const CircularProgressIndicator()
+                      : AutoSizeText(
+                          maxLines: 1,
+                          softWrap: true,
+                          '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] + 1}회',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xffd43301),
+                          )))
+                  : AutoSizeText(
+                      maxLines: 1,
+                      softWrap: true,
+                      '${context.watch<Mainpage_Store>().button5RoundInfo['drwNo'] + 1}회',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xffd43301),
+                      )))),
 
           // flex: 1,
 
@@ -198,11 +190,12 @@ class _button7PageState extends State<button7Page> {
         ],
       );
     } else {
-      return totalBallButton7(
-          a: context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] - i);
+
+      // return totalBallButton7(a: context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] - i);
+      return totalBallButton7(a: i-1);
+
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,14 +218,18 @@ class _button7PageState extends State<button7Page> {
                 IconButton(
                     onPressed: () {
                       setState(() {
-                        _scrollController.scrollTo(
-                            index: context.read<Mainpage_Store>().totalLottoData.length,
-                            duration: const Duration(milliseconds: 500));
+                        // _scrollController.scrollTo(
+                        //     index: context
+                        //         .read<Mainpage_Store>()
+                        //         .totalLottoData
+                        //         .length,
+                        //     duration: const Duration(milliseconds: 500));
                       });
                     },
                     icon: const Icon(Icons.refresh)),
                 AutoSizeText('로또회귀분석',
-                    maxLines:1,softWrap: true,
+                    maxLines: 1,
+                    softWrap: true,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontFamily: 'Pretendard',
@@ -244,8 +241,10 @@ class _button7PageState extends State<button7Page> {
 
           Container(
             padding: EdgeInsets.fromLTRB(5.w, 0, 5.w, 5.h),
-            child: AutoSizeText('*회귀분석: 과거의 규칙이 일정한 간격으로 반복되는 것. ',
-                maxLines:1,softWrap: true,                     textAlign: TextAlign.center,
+            child: AutoSizeText('*회귀분석: 과거의 규칙이 일정한 간격으로 반복되는 것 ',
+                maxLines: 1,
+                softWrap: true,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Pretendard',
@@ -260,32 +259,139 @@ class _button7PageState extends State<button7Page> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DropdownButton<int>(
-                        value: _selectedValueinit,
-                        items: _valueListinit.map((int value) {
-                          return DropdownMenuItem(
-                            alignment: Alignment.center,
-                            value: value,
-                            child: AutoSizeText(value.toString(),
-                                style: TextStyle(fontSize: 20.sp
-                                  ,fontFamily: 'Pretendard',
+                      Flexible(
+                        flex: 3,
+                        child: DropdownSearch<int>(
+                            selectedItem: _selectedValueinit,
+                            items: (String filter, LoadProps? loadProps) async {
+                              // 입력된 필터에 따라 항목을 필터링
+                              return _valueListinit
+                                  .where((item) =>
+                                      item.toString().contains(filter))
+                                  .toList();
+                            },
+                            popupProps: PopupProps.menu(
+                              menuProps: MenuProps(align: MenuAlign.topCenter),
+// listViewProps: ListViewProps(),
+                              searchFieldProps: TextFieldProps(
+                                  style: TextStyle(
+                                      fontFamily: 'Pretendard',
+                                      fontSize: 20.sp)),
+                              scrollbarProps: ScrollbarProps(
+                                  thickness: 20,
+                                  thumbVisibility: true,
+                                  trackVisibility: true),
+                              showSearchBox: true,
+                              // suggestedItemProps: SuggestedItemProps(suggestedItemsAlignment: MainAxisAlignment.center)
+                              itemBuilder: (BuildContext context, int item,
+                                  bool isSelected, bool isHighlighted) {
+                                return Container(
+                                  padding: const EdgeInsets.all(10.0),
+                                  // 항목의 패딩 조절
+                                  color: isHighlighted
+                                      ? Colors.grey[300]
+                                      : Colors.transparent,
+                                  // 강조 표시 색상 설정
+                                  child: Text(
+                                    // textAlign: TextAlign.center,
+                                    item.toString(),
+                                    style: TextStyle(
+                                        fontFamily: 'Pretendard',
+                                        fontSize: 20.sp), // 항목의 글꼴 크기 설정
+                                  ),
+                                );
+                              },
+                            ),
+                            decoratorProps: DropDownDecoratorProps(
+                              baseStyle: TextStyle(
+                                  fontFamily: 'Pretendard', fontSize: 20.sp),
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                  // contentPadding:EdgeInsets.fromLTRB(0,0,0,0) ,
+                                  // isCollapsed: true,
+                                  border: InputBorder.none
+                                  // labelText: "회차선택",
+                                  // border: OutlineInputBorder(),
+                                  ),
+                            ),
+                          onChanged: (newVal) {
 
-                                )),
-                          );
-                        }).toList(),
-                        onChanged: (newVal) {
-                          setState(() {
-                            _selectedValueinit = newVal!;
-                          });
-                        },
+                            // totalLottoData가 비어있는지 확인
+
+                            setState(() {
+                              _selectedValueinit = newVal!;
+
+                            });
+
+
+
+                            // print(newVal);
+                            // print(context.read<Mainpage_Store>().totalLottoData.length);
+                            //
+                            // if (newVal! <=context.read<Mainpage_Store>().totalLottoData.length+1) {
+                            //   print(newVal);
+                            //   print(context.read<Mainpage_Store>().totalLottoData.length);
+                            //   setState(() {
+                            //     _selectedValueinit = newVal;
+                            //
+                            //   });
+                            // }else{
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(
+                            //       content: Text("로딩중... 다시 선택해주세요"),
+                            //       duration: Duration(seconds: 2),
+                            //     ),
+                            //   );
+                            // }
+
+
+
+
+
+                            // 유효한 인덱스인 경우에만 상태 업데이트
+
+                          },
+
+
+
+
+
+
+
+
+
+
+
+                        ),
                       ),
+
+                      // DropdownButton<int>(
+                      //   value: _selectedValueinit,
+                      //   items: _valueListinit.map((int value) {
+                      //     return DropdownMenuItem(
+                      //       alignment: Alignment.center,
+                      //       value: value,
+                      //       child: AutoSizeText(value.toString(),
+                      //           style: TextStyle(fontSize: 20.sp
+                      //             ,fontFamily: 'Pretendard',
+                      //
+                      //           )),
+                      //     );
+                      //   }).toList(),
+                      //   onChanged: (newVal) {
+                      //     setState(() {
+                      //       _selectedValueinit = newVal!;
+                      //     });
+                      //   },
+                      // ),
+
                       AutoSizeText(
-                        maxLines:1,softWrap: true,
-                        '기준회차선택',
-                        style: TextStyle(fontSize: 20.sp,
+                        maxLines: 1,
+                        softWrap: true,
+                        '회차선택',
+                        style: TextStyle(
+                            fontSize: 20.sp,
                             fontFamily: 'Pretendard',
-
-
                             fontWeight: FontWeight.w900),
                       ),
                     ],
@@ -295,31 +401,72 @@ class _button7PageState extends State<button7Page> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DropdownButton<int>(
-                        value: _selectedValue,
-                        items: _valueList.map((int value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            alignment: Alignment.center,
-                            child: AutoSizeText(value.toString(),
-                                style: TextStyle(fontSize: 20.sp,
-                                  fontFamily: 'Pretendard',
-
+                      Expanded(
+                        child: DropdownSearch<int>(
+                          selectedItem: _selectedValue,
+                          items: (String filter, LoadProps? loadProps) async {
+                            // 입력된 필터에 따라 항목을 필터링
+                            return _valueList
+                                .where(
+                                    (item) => item.toString().contains(filter))
+                                .toList();
+                          },
+                          popupProps: PopupProps.menu(
+                            menuProps: MenuProps(align: MenuAlign.topCenter),
+// listViewProps: ListViewProps(),
+                            searchFieldProps: TextFieldProps(
+                                style: TextStyle(
+                                    fontFamily: 'Pretendard', fontSize: 20.sp)),
+                            scrollbarProps: ScrollbarProps(
+                                thickness: 20,
+                                thumbVisibility: true,
+                                trackVisibility: true),
+                            showSearchBox: true,
+                            // suggestedItemProps: SuggestedItemProps(suggestedItemsAlignment: MainAxisAlignment.center)
+                            itemBuilder: (BuildContext context, int item,
+                                bool isSelected, bool isHighlighted) {
+                              return Container(
+                                padding: const EdgeInsets.all(10.0),
+                                // 항목의 패딩 조절
+                                color: isHighlighted
+                                    ? Colors.grey[300]
+                                    : Colors.transparent,
+                                // 강조 표시 색상 설정
+                                child: Text(
+                                  // textAlign: TextAlign.center,
+                                  item.toString(),
+                                  style: TextStyle(
+                                      fontFamily: 'Pretendard',
+                                      fontSize: 20.sp), // 항목의 글꼴 크기 설정
                                 ),
-                                textAlign: TextAlign.end),
-                          );
-                        }).toList(),
-                        onChanged: (newVal) {
-                          setState(() {
-                            _selectedValue = newVal!;
-                          });
-                        },
+                              );
+                            },
+                          ),
+                          decoratorProps: DropDownDecoratorProps(
+                            baseStyle: TextStyle(
+                                fontFamily: 'Pretendard', fontSize: 20.sp),
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(border: InputBorder.none
+                                // labelText: "회차선택",
+                                // border: OutlineInputBorder(),
+                                ),
+                          ),
+                          onChanged: (newVal) {
+                            if (newVal != null) {
+                              setState(() {
+                                _selectedValue = newVal;
+                              });
+                            }
+                          },
+                        ),
                       ),
-                      AutoSizeText('회귀보기',maxLines:1,softWrap: true,      style:
-                      TextStyle(fontWeight: FontWeight.w900,
-                          fontFamily: 'Pretendard',
-
-                          fontSize: 20.sp))
+                      AutoSizeText('회귀보기',
+                          maxLines: 1,
+                          softWrap: true,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Pretendard',
+                              fontSize: 20.sp))
                     ],
                   ),
                 ),
@@ -392,46 +539,39 @@ class _button7PageState extends State<button7Page> {
           Expanded(
             // child: ListView.builder(itemCount:context.watch<Mainpage_Store>().lottoData['drwNo'], itemBuilder: (c,i){
             child: Stack(children: [
-              ScrollablePositionedList.builder(
-                  // itemCount: context.watch<Mainpage_Store>().totalLottoData.length,
-                  itemCount: lottoTotalNumber.length,
-                  itemScrollController: _scrollController,
-                  itemBuilder: (c, i) {
-                    // print(_selectedValueinit-context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11]);
+                ScrollablePositionedList.builder(
+                    // itemCount: context.watch<Mainpage_Store>().totalLottoData.length,
+                    itemCount: lottoTotalNumber.length,
+                    itemScrollController: _scrollController,
+                    itemBuilder: (c, i) {
+                      // print(_selectedValueinit-context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11]);
 
-                    if (((i +
-                                    _selectedValueinit -
-                                    context
-                                        .read<naverSearch_FirstNum_Store>()
-                                        .naverSearch_FirstNum[11]) %
-                                _selectedValue ==
-                            0) &&
-                        (i >
-                            context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] -
-                                _selectedValueinit)) {
-                      return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _scrollController.scrollTo(
-                                  index: i,
-                                  duration: const Duration(milliseconds: 500));
-                            });
+                      if (((i +_selectedValueinit-context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11]) %
+                                  _selectedValue ==0) &&(i > context.read<naverSearch_FirstNum_Store>().naverSearch_FirstNum[11] -
+                                  _selectedValueinit)) {
+                        return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _scrollController.scrollTo(
+                                    index: i,
+                                    duration: const Duration(milliseconds: 500));
+                              });
 
-                            // print('클림됨${i}');
-                          },
-                          // onVerticalDragStart: _onDragStartHandler,
-                          // onVerticalDragUpdate: _onDragUpdateHandler,
-                          // child: totalBallButton7(a: i));
-                          child: newTotalBallButton7(a: i));
+                              // print('클림됨${i}');
+                            },
+                            // onVerticalDragStart: _onDragStartHandler,
+                            // onVerticalDragUpdate: _onDragUpdateHandler,
+                            // child: totalBallButton7(a: i));
+                            child: newTotalBallButton7(a: i));
 
-                      // child: totalBallButton7New(a: i));
-                    } else {
-                      return Container();
+                        // child: totalBallButton7New(a: i));
+                      } else {
+                        return Container();
+                      }
                     }
-                  }
-                  //   return AutoSizeText('a');
+                    //   return AutoSizeText('a');
 
-                  ),
+                    ),
               Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 20.w, 80.h),
                 alignment: Alignment.bottomRight,

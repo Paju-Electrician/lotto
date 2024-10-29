@@ -110,22 +110,7 @@ class MyAppState extends State<MyApp> {
 
 
 
-   BannerAd? banner;
 
-  returnAd() {
-    return banner == null
-        ? Container()
-    // : SizedBox(
-    //     // height: 49.h,
-    //     height: 49.h,
-    //     child: AdWidget(ad: banner!),
-    //   );
-
-        : Container(
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-        child: AdWidget(ad: banner!));
-  }
 
 
   @override
@@ -198,10 +183,12 @@ class MyAppState extends State<MyApp> {
           children: [
             const lottoNumber(),
             const Expanded(child: lottoGridView()),
-            returnAd()
+            // returnAd()
             // BannerAdContainer()
           ],
-        ));
+        ),
+    bottomNavigationBar: returnAd(),
+    );
   }
 }
 
@@ -824,8 +811,8 @@ class _lottoGridViewState extends State<lottoGridView> {
     const button12(),
     const button13(),
     const button14(),
-    const button15()
-    // const button14()
+    const button15(),
+    // const button16()
   ];
 
   @override

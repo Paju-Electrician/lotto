@@ -19,22 +19,7 @@ class button6Page extends StatefulWidget {
 class _button6PageState extends State<button6Page> {
 
 
-  BannerAd? banner;
 
-  returnAd() {
-    return banner == null
-        ? Container()
-    // : SizedBox(
-    //     // height: 49.h,
-    //     height: 49.h,
-    //     child: AdWidget(ad: banner!),
-    //   );
-
-        : Container(
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-        child: AdWidget(ad: banner!));
-  }
   @override
   void initState() {
     // TODO: implement initState

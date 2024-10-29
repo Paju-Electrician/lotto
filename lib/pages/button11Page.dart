@@ -2,6 +2,8 @@
 
 
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -23,22 +25,7 @@ class _button11PageState extends State<button11Page> {
 
 
 
-  BannerAd? banner;
 
-  returnAd() {
-    return banner == null
-        ? Container()
-    // : SizedBox(
-    //     // height: 49.h,
-    //     height: 49.h,
-    //     child: AdWidget(ad: banner!),
-    //   );
-
-        : Container(
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-        child: AdWidget(ad: banner!));
-  }
   @override
   void initState() {
     // TODO: implement initState
@@ -260,23 +247,51 @@ class _button11PageState extends State<button11Page> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(children: [
-                      DropdownButton(
-                        alignment: Alignment.center,
-                        value: _button11firstRound,
-                        items: _button11firstRoundList.map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(
-                              value.toString(), style: TextStyle(fontSize: 25.sp,
-                                fontWeight: FontWeight.w900),),
-                          );
-                        }).toList(),
+                Expanded(
+                  child: Row(children: [
+                    Expanded(
+                      child: DropdownSearch<int>(
 
+                        selectedItem: _button11firstRound,
+                        items: (String filter, LoadProps? loadProps) async {
+                          // 입력된 필터에 따라 항목을 필터링
+                          return  _button11firstRoundList
+                              .where((item) => item.toString().contains(filter))
+                              .cast<int>() // List<dynamic>을 List<int>로 변환
+                              .toList(); // List<int>로 변환된 리스트 반환
+                        },
+                        popupProps: PopupProps.menu(
+                          menuProps: MenuProps(align: MenuAlign.topCenter),
+                          // listViewProps: ListViewProps(),
+                          searchFieldProps: TextFieldProps(maxLines:1,style:TextStyle(fontFamily: 'Pretendard',fontSize: 20.sp)),
+                          scrollbarProps:  ScrollbarProps(thickness: 20,thumbVisibility:true,trackVisibility:true),
+                          showSearchBox: true,
+                          // suggestedItemProps: SuggestedItemProps(suggestedItemsAlignment: MainAxisAlignment.center)
+                          itemBuilder: (BuildContext context, int item, bool isSelected, bool isHighlighted) {
+                            return Container(
+                              padding: const EdgeInsets.all(10.0), // 항목의 패딩 조절
+                              color: isHighlighted ? Colors.grey[300] : Colors.transparent, // 강조 표시 색상 설정
+                              child: Text(
+                                // softWrap: true,
+                                // maxLines: 1,
+                                // textAlign: TextAlign.center,
+                                item.toString(),
+                                style: TextStyle(fontFamily: 'Pretendard', fontSize: 25.sp), // 항목의 글꼴 크기 설정
+                              ),
+                            );
+                          },
+                        ),
+                        decoratorProps: DropDownDecoratorProps(
+                          baseStyle: TextStyle(fontFamily: 'Pretendard',fontSize: 25.sp),
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
 
+                              border: InputBorder.none
+                            // labelText: "회차선택",
+                            // border: OutlineInputBorder(),
+                          ),
+
+                        ),
                         onChanged: (newVal) {
 
                           if(_button11secondRound>=newVal) {
@@ -301,29 +316,110 @@ class _button11PageState extends State<button11Page> {
                                 )));
                           }
                         },
-
-
-
-
                       ),
-                      Text('회차',
-                          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900))
-                    ]),
-                    Text(' ~ ',style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900)),
-                    Row(children: [
-                      DropdownButton(
-                        alignment: Alignment.center,
-                        value: _button11secondRound,
-                        items: _button11secondRoundList.map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(
-                              value.toString(), style: TextStyle(fontSize: 25.sp,
-                                fontWeight: FontWeight.w900),),
-                          );
-                        }).toList(),
+                    ),
 
 
+
+
+                    // DropdownButton(
+                    //   alignment: Alignment.center,
+                    //   value: _button11firstRound,
+                    //   items: _button11firstRoundList.map((value) {
+                    //     return DropdownMenuItem(
+                    //       value: value,
+                    //       child: Text(
+                    //         value.toString(), style: TextStyle(fontSize: 25.sp,
+                    //           fontWeight: FontWeight.w900),),
+                    //     );
+                    //   }).toList(),
+                    //
+                    //
+                    //   onChanged: (newVal) {
+                    //
+                    //     if(_button11secondRound>=newVal) {
+                    //       setState(() {
+                    //         _button11firstRound= newVal;
+                    //       });
+                    //       dongbanMake();
+                    //     }else{
+                    //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //           width: 320.w,
+                    //           content: Text(
+                    //             '앞자리 숫자가 뒷자리 숫자보다 클 수 없어요',
+                    //             style: TextStyle(fontSize: 18.sp),
+                    //             textAlign: TextAlign.center,
+                    //           ),
+                    //           padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,10.h),
+                    //           backgroundColor: Colors.grey,
+                    //           duration: const Duration(milliseconds: 1000),
+                    //           behavior: SnackBarBehavior.floating,
+                    //           shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(20),
+                    //           )));
+                    //     }
+                    //   },
+                    // ),
+
+
+
+
+                    AutoSizeText('회차  ',
+                        style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900))
+
+
+
+
+
+                  ]),
+                ),
+                AutoSizeText(' ~ ',style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900)),
+                Expanded(
+                  child: Row(children: [
+
+                    Expanded(
+                      child: DropdownSearch<int>(
+
+                        selectedItem: _button11secondRound,
+                        items: (String filter, LoadProps? loadProps) async {
+                          // 입력된 필터에 따라 항목을 필터링
+                          return  _button11secondRoundList
+                              .where((item) => item.toString().contains(filter))
+                              .cast<int>() // List<dynamic>을 List<int>로 변환
+                              .toList(); // List<int>로 변환된 리스트 반환
+                        },
+                        popupProps: PopupProps.menu(
+                          menuProps: MenuProps(align: MenuAlign.topCenter),
+                          // listViewProps: ListViewProps(),
+                          searchFieldProps: TextFieldProps(maxLines:1,style:TextStyle(fontFamily: 'Pretendard',fontSize: 20.sp)),
+                          scrollbarProps:  ScrollbarProps(thickness: 20,thumbVisibility:true,trackVisibility:true),
+                          showSearchBox: true,
+                          // suggestedItemProps: SuggestedItemProps(suggestedItemsAlignment: MainAxisAlignment.center)
+                          itemBuilder: (BuildContext context, int item, bool isSelected, bool isHighlighted) {
+                            return Container(
+                              padding: const EdgeInsets.all(10.0), // 항목의 패딩 조절
+                              color: isHighlighted ? Colors.grey[300] : Colors.transparent, // 강조 표시 색상 설정
+                              child: Text(
+                                // softWrap: true,
+                                // maxLines: 1,
+                                // textAlign: TextAlign.center,
+                                item.toString(),
+                                style: TextStyle(fontFamily: 'Pretendard', fontSize: 25.sp), // 항목의 글꼴 크기 설정
+                              ),
+                            );
+                          },
+                        ),
+                        decoratorProps: DropDownDecoratorProps(
+                          baseStyle: TextStyle(fontFamily: 'Pretendard',fontSize: 25.sp),
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+
+                              border: InputBorder.none
+                            // labelText: "회차선택",
+                            // border: OutlineInputBorder(),
+                          ),
+
+                        ),
                         onChanged: (newVal) {
                           if(int.parse(newVal.toString()) >=_button11firstRound) {
                             setState(() {
@@ -350,19 +446,12 @@ class _button11PageState extends State<button11Page> {
 
 
                         },
-
-
-
-
-
-
-
                       ),
-                      Text('회차',
-                          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900))
-                    ]),
-                  ],
+                    ),
 
+                    AutoSizeText('회차  ',
+                        style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900))
+                  ]),
                 ),
 
               ],

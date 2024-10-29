@@ -58,7 +58,7 @@ class _button1PageState extends State<button1Page> {
 
   returnAd() {
     return banner == null
-        ? Container()
+        ? null
     // : SizedBox(
     //     // height: 49.h,
     //     height: 49.h,
@@ -66,10 +66,11 @@ class _button1PageState extends State<button1Page> {
     //   );
 
         : Container(
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
+        height: banner!.size.height.toDouble(),
+         margin: EdgeInsets.fromLTRB(0, 0, 0, 13.h),
         child: AdWidget(ad: banner!));
   }
+
   int postNum = 1007;
   // final firestore = FirebaseFirestore.instance;
   late Future<List<LottoWeb>> lottoWeb;

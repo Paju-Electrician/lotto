@@ -517,6 +517,7 @@ class Mainpage_Store extends ChangeNotifier {
 
   changeMarker() async {
     markers.clear();
+    // notifyListeners();
     for (int i = 0; i < MarkerWhere.length; i++) {
       markers.add(Marker(
           markerId: '${i}1',
@@ -533,7 +534,7 @@ class Mainpage_Store extends ChangeNotifier {
           infoWindow: "${firstLottoPlaceSet[i][1].trim()}",
           onMarkerTab: _onMarkerTap));
     } // infoWindow: "${firstLottoPlaceSet[i][0].trim()}",
-
+    print(markers);
     notifyListeners();
   }
 

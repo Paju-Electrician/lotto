@@ -31,7 +31,7 @@ class _BaseMapPageState extends State<BaseMapPage> {
           initLocationTrackingMode: _trackingMode,
           locationButtonEnable: false,
           indoorEnable: true,
-          markers: context.read<Mainpage_Store>().markers,
+          markers: context.watch<Mainpage_Store>().markers,
         ),
       ],
     );

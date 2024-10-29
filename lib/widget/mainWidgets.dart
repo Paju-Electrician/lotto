@@ -7,6 +7,7 @@ import 'package:lotto/pages/button10Page.dart';
 import 'package:lotto/pages/button11Page.dart';
 import 'package:lotto/pages/button12Page.dart';
 import 'package:lotto/pages/button15Page.dart';
+import 'package:lotto/pages/button16Page.dart';
 import 'package:lotto/pages/button1Page.dart';
 import 'package:lotto/pages/button5Page.dart';
 import 'package:lotto/pages/button3Page.dart';
@@ -2620,7 +2621,110 @@ class _button15State extends State<button15> {
 }
 
 
+class button16 extends StatefulWidget {
+  const button16({super.key});
 
+  @override
+  State<button16> createState() => _button16State();
+}
+
+class _button16State extends State<button16> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: ElevatedButton(
+          onPressed:
+              () {
+
+            Navigator.push(context, MaterialPageRoute(builder: (c) {
+              return button16Page();
+            }));
+
+
+          },
+          style: ButtonStyle(
+            animationDuration: const Duration(microseconds: 100),
+
+            foregroundColor: WidgetStateProperty.all(Colors.black),
+            //syleForm에서  primarycolor랑 같다.
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return const Color(0xffffffff);
+              } else {
+                return const Color(0xffffffff);
+              }
+            }),
+            textStyle: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return TextStyle(
+                  fontSize: 25.sp,
+                );
+              } else {
+                return TextStyle(fontSize: 27.sp);
+              }
+            }),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: const BorderSide(color: Colors.white60))),
+
+            maximumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(double.infinity, 140.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            minimumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(160.w, 130.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
+          ),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    softWrap: true,
+                    maxLines: 1,
+                    '   로또유튜브    ',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    // padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: 96.h,
+                      width: double.infinity,
+                      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Lottie.asset('assets/lottie/youtube.json',
+                              fit: BoxFit.fill))),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
 
@@ -2884,13 +2988,17 @@ class _totalBallButton7State extends State<totalBallButton7> {
 
   @override
   Widget build(BuildContext context) {
+
+    var result = lottoTotalNumber.firstWhere((subList) => subList[0] == widget.a!+1, orElse: () => []);
+
     return Row(
       children: [
         Container(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             alignment: Alignment.centerRight,
             child: AutoSizeText(
-                '${context.watch<Mainpage_Store>().totalLottoData[widget.a!]['drwNo']}회',
+                // '${context.watch<Mainpage_Store>().totalLottoData[widget.a!]['drwNo']}회',
+                '${widget.a!+1}회',
                 softWrap: true,
                 maxLines: 1,
                 style: TextStyle(
@@ -2924,9 +3032,7 @@ class _totalBallButton7State extends State<totalBallButton7> {
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
-                    : Expanded(child: getTotalBall(context
-                    .watch<Mainpage_Store>()
-                    .totalLottoData[widget.a!]['drwtNo1'])),
+                    : Expanded(child: getTotalBall(result[1])),
                 // snapshot.data!=null
                 //     ? getTotalBall(
                 //     snapshot.data[widget.a!]['drwtNo2'])
@@ -2936,9 +3042,7 @@ class _totalBallButton7State extends State<totalBallButton7> {
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
-                    : Expanded(child: getTotalBall(context
-                    .watch<Mainpage_Store>()
-                    .totalLottoData[widget.a!]['drwtNo2'])),
+                    : Expanded(child: getTotalBall(result[2])),
                 // snapshot.data!=null
                 //     ? getTotalBall(
                 //     snapshot.data[widget.a!]['drwtNo3'])
@@ -2948,9 +3052,7 @@ class _totalBallButton7State extends State<totalBallButton7> {
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
-                    : Expanded(child: getTotalBall(context
-                    .watch<Mainpage_Store>()
-                    .totalLottoData[widget.a!]['drwtNo3'])),
+                    : Expanded(child: getTotalBall(result[3])),
                 // snapshot.data!=null
                 //     ? getTotalBall(
                 //     snapshot.data[widget.a!]['drwtNo4'])
@@ -2960,11 +3062,9 @@ class _totalBallButton7State extends State<totalBallButton7> {
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
-                    : Expanded(child: getTotalBall(context
-                    .watch<Mainpage_Store>()
-                    .totalLottoData[widget.a!]['drwtNo4']
+                    : Expanded(child: getTotalBall(result[4])
                   // 0
-                )),
+                ),
                 // snapshot.data!=null
                 //     ? getTotalBall(
                 //     snapshot.data[widget.a!]['drwtNo5'])
@@ -2974,9 +3074,7 @@ class _totalBallButton7State extends State<totalBallButton7> {
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
-                    : Expanded(child: getTotalBall(context
-                    .watch<Mainpage_Store>()
-                    .totalLottoData[widget.a!]['drwtNo5'])),
+                    : Expanded(child: getTotalBall(result[5])),
                 // snapshot.data!=null
                 //     ? getTotalBall(
                 //     snapshot.data[widget.a!]['drwtNo6'])
@@ -2986,9 +3084,7 @@ class _totalBallButton7State extends State<totalBallButton7> {
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
-                    : Expanded(child: getTotalBall(context
-                    .watch<Mainpage_Store>()
-                    .totalLottoData[widget.a!]['drwtNo6'])),
+                    : Expanded(child: getTotalBall(result[6])),
                 const Icon(Icons.add),
                 // snapshot.data!=null
                 //     ? getTotalBall(snapshot.data[widget.a!]['bnusNo'])
@@ -2998,9 +3094,7 @@ class _totalBallButton7State extends State<totalBallButton7> {
                         width: 10.w,
                         height: 10.h,
                         child: const CircularProgressIndicator())
-                    : Expanded(child: getTotalBall(context
-                    .watch<Mainpage_Store>()
-                    .totalLottoData[widget.a!]['bnusNo'])),
+                    : Expanded(child: getTotalBall(result[7])),
               ],
             ),
           ),

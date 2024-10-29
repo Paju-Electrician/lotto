@@ -3,9 +3,13 @@
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'ad_number.dart';
 
 class button15Page extends StatefulWidget {
   const button15Page({super.key});
@@ -17,9 +21,31 @@ class button15Page extends StatefulWidget {
 class _button15PageState extends State<button15Page> {
   Future<List<Map<String, String>>>? _newsFuture;
 
+
   @override
   void initState() {
     super.initState();
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
     _newsFuture = fetchLottoNews();
   }
 
@@ -40,7 +66,7 @@ class _button15PageState extends State<button15Page> {
         "흔들리는 서노송예술촌", "축제", "개소리", "개막", "김소원", "경북도의회", "청송사과축제",
         "차에서", "경북24시", "국밥", "이순재", "민주당", "김경필", "의대", "청송군", "신임",
         "예출촌", "백미", "미스터로또", "분양", "검찰", "산업재해", "부동산", "별자리", "집값",
-        "청약", "미분양", "운세", "아파트", "로또아파트", "예술축전","지방"
+        "청약", "미분양", "운세", "아파트", "로또아파트", "예술축전","지방","주택","금리","산업방송","청송사과","골프","솔로","홀인원","이혼","체험기","진해성"
       ];
       List<Map<String, String>> results = [];
 
@@ -49,13 +75,15 @@ class _button15PageState extends State<button15Page> {
         'title': news['title']
             .toString()
             .replaceAll(RegExp(r'<[^>]*>'), '')  // HTML 태그 제거
-            .replaceAll('&quot;', '"'),          // &quot;를 "로 변환
+            .replaceAll('&quot;', '"').replaceAll('&lt;', '<')                  // &lt;를 <로 변환
+            .replaceAll('&gt;', '>'),          // &quot;를 "로 변환
         'thumbnail': news['thumbnail']?.toString() ?? '', // 썸네일 필드 사용
         'pubDate': news['pubDate']?.toString() ?? '알 수 없음', // 발행일 추가
         'link': news['link']?.toString() ?? '' // 링크 추가
       })
           .where((news) =>
-      !excludeKeywords.any((keyword) => news['title']!.contains(keyword)))
+      news['title']!.contains('로또') &&  // 제목에 "로또" 포함 여부 필터
+          !excludeKeywords.any((keyword) => news['title']!.contains(keyword)))
           .toList();
     } else {
       throw Exception('Failed to load news');
@@ -203,6 +231,7 @@ class _button15PageState extends State<button15Page> {
           ),
         ],
       ),
+      bottomNavigationBar: returnAd(),
     );
   }
 

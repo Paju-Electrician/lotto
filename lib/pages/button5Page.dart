@@ -25,22 +25,6 @@ class button5Page extends StatefulWidget {
 class _button5PageState extends State<button5Page> {
 
 
-  BannerAd? banner;
-
-  returnAd() {
-    return banner == null
-        ? Container()
-    // : SizedBox(
-    //     // height: 49.h,
-    //     height: 49.h,
-    //     child: AdWidget(ad: banner!),
-    //   );
-
-        : Container(
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 40.h),
-        child: AdWidget(ad: banner!));
-  }
   var number5 = [0, 0, 0, 0, 0, 0];
   var number1 = [0, 0, 0, 0, 0, 0];
   var number2 = [0, 0, 0, 0, 0, 0];
