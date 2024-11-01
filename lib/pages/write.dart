@@ -129,6 +129,7 @@ class _WritePageState extends State<WritePage> {
                       ],
                     )
                   : SizedBox(
+                      height: 40.h,
                       child: Image.file(userImage),
                     ),
             ),

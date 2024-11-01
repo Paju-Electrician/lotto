@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lotto/pages/sharedpreferences.dart';
 import 'package:lotto/provider/win_gallery_Provider.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,48 @@ class contentPage extends StatefulWidget {
 }
 
 class _contentPageState extends State<contentPage> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    print('dispose실행됨');
+
+    banner!.dispose();
+
+    super.dispose();
+  }
+
+
+
+
   data d = data();
   var inputData;
   final _controller = TextEditingController();
@@ -66,27 +109,28 @@ class _contentPageState extends State<contentPage> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(50.0.h),
           child: AppBar(
-            leadingWidth: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                // Navigate back to the previous screen by popping the current route
+                Navigator.of(context).pop();
+              },),
+            // leadingWidth: 0,
             backgroundColor: Colors.blueAccent,
             centerTitle: true,
-            titleSpacing: 0,
+            // titleSpacing: 0,
             // toolbarHeight: 60,
-            title: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child:
+            title: AutoSizeText(
+              maxLines:1,softWrap: true,
+              '로또당첨후기 익명게시판',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'Pretendard'
 
-                  AutoSizeText(
-                    maxLines:1,softWrap: true,
-                    '로또당첨후기 익명게시판',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.w100,
-                        fontFamily: 'Pretendard'),
-                  ),
-
-
+              ),
+              textAlign: TextAlign.center,
             ),
             elevation: 0,
           ),
@@ -394,6 +438,7 @@ class _contentPageState extends State<contentPage> {
                             child: Text(
                               '등록',
                               style: TextStyle(
+                              color: Colors.white,
                                   fontSize: 20.sp, fontWeight: FontWeight.w900),
                             ),
                           )
@@ -644,6 +689,7 @@ class _replyState extends State<reply> {
                                                     child: Text(
                                                       '신고',
                                                       style: TextStyle(
+                                                          color: Colors.white,
                                                           fontSize: 16.sp,
                                                           fontWeight:
                                                               FontWeight.w900),

@@ -28,6 +28,8 @@ import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../pages/ad_number.dart';
+
 class xNumBall extends StatelessWidget {
   xNumBall({Key? key, this.b}) : super(key: key);
   var b;
@@ -2629,22 +2631,19 @@ class button16 extends StatefulWidget {
 }
 
 class _button16State extends State<button16> {
-
-
+  final AdManager adManager = AdManager();
+  @override
+  void initState() {
+    super.initState();
+    adManager.loadRewardedAd(); // 앱 시작 시 광고 로드
+  }
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         child: ElevatedButton(
           onPressed:
-              () {
-
-            Navigator.push(context, MaterialPageRoute(builder: (c) {
-              return button16Page();
-            }));
-
-
-          },
+              () {adManager.showRewardedAd(context);},
           style: ButtonStyle(
             animationDuration: const Duration(microseconds: 100),
 
@@ -2699,7 +2698,7 @@ class _button16State extends State<button16> {
                   child: AutoSizeText(
                     softWrap: true,
                     maxLines: 1,
-                    '   로또유튜브    ',
+                    '광고후원하기',
                     style: TextStyle(
                       fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w600,
@@ -2713,8 +2712,8 @@ class _button16State extends State<button16> {
                       width: double.infinity,
                       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                       child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Lottie.asset('assets/lottie/youtube.json',
+                          fit: BoxFit.fill,
+                          child: Lottie.asset('assets/lottie/gift.json',
                               fit: BoxFit.fill))),
                 )
               ],

@@ -122,7 +122,7 @@ class MyAppState extends State<MyApp> {
     // .whenComplete(() => saveTotalDataList());
 
     context.read<Mainpage_Store>().getFirstLottoPlace();
-
+    context.read<Mainpage_Store>().getSecLottoPlace();
     banner = BannerAd(
         listener: BannerAdListener(
           // Called when an ad is successfully received.
@@ -835,7 +835,7 @@ class _lottoGridViewState extends State<lottoGridView> {
     const button13(),
     const button14(),
     const button15(),
-    // const button16()
+    const button16()
   ];
 
   @override
@@ -861,7 +861,7 @@ class _lottoGridViewState extends State<lottoGridView> {
               // decoration: BoxDecoration(border : Border.all(color: Colors.black)),
               child: button[i]);
         },
-        itemCount: 15,
+        itemCount: 16,
       ),
     );
   }

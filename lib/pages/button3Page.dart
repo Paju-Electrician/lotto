@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:animated_button/animated_button.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +93,17 @@ class _button3PageState extends State<button3Page> {
 
     controller.moveCamera(cameraUpdate);
   }
+secseta(i) async {
+  NaverMapController controller = await context.read<Mainpage_Store>().abc.future;
+
+  var cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(
+    target: LatLng(context.read<Mainpage_Store>().secMarkerWhere[i][1],
+        context.read<Mainpage_Store>().secMarkerWhere[i][0]),
+    zoom: 12.0,
+  ));
+
+  controller.moveCamera(cameraUpdate);
+}
 
   setBasicPosition() async {
     NaverMapController controller = await context.read<Mainpage_Store>().abc.future;
@@ -100,6 +113,192 @@ class _button3PageState extends State<button3Page> {
     ));
     controller.moveCamera(cameraUpdate);
   }
+
+
+bool firstselected = true;
+bool secselected = false;
+
+
+
+
+
+
+
+  LottoPlaceList(){
+
+  return  firstselected==true&&secselected==false?
+  Expanded(
+    child: Container(
+      child: ListView.separated(
+        itemCount:
+        context.watch<Mainpage_Store>().firstLottoPlaceSet.length-1,
+        itemBuilder: (c, i) {
+          return GestureDetector(
+              onTap: () {
+                seta(i);
+
+
+              },
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        child: AutoSizeText('${i + 1}',
+                            style: const TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 13,
+                      child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText(
+                              '${context.watch<Mainpage_Store>().firstLottoPlaceSet[i][0].trim()}',
+                              style:  TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w200,
+                                  fontFamily: 'Pretendard'),
+                            ),
+                            AutoSizeText(
+                              // softWrap: false,
+                              // minFontSize: 20.sp,
+                              '${context.watch<Mainpage_Store>().firstLottoPlaceSet[i][1].trim()}',
+                              style:  TextStyle(fontSize: 15.sp),
+                            ),
+                          ]),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: Padding(
+                        padding:  EdgeInsets.fromLTRB(5.sp,0,0,0),
+                        child: Row(children: [
+                          AutoSizeText(
+                            '${context.watch<Mainpage_Store>().firstWay[i].trim()} ',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: context
+                                    .watch<Mainpage_Store>()
+                                    .firstWay[i]
+                                    .trim() ==
+                                    '반자동'
+                                    ? 14
+                                    : 20,
+                                fontFamily: 'Pretendard'),
+                          ),
+                          Image.asset(
+                            'assets/mark.png',
+                            width: 30.w,
+                            height: 30.h,
+                          )
+                        ]),
+                      ),
+                    )
+                  ],
+                ),
+              ));
+        },
+        separatorBuilder: (c, i) {
+          return const Divider(thickness: 1);
+        },
+      ),
+    ),
+  ):Expanded(
+    child: Container(
+      child: context.watch<Mainpage_Store>().isLoading
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          :ListView.separated(
+        itemCount:
+        context.watch<Mainpage_Store>().allSecondRankPlaces.length-1,
+        itemBuilder: (c, i) {
+          return GestureDetector(
+              onTap: () {
+                secseta(i);
+
+
+              },
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        child: AutoSizeText('${i + 1}',
+                            style: const TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 13,
+                      child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText(
+                              '${context.watch<Mainpage_Store>().allSecondRankPlaces[i][0].trim()}',
+                              style:  TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w200,
+                                  fontFamily: 'Pretendard'),
+                            ),
+                            AutoSizeText(
+                              // softWrap: false,
+                              // minFontSize: 20.sp,
+                              '${context.watch<Mainpage_Store>().allSecondRankPlaces[i][1].trim()}',
+                              style:  TextStyle(fontSize: 15.sp),
+                            ),
+                          ]),
+                    ),
+                    // SizedBox(
+                    //   height: 50,
+                    //   child: Padding(
+                    //     padding:  EdgeInsets.fromLTRB(5.sp,0,0,0),
+                    //     child: Row(children: [
+                    //       AutoSizeText(
+                    //         '${context.watch<Mainpage_Store>().firstWay[i].trim()} ',
+                    //         textAlign: TextAlign.start,
+                    //         style: TextStyle(
+                    //             fontWeight: FontWeight.w500,
+                    //             fontSize: context
+                    //                 .watch<Mainpage_Store>()
+                    //                 .firstWay[i]
+                    //                 .trim() ==
+                    //                 '반자동'
+                    //                 ? 14
+                    //                 : 20,
+                    //             fontFamily: 'Pretendard'),
+                    //       ),
+                    //       Image.asset(
+                    //         'assets/mark.png',
+                    //         width: 30.w,
+                    //         height: 30.h,
+                    //       )
+                    //     ]),
+                    //   ),
+                    // )
+                  ],
+                ),
+              ));
+        },
+        separatorBuilder: (c, i) {
+          return const Divider(thickness: 1);
+        },
+      ),
+    ),
+  );
+  }
+
+
+
+bool _isProcessing = false;
 
 
   @override
@@ -166,6 +365,7 @@ class _button3PageState extends State<button3Page> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                              AnimatedButton(
+
                                 child: AutoSizeText(
                                   textAlign: TextAlign.center,
                                   '←',
@@ -176,13 +376,36 @@ class _button3PageState extends State<button3Page> {
                                       fontSize: 30.sp),
                                 ),
                                 color: Colors.red,
-                                    onPressed: () {
-                                      context.read<Mainpage_Store>().placeMinus();
-                                      setBasicPosition();
-                                    },
+                               onPressed: ()  async {
+                                 setBasicPosition();
+
+
+                                 // 실행할 코드
+
+                                 if (firstselected == true && secselected == false) {
+                                   context.read<Mainpage_Store>().placeLottoRoundMinus();
+                                   context.read<Mainpage_Store>().placeMinus();
+                                 } else {
+                                   if (_isProcessing) return; // 실행 중이면 return
+                                   _isProcessing = true;
+                                   context.read<Mainpage_Store>().placeLottoRoundMinus();
+                                   context.read<Mainpage_Store>().secplaceMinus();
+
+                                   await Future.delayed(Duration(milliseconds: 2000)); // 원하는 딜레이 시간 설정
+                                   _isProcessing = false;
+
+
+                                 }
+
+
+                                 // 일정 시간 후 플래그 해제
+
+
+                               },
                                 width: 50.0.sp,
                                 height: 50.0.sp,
-                              ),
+                               enabled: true,
+                             ),
                               // ElevatedButton(
                               //     onPressed: () {
                               //       context.read<Mainpage_Store>().placeMinus();
@@ -238,16 +461,42 @@ class _button3PageState extends State<button3Page> {
                                       fontSize: 30.sp),
                                 ),
                                 color: Colors.blue,
-                                onPressed:  (getToday() == null ||
+                                onPressed:
+
+
+                                (getToday() == null ||
                                     (getToday()! <= 0 &&
                                         getToday()! > -7))
                                     ? (){}
-                                    : () {
-                                  context.read<Mainpage_Store>().placePlus();
+                                    : () async {
                                   setBasicPosition();
+
+
+
+
+
+                               if(firstselected==true&&secselected==false){
+                                 context.read<Mainpage_Store>().placeLottoRoundPlus();
+                                  context.read<Mainpage_Store>().placePlus();}
+                               else{
+                                 if (_isProcessing) return; // 애니메이션이 실행 중이면 실행 방지
+                                 _isProcessing = true;
+                                 context.read<Mainpage_Store>().placeLottoRoundPlus();
+    context.read<Mainpage_Store>().secplacePlus();
+
+                                 await Future.delayed(Duration(milliseconds: 2000)); // 원하는 딜레이 시간 설정
+
+                                 _isProcessing = false;
+                               }
+
+
+
+
+
                                 },
                                 width: 50.0.sp,
                                 height: 50.0.sp,
+                                enabled: true,
                               ),
 
                             ],
@@ -263,7 +512,59 @@ class _button3PageState extends State<button3Page> {
               height: 300,
               child: Stack(children: [
                 // BaseMapPage(controller:_controller),
-                const BaseMapPage(),
+                 BaseMapPage(firstselected:firstselected,secselected:secselected),
+                Positioned(
+                    top: 200,
+                    left: 10,
+                    child: ElevatedButton(
+                      onPressed: () {
+
+                        setState(() {
+                          firstselected=true;
+                          secselected=false;
+                        });
+                        context.read<Mainpage_Store>().placeMinus();
+                        setBasicPosition();
+                      },
+                      child: const AutoSizeText("1등",
+                          style: TextStyle(
+                              color: Colors.white,fontWeight: FontWeight.bold,
+                              fontFamily:'Pretendard',fontSize: 20)),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        minimumSize: Size(20.0.w, 35.0.h),
+                      ),
+                    )),
+
+                Positioned(
+                    top: 250,
+                    left: 10,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          firstselected=false;
+                          secselected=true;
+                        });
+                        context.read<Mainpage_Store>().secplaceMinus();
+
+                        setBasicPosition();
+                      },
+                      child: const AutoSizeText("2등",
+                          style: TextStyle(
+                              color: Colors.white,fontWeight: FontWeight.bold,
+                              fontFamily:'Pretendard',fontSize: 20)),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        minimumSize: Size(20.0.w, 35.0.h),
+                      ),
+                    )),
+
                 Positioned(
                     top: 250,
                     right: 10,
@@ -285,88 +586,9 @@ class _button3PageState extends State<button3Page> {
                     ))
               ]),
             ),
-            Expanded(
-              child: Container(
-                child: ListView.separated(
-                  itemCount:
-                      context.watch<Mainpage_Store>().firstLottoPlaceSet.length - 1,
-                  itemBuilder: (c, i) {
-                    return GestureDetector(
-                        onTap: () {
-                          seta(i);
 
+        LottoPlaceList()
 
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  child: AutoSizeText('${i + 1}',
-                                      style: const TextStyle(fontSize: 20),
-                                      textAlign: TextAlign.center),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 13,
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      AutoSizeText(
-                                        '${context.watch<Mainpage_Store>().firstLottoPlaceSet[i][0].trim()}',
-                                        style:  TextStyle(
-                                            fontSize: 20.sp,
-                                            fontWeight: FontWeight.w200,
-                                            fontFamily: 'Pretendard'),
-                                      ),
-                                      AutoSizeText(
-                                        // softWrap: false,
-                                        // minFontSize: 20.sp,
-                                        '${context.watch<Mainpage_Store>().firstLottoPlaceSet[i][1].trim()}',
-                                          style:  TextStyle(fontSize: 15.sp),
-                                       ),
-                                    ]),
-                              ),
-                              SizedBox(
-                                height: 50,
-                                child: Padding(
-                                  padding:  EdgeInsets.fromLTRB(5.sp,0,0,0),
-                                  child: Row(children: [
-                                    AutoSizeText(
-                                      '${context.watch<Mainpage_Store>().firstWay[i].trim()} ',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: context
-                                                      .watch<Mainpage_Store>()
-                                                      .firstWay[i]
-                                                      .trim() ==
-                                                  '반자동'
-                                              ? 14
-                                              : 20,
-                                          fontFamily: 'Pretendard'),
-                                    ),
-                                    Image.asset(
-                                      'assets/mark.png',
-                                      width: 30.w,
-                                      height: 30.h,
-                                    )
-                                  ]),
-                                ),
-                              )
-                            ],
-                          ),
-                        ));
-                  },
-                  separatorBuilder: (c, i) {
-                    return const Divider(thickness: 1);
-                  },
-                ),
-              ),
-            )
           ],
         ),
       bottomNavigationBar:  SafeArea(

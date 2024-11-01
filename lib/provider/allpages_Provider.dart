@@ -266,6 +266,7 @@ class Mainpage_Store extends ChangeNotifier {
   var firstLottoPlaceSet = [];
 
   var map = <String, dynamic>{};
+  var secmap ;
   var firstWay = [];
 
     /*button3Page에서 동행복권 1등당첨장소 정보 불러오는 함수(네이버지도용 ) */
@@ -309,8 +310,121 @@ class Mainpage_Store extends ChangeNotifier {
       firstLottoPlaceSet.add(a);
     }
     firstLottoPlaceWhere();
-    // notifyListeners();
+     // notifyListeners();
   }
+
+  getSecLottoPlace() async {
+
+    map['drwNo'] = '${lottoData['drwNo']}';
+
+    int nowPage = 1;
+    int totalPages = 1; // 초기값 설정
+    bool firstRequest = true;
+
+    while (nowPage <= totalPages) {
+      Map<String, String> requestMap = {
+        'method': 'topStore',
+        'nowPage': nowPage.toString(),
+        'gameNo': '5133',
+        'hdrwComb': '1',
+        'drwNo': map['drwNo'],
+        'schKey': 'all',
+        'schVal': ''
+      };
+
+      var response2 = await http.post(
+        Uri.parse('https://dhlottery.co.kr/store.do?method=topStore&pageGubun=L645'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: requestMap,
+      );
+
+      var responseBody2 = cp949.decode(response2.bodyBytes);
+      BeautifulSoup bs2 = BeautifulSoup(responseBody2);
+
+      // 전체 페이지 수를 확인합니다.
+      if (firstRequest) {
+        var pagination = bs2.find('div', id: 'page_box');
+        if (pagination != null) {
+          totalPages = pagination.findAll('a').length; // 페이지 수 확인
+        }
+        firstRequest = false;
+      }
+
+      // 두 번째 테이블에서 2등 배출점 데이터 추출
+      var secondRankTable = bs2.findAll('table', class_: 'tbl_data tbl_data_col')[1]; // 두 번째 테이블
+      var rows = secondRankTable.find('tbody')?.findAll('tr');
+
+
+
+      if (rows != null) {
+        for (var row in rows) {
+          var columns = row.findAll('td');
+          if (columns.length >= 3) {
+            String storeName = columns[1].text; // 상호명
+            String location = columns[2].text; // 소재지
+
+            // 리스트에 상호명과 소재지를 추가
+            // print('storeName: $storeName, location: $location');
+            allSecondRankPlaces.add([storeName.toString(), location.toString()]);  // List<List<String>> 타입으로 추가
+          }
+        }
+      }
+
+      nowPage++; // 다음 페이지로 이동
+    }
+
+    // print("모든 2등 배출점:");
+    // for (var place in allSecondRankPlaces) {
+    //   print(place);
+    // }
+
+    secLottoPlaceWhere();
+
+    notifyListeners(); // 최종 상태 변경 알림
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  // bool firstselected = true;
+  // bool secselected = false;
+  //
+  // firstselectedmake(){
+  //   firstselected = true;
+  //   secselected = false;
+  //   notifyListeners();
+  // }
+  // secselectedmake(){
+  //   firstselected = false;
+  //   secselected = true;
+  //   notifyListeners();
+  // }
+  //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   changePlaceLottoData(Map<dynamic, dynamic> a) {
     placeLottoData = a;
@@ -318,13 +432,12 @@ class Mainpage_Store extends ChangeNotifier {
   }
 
   placePlus() async {
-    placeLottoRound++;
     var result = await http.get(Uri.parse(
         'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$placeLottoRound'));
     Map DataList = jsonDecode(result.body);
     changePlaceLottoData(DataList);
     notifyListeners();
-
+////////////////////////1등당첨정보시작///////////////////////////
     map['drwNo'] = '${placeLottoData['drwNo']}';
 
     var placeResponse = await http.post(
@@ -374,9 +487,108 @@ class Mainpage_Store extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  bool isLoading = false; // 로딩 상태 변수
+
+
+  secplacePlus() async {
+    isLoading = true; // 로딩 시작
+    notifyListeners(); // 로딩 상태 변경 알림
+    allSecondRankPlaces.clear();
+    var result = await http.get(Uri.parse(
+        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$placeLottoRound'));
+    Map DataList = jsonDecode(result.body);
+    changePlaceLottoData(DataList);
+    notifyListeners();
+
+    map['drwNo'] = '${placeLottoData['drwNo']}';
+
+    int nowPage = 1;
+    int totalPages = 1; // 초기값 설정
+    bool firstRequest = true;
+
+    while (nowPage <= totalPages) {
+      Map<String, String> requestMap = {
+        'method': 'topStore',
+        'nowPage': nowPage.toString(),
+        'gameNo': '5133',
+        'hdrwComb': '1',
+        'drwNo': map['drwNo'],
+        'schKey': 'all',
+        'schVal': ''
+      };
+
+      var response2 = await http.post(
+        Uri.parse('https://dhlottery.co.kr/store.do?method=topStore&pageGubun=L645'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: requestMap,
+      );
+
+      var responseBody2 = cp949.decode(response2.bodyBytes);
+      BeautifulSoup bs2 = BeautifulSoup(responseBody2);
+
+      // 전체 페이지 수를 확인합니다.
+      if (firstRequest) {
+        var pagination = bs2.find('div', id: 'page_box');
+        if (pagination != null) {
+          totalPages = pagination.findAll('a').length; // 페이지 수 확인
+        }
+        firstRequest = false;
+      }
+
+      // 두 번째 테이블에서 2등 배출점 데이터 추출
+      var secondRankTable = bs2.findAll('table', class_: 'tbl_data tbl_data_col')[1]; // 두 번째 테이블
+      var rows = secondRankTable.find('tbody')?.findAll('tr');
+
+
+
+      if (rows != null) {
+        for (var row in rows) {
+          var columns = row.findAll('td');
+          if (columns.length >= 3) {
+            String storeName = columns[1].text; // 상호명
+            String location = columns[2].text; // 소재지
+
+            // 리스트에 상호명과 소재지를 추가
+            // print('storeName: $storeName, location: $location');
+            allSecondRankPlaces.add([storeName.toString(), location.toString()]);  // List<List<String>> 타입으로 추가
+          }
+        }
+      }
+
+      nowPage++; // 다음 페이지로 이동
+    }
+
+    // print("모든 2등 배출점:");
+    // for (var place in allSecondRankPlaces) {
+    //   print(place);
+    // }
+
+    secChageLottoPlace(); // 필요할 경우 다시 추가
+    isLoading = false; // 로딩 종료
+
+    notifyListeners(); // 최종 상태 변경 알림
+  }
+
+
+
+
+
+
+
+
+placeLottoRoundMinus(){
+  placeLottoRound--;
+  notifyListeners();
+}
+placeLottoRoundPlus(){
+  placeLottoRound++;
+  notifyListeners();
+
+}
 
   placeMinus() async {
-    placeLottoRound--;
+
     var result = await http.get(Uri.parse(
         'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$placeLottoRound'));
     Map DataList = jsonDecode(result.body);
@@ -384,6 +596,15 @@ class Mainpage_Store extends ChangeNotifier {
     notifyListeners();
 
     map['drwNo'] = '${placeLottoData['drwNo']}';
+    // print('map은ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ:');
+    // print(map);
+
+
+
+
+
+
+
     var placeResponse = await http.post(
         Uri.parse(
             'https://dhlottery.co.kr/store.do?method=topStore&pageGubun=L645'),
@@ -394,6 +615,11 @@ class Mainpage_Store extends ChangeNotifier {
 
     var responseBody = cp949.decode(placeResponse.bodyBytes);
     BeautifulSoup bs = BeautifulSoup(responseBody);
+
+
+
+
+
 
     firstLottoPlace.clear();
     firstWay.clear();
@@ -426,10 +652,138 @@ class Mainpage_Store extends ChangeNotifier {
 
       firstLottoPlaceSet.add(a);
     }
+
+
+    //////////////////////////2등 당첨점 정보시작//////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ChageLottoPlace();
 
     notifyListeners();
   }
+
+
+
+
+
+
+
+
+  List<List<String>> allSecondRankPlaces = []; // List<List<String>> 타입으로 초기화
+
+  secplaceMinus() async {
+    isLoading = true; // 로딩 시작
+    notifyListeners(); // 로딩 상태 변경 알림
+    allSecondRankPlaces.clear();
+    var result = await http.get(Uri.parse(
+        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$placeLottoRound'));
+    Map DataList = jsonDecode(result.body);
+    changePlaceLottoData(DataList);
+    notifyListeners();
+
+    map['drwNo'] = '${placeLottoData['drwNo']}';
+
+    int nowPage = 1;
+    int totalPages = 1; // 초기값 설정
+    bool firstRequest = true;
+
+    while (nowPage <= totalPages) {
+      Map<String, String> requestMap = {
+        'method': 'topStore',
+        'nowPage': nowPage.toString(),
+        'gameNo': '5133',
+        'hdrwComb': '1',
+        'drwNo': map['drwNo'],
+        'schKey': 'all',
+        'schVal': ''
+      };
+
+      var response2 = await http.post(
+        Uri.parse('https://dhlottery.co.kr/store.do?method=topStore&pageGubun=L645'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: requestMap,
+      );
+
+      var responseBody2 = cp949.decode(response2.bodyBytes);
+      BeautifulSoup bs2 = BeautifulSoup(responseBody2);
+
+      // 전체 페이지 수를 확인합니다.
+      if (firstRequest) {
+        var pagination = bs2.find('div', id: 'page_box');
+        if (pagination != null) {
+          totalPages = pagination.findAll('a').length; // 페이지 수 확인
+        }
+        firstRequest = false;
+      }
+
+      // 두 번째 테이블에서 2등 배출점 데이터 추출
+      var secondRankTable = bs2.findAll('table', class_: 'tbl_data tbl_data_col')[1]; // 두 번째 테이블
+      var rows = secondRankTable.find('tbody')?.findAll('tr');
+
+
+
+      if (rows != null) {
+        for (var row in rows) {
+          var columns = row.findAll('td');
+          if (columns.length >= 3) {
+            String storeName = columns[1].text; // 상호명
+            String location = columns[2].text; // 소재지
+
+            // 리스트에 상호명과 소재지를 추가
+            // print('storeName: $storeName, location: $location');
+            allSecondRankPlaces.add([storeName.toString(), location.toString()]);  // List<List<String>> 타입으로 추가
+          }
+        }
+      }
+
+      nowPage++; // 다음 페이지로 이동
+    }
+
+    // print("모든 2등 배출점:");
+    // for (var place in allSecondRankPlaces) {
+    //   print(place);
+    // }
+
+    secChageLottoPlace(); // 필요할 경우 다시 추가
+    isLoading = false; // 로딩 종료
+    notifyListeners(); // 최종 상태 변경 알림
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /*button3Page에서 네이버지도 마커용 */
   var MarkerWhere = [];
@@ -463,8 +817,44 @@ class Mainpage_Store extends ChangeNotifier {
     firstMarker();
   }
 
+  secLottoPlaceWhere() async {
+    for (int i = 0; i < allSecondRankPlaces.length - 1; i++) {
+      var add = '${allSecondRankPlaces[i][1]!.trim()}';
+      if (add.contains('동행복권')) {
+        add = '서울 서초구 남부순환로 2423';
+      }
+      var headerss = <String, String>{};
+      headerss['X-NCP-APIGW-API-KEY-ID'] = 'qrj5gubj5k';
+      headerss['X-NCP-APIGW-API-KEY'] =
+      '72tgrH1uvwUDaoaegnpzmnFySQ2nPJskXrmaEm3q';
+      final PlaceNumResponse = await http.get(
+          Uri.parse(
+              'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$add'),
+          headers: headerss);
+
+      var res = jsonDecode(PlaceNumResponse.body);
+      var numwhere = [];
+      numwhere.add(double.parse(res['addresses'][0]['x']));
+
+      numwhere.add(double.parse(res['addresses'][0]['y']));
+
+      secMarkerWhere.add(numwhere);
+    }
+    // print(secMarkerWhere);
+    notifyListeners();
+
+    secMarker();
+  }
+
+
+
+
+
+
+
   ChageLottoPlace() async {
     MarkerWhere.clear();
+    // print(firstLottoPlaceSet);
     for (int i = 0; i < firstLottoPlaceSet.length - 1; i++) {
       var add = '${firstLottoPlaceSet[i][1].trim()}';
       if (add.contains('동행복권')) {
@@ -488,9 +878,66 @@ class Mainpage_Store extends ChangeNotifier {
       MarkerWhere.add(numwhere);
     }
     notifyListeners();
-
-    changeMarker();
+    if (MarkerWhere.isNotEmpty) {
+      changeMarker();
+    }
   }
+
+
+
+  /*button3Page에서 네이버지도 마커용 */
+  var secMarkerWhere = [];
+  List<Marker> secmarkers = [];
+
+
+
+  secChageLottoPlace() async {
+    secMarkerWhere.clear();
+
+    for (int i = 0; i < allSecondRankPlaces.length; i++) {
+      var add = '${allSecondRankPlaces[i][1]!.trim()}';
+      if (add.contains('동행복권')) {
+        add = '서울 서초구 남부순환로 2423';
+      }
+      var headerss = <String, String>{};
+      headerss['X-NCP-APIGW-API-KEY-ID'] = 'qrj5gubj5k';
+      headerss['X-NCP-APIGW-API-KEY'] =
+      '72tgrH1uvwUDaoaegnpzmnFySQ2nPJskXrmaEm3q';
+      final PlaceNumResponse = await http.get(
+          Uri.parse(
+              'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$add'),
+          headers: headerss);
+
+      var res = jsonDecode(PlaceNumResponse.body);
+      var numwhere = [];
+      numwhere.add(double.parse(res['addresses'][0]['x']));
+
+      numwhere.add(double.parse(res['addresses'][0]['y']));
+
+      secMarkerWhere.add(numwhere);
+    }
+    // print(secMarkerWhere);
+    notifyListeners();
+
+    if (secMarkerWhere.isNotEmpty) {
+      secchangeMarker();
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   Completer<NaverMapController> abc = Completer();
 
@@ -515,10 +962,32 @@ class Mainpage_Store extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  secMarker() async {
+    for (int i = 0; i < secMarkerWhere.length; i++) {
+      secmarkers.add(Marker(
+          markerId: '${i}1',
+          // position: LatLng(35, 127),
+          position: LatLng(secMarkerWhere[i][1], secMarkerWhere[i][0]),
+          captionText: "${allSecondRankPlaces[i][0].trim()}",
+          captionColor: Colors.indigo[900],
+          captionTextSize: 12.0,
+          alpha: 1,
+          captionOffset: 30,
+          anchor: AnchorPoint(0.5, 1),
+          width: 20,
+          height: 30,
+          infoWindow: "${allSecondRankPlaces[i][1].trim()}",
+          onMarkerTab: _onMarkerTap));
+    } // infoWindow: "${firstLottoPlaceSet[i][0].trim()}",
+
+    notifyListeners();
+  }
   changeMarker() async {
     markers.clear();
     // notifyListeners();
     for (int i = 0; i < MarkerWhere.length; i++) {
+      if (MarkerWhere[i].length >= 2) {
       markers.add(Marker(
           markerId: '${i}1',
           // position: LatLng(35, 127),
@@ -533,10 +1002,98 @@ class Mainpage_Store extends ChangeNotifier {
           height: 30,
           infoWindow: "${firstLottoPlaceSet[i][1].trim()}",
           onMarkerTab: _onMarkerTap));
-    } // infoWindow: "${firstLottoPlaceSet[i][0].trim()}",
-    print(markers);
+      }else {
+        print("Error: secMarkerWhere does not have enough elements at index $i");
+      }}
+
+
+
+    // infoWindow: "${firstLottoPlaceSet[i][0].trim()}",
+    // print(markers);
     notifyListeners();
   }
+  secchangeMarker() async {
+    secmarkers.clear();
+
+    // Debugging: Check the lengths of both lists
+    print("secMarkerWhere length: ${secMarkerWhere.length}");
+    print("allSecondRankPlaces length: ${allSecondRankPlaces.length}");
+
+    // Ensure secMarkerWhere is not empty before proceeding
+    if (secMarkerWhere.isEmpty) {
+      print("secMarkerWhere is empty. No markers to add.");
+      return; // Early return if the list is empty
+    }
+
+    for (int i = 0; i < secMarkerWhere.length; i++) {
+      // Check if secMarkerWhere has enough elements
+      if (secMarkerWhere[i].length >= 2) {
+        // Check if the index for allSecondRankPlaces is valid
+        if (i < allSecondRankPlaces.length) {
+          secmarkers.add(Marker(
+              markerId: '${i}1',
+              position: LatLng(secMarkerWhere[i][1], secMarkerWhere[i][0]),
+              captionText: "${allSecondRankPlaces[i][0].trim()}",
+              captionColor: Colors.indigo[900],
+              captionTextSize: 12.0,
+              alpha: 1,
+              captionOffset: 10,
+              anchor: AnchorPoint(0.5, 1),
+              width: 20,
+              height: 30,
+              infoWindow: "${allSecondRankPlaces[i][1].trim()}",
+              onMarkerTab: _onMarkerTap
+          ));
+        } else {
+          print("Error: Index $i is out of range for allSecondRankPlaces");
+        }
+      } else {
+        print("Error: secMarkerWhere does not have enough elements at index $i. Current elements: ${secMarkerWhere[i]}");
+      }
+    }
+
+    notifyListeners();
+  }
+
+
+  // secchangeMarker() async {
+  //   secmarkers.clear();
+  //   // notifyListeners();
+  //   for (int i = 0; i < secMarkerWhere.length; i++) {
+  //
+  //     if (secMarkerWhere[i].length >= 2) {
+  //     secmarkers.add(Marker(
+  //         markerId: '${i}1',
+  //         // position: LatLng(35, 127),
+  //         position: LatLng(secMarkerWhere[i][1], secMarkerWhere[i][0]),
+  //         captionText: "${allSecondRankPlaces[i][0].trim()}",
+  //         captionColor: Colors.indigo[900],
+  //         captionTextSize: 12.0,
+  //         alpha: 1,
+  //         captionOffset: 10,
+  //         anchor: AnchorPoint(0.5, 1),
+  //         width: 20,
+  //         height: 30,
+  //         infoWindow: "${allSecondRankPlaces[i][1].trim()}",
+  //         onMarkerTab: _onMarkerTap));
+  //
+  //         }else {
+  //         print("Error: secMarkerWhere does not have enough elements at index $i");
+  //         }}
+  //
+  //
+  //
+  //   // infoWindow: "${firstLottoPlaceSet[i][0].trim()}",
+  //   // print(markers);
+  //   notifyListeners();
+  // }
+
+
+
+
+
+
+
 
   void _onMarkerTap(Marker? marker, Map<String, int?> iconSize) async {
     NaverMapController naver = await abc.future;
@@ -548,6 +1105,15 @@ class Mainpage_Store extends ChangeNotifier {
 
     naver.moveCamera(cameraUpdate);
   }
+
+
+
+
+
+
+
+
+
 
   /*button5Page에서 동행복권에서 lottoRound에 따른 정보를 가져오고 button5pageMake에 저장하는 함수 실행 */
   button5pageInfoSave() async {

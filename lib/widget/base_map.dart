@@ -5,13 +5,17 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:provider/provider.dart';
 
 class BaseMapPage extends StatefulWidget {
-  const BaseMapPage({Key? key}) : super(key: key);
+  const BaseMapPage({Key? key,this.firstselected, this.secselected}) : super(key: key);
+  final firstselected;
+  final secselected;
 
   @override
   _BaseMapPageState createState() => _BaseMapPageState();
 }
 
 class _BaseMapPageState extends State<BaseMapPage> {
+
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final MapType _mapType = MapType.Basic;
@@ -31,7 +35,7 @@ class _BaseMapPageState extends State<BaseMapPage> {
           initLocationTrackingMode: _trackingMode,
           locationButtonEnable: false,
           indoorEnable: true,
-          markers: context.watch<Mainpage_Store>().markers,
+          markers: widget.firstselected==true&&widget.secselected==false?context.watch<Mainpage_Store>().markers:context.watch<Mainpage_Store>().secmarkers,
         ),
       ],
     );

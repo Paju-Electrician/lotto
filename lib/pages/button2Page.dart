@@ -116,6 +116,7 @@ class _button2PageState extends State<button2Page>  {
     },),
         centerTitle: true,
         title: Container(
+
             padding:  EdgeInsets.fromLTRB(0, 7.sp, 0, 0),
             child:
             // Row(
