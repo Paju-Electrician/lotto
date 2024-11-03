@@ -31,7 +31,7 @@ class AdManager {
   // 광고 로드 함수
   void loadRewardedAd() {
     RewardedAd.load(
-      // adUnitId: 'ca-app-pub-3525010127354180/2249535682', // 제공된 광고 단위 ID 사용
+      // adUnitId: 'ca-app-pub-3525010127354180/2249535682', // 실제 광고 단위 ID 사용
       adUnitId: 'ca-app-pub-3940256099942544/5224354917', // 테스트용 광고 단위 ID
       request: AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(

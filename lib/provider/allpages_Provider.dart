@@ -12,7 +12,26 @@ import 'package:cp949/cp949.dart' as cp949;
 class Mainpage_Store extends ChangeNotifier {
   /*메인페이지 상단에 로또회차에 의한 번호정보만 담겨질것*/
   var lottoRound = 1007;
+  var patternRound = 1007;
 
+
+  patternRoundselected(int a)async{
+    patternRound = a;
+    notifyListeners();
+    var result = await http.get(Uri.parse(
+        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$patternRound'));
+    if (result.statusCode == 200) {
+      // 만약 서버가 OK 응답을 반환하면, JSON을 파싱합니다.
+      Map DataList = jsonDecode(result.body);
+      patternchangelottoData(DataList);
+
+
+      notifyListeners();
+    } else {
+      // 만약 응답이 OK가 아니면, 에러를 던집니다.
+      throw Exception('Failed to load post');
+    }
+  }
   /*앱 제일 먼저 실행 해주는 함수 로또라운드가 몇회차인지 현재날짜기준으로 갱신 해준다 */
   lottoRoundis() {
     tz.initializeTimeZones();
@@ -24,17 +43,20 @@ class Mainpage_Store extends ChangeNotifier {
     Duration duration = dateTime2.difference(dateTime1);
     int dur = duration.inDays.abs() ~/ 7;
     lottoRound = lottoRound + dur;
+    patternRound = patternRound + dur;
     placeLottoRound = placeLottoRound + dur;
   }
 
     /*메인페이지에서 동행복권에서 가져오는 최신로또번호 저장*/
   Map<dynamic, dynamic> lottoData = {};
-
+  Map<dynamic, dynamic> patternlottoData = {};
   /*메인페이지에서 동행복권에서 가져오는 최신로또번호 정보를 저장 하는 함수*/
   changelottoData(Map<dynamic, dynamic> a) {
     lottoData = a;
   }
-
+  patternchangelottoData(Map<dynamic, dynamic> a) {
+    patternlottoData = a;
+  }
   /*메인페이지에서 동행복권에서 lottoRound에 따른 정보를 가져오고 lottoData에 저장하는 함수 실행*/
   firstRound() async {
     /*갱신된 로또라운드로 로또번호를 받아온다 */
@@ -43,6 +65,7 @@ class Mainpage_Store extends ChangeNotifier {
         'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$lottoRound'));
     Map DataList = jsonDecode(result.body);
     changelottoData(DataList);
+    patternchangelottoData(DataList);
     // button5pageMake(DataList);
     // notifyListeners();
   }
@@ -51,6 +74,8 @@ class Mainpage_Store extends ChangeNotifier {
 
   /*메인페이지에서 동행복권에서 lottoRound에 1을 더하고,그 값에 따른 정보를 가져오고 lottoData에 저장하는 함수 실행*/
   changeRoundPlus() async {
+
+
     lottoRound++;
     var result = await http.get(Uri.parse(
         'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$lottoRound'));
@@ -58,13 +83,32 @@ class Mainpage_Store extends ChangeNotifier {
       // 만약 서버가 OK 응답을 반환하면, JSON을 파싱합니다.
       Map DataList = jsonDecode(result.body);
       changelottoData(DataList);
+
+
       notifyListeners();
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception('Failed to load post');
     }
   }
+  patternchangeRoundPlus() async {
 
+
+    patternRound++;
+    var result = await http.get(Uri.parse(
+        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$patternRound'));
+    if (result.statusCode == 200) {
+      // 만약 서버가 OK 응답을 반환하면, JSON을 파싱합니다.
+      Map DataList = jsonDecode(result.body);
+      patternchangelottoData(DataList);
+
+
+      notifyListeners();
+    } else {
+      // 만약 응답이 OK가 아니면, 에러를 던집니다.
+      throw Exception('Failed to load post');
+    }
+  }
   /*메인페이지에서 동행복권에서 lottoRound에 1을 빼고,그 값에 따른 정보를 가져오고 lottoData에 저장하는 함수 실행*/
   changeRoundMinus() async {
     lottoRound--;
@@ -72,6 +116,16 @@ class Mainpage_Store extends ChangeNotifier {
         'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$lottoRound'));
     Map DataList = jsonDecode(result.body);
     changelottoData(DataList);
+    notifyListeners();
+  }
+
+
+  patternchangeRoundMinus() async {
+    patternRound--;
+    var result = await http.get(Uri.parse(
+        'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=$patternRound'));
+    Map DataList = jsonDecode(result.body);
+    patternchangelottoData(DataList);
     notifyListeners();
   }
 

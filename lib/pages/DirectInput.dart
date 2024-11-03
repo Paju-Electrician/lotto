@@ -2,6 +2,7 @@ import 'package:animated_button/animated_button.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:lotto/pages/lottoNumber.dart';
 import 'package:lotto/provider/allpages_Provider.dart';
@@ -609,6 +610,47 @@ class _DirectInputState extends State<DirectInput> {
     // print('모든매치된랭킹는${allMatchAllNumber}');
   }
 
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    banner = BannerAd(
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) => print('Ad loaded.'),
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('Ad failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+        size: AdSize.banner,
+        adUnitId: androidTestUnitId,
+        request: const AdRequest())
+      ..load();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    print('dispose실행됨');
+
+    banner!.dispose();
+
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -679,7 +721,7 @@ class _DirectInputState extends State<DirectInput> {
                 greyWhiteChange: greyWhiteChange),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 70.h),
+            margin: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
             // padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

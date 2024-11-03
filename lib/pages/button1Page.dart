@@ -13,9 +13,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'ad_number.dart';
 
-
-
-
 class LottoWeb {
   final String lotto1People;
   final String lotto1Amount;
