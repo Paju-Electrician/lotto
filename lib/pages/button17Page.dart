@@ -630,7 +630,7 @@ selectedminus(){
           (MediaQuery.of(context).size.height <=830)?0.25   + ((i - 1) % 7) * 0.0782:
           (MediaQuery.of(context).size.height <=851)?0.235    + ((i - 1) % 7) * 0.0825:
           (MediaQuery.of(context).size.height <=883)?0.209   + ((i - 1) % 7) * 0.0905:
-          (MediaQuery.of(context).size.height <=915)?0.158    + ((i - 1) % 7) * 0.107:
+          (MediaQuery.of(context).size.height <=915)?0.195    + ((i - 1) % 7) * 0.0945:
           0.22 + ((i - 1) % 7) * 0.0865,
 
 
@@ -640,7 +640,7 @@ selectedminus(){
       (MediaQuery.of(context).size.height <=830)?0.1815   + (i - 1) ~/ 7 * 0.12    :
       (MediaQuery.of(context).size.height <=851)? 0.183   + (i - 1) ~/ 7 * 0.12:
       (MediaQuery.of(context).size.height <=883)? 0.1765   + (i - 1) ~/ 7 * 0.12:
-      (MediaQuery.of(context).size.height <=915)? 0.183   + (i - 1) ~/ 7 * 0.12:
+      (MediaQuery.of(context).size.height <=915)? 0.18   + (i - 1) ~/ 7 * 0.12:
       0.183 + (i - 1) ~/ 7 * 0.1195,
 
 
@@ -652,7 +652,7 @@ selectedminus(){
     (MediaQuery.of(context).size.height <=830)? 360:
     (MediaQuery.of(context).size.height <=851)? 383:
     (MediaQuery.of(context).size.height <=883)? 420:
-    (MediaQuery.of(context).size.height <=915)? 498:
+    (MediaQuery.of(context).size.height <=915)? 438:
     // (MediaQuery.of(context).size.height <=960)? 580:
     400.0;
 

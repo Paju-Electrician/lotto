@@ -563,8 +563,8 @@ class _button7PageState extends State<button7Page> {
                             // onVerticalDragUpdate: _onDragUpdateHandler,
                             // child: totalBallButton7(a: i));
                             child: newTotalBallButton7(a: i));
-
-                        // child: totalBallButton7New(a: i));
+                      // child:Container());
+                      // child: totalBallButton7New(a: i));
                       } else {
                         return Container();
                       }

@@ -81,6 +81,7 @@ dependencies:
   share_plus: ^10.1.1
   webview_flutter: ^4.0.10
 #  drop_down_search_field: ^1.0.6
+  dotted_border: ^2.0.0
 
 dev_dependencies:
   flutter_test:
