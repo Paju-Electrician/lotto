@@ -838,6 +838,7 @@ class _lottoGridViewState extends State<lottoGridView> {
     const button16(),
     const button17(),
     const button18(),
+    const button19(),
   ];
 
   @override
@@ -863,7 +864,7 @@ class _lottoGridViewState extends State<lottoGridView> {
               // decoration: BoxDecoration(border : Border.all(color: Colors.black)),
               child: button[i]);
         },
-        itemCount: 18,
+        itemCount: 19,
       ),
     );
   }

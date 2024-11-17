@@ -99,7 +99,7 @@ class _button9PageState extends State<button9Page> {
 
     var tempEarlyNumList = [...lottoTotalNumber[0]];
     var tempEarlyNumList1 = [...lottoTotalNumber[1]];
-    print(tempEarlyNumList);
+    // print(tempEarlyNumList);
 
     var toRemove = [];
     for (var e1 in tempEarlyNumList) {
@@ -113,7 +113,7 @@ class _button9PageState extends State<button9Page> {
       }
     }
     tempEarlyNumList.removeWhere( (e) => toRemove.contains(e));
-    print(tempEarlyNumList);
+    // print(tempEarlyNumList);
     if(tempEarlyNumList.length==9) {
       aa = (tempEarlyNumList[1]);
 
@@ -221,7 +221,7 @@ class _button9PageState extends State<button9Page> {
                     realPredictNumber1 = [a, b, c, d, e, f];
                   });
 
-                  print(predictNumber1);
+                  // print(predictNumber1);
                   print('aaaaaaaaaaaaaaaa');
                 }
               }
@@ -237,7 +237,7 @@ class _button9PageState extends State<button9Page> {
     predictNumber2.clear();
     var tempEarlyNumList = [...lottoTotalNumber[0]];
     var tempEarlyNumList1 = [...lottoTotalNumber[1]];
-    print(tempEarlyNumList);
+    // print(tempEarlyNumList);
     var toRemove = [];
     for (var e1 in tempEarlyNumList) {
 
@@ -250,7 +250,7 @@ class _button9PageState extends State<button9Page> {
       }
     }
     tempEarlyNumList.removeWhere( (e) => toRemove.contains(e));
-    print(tempEarlyNumList);
+    // print(tempEarlyNumList);
     if(tempEarlyNumList.length==9) {
       aa = (tempEarlyNumList[2]);
 

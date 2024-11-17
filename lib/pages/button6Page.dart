@@ -9266,7 +9266,7 @@ class _button6PageState extends State<button6Page> {
   }
 
   alreadyNum(int i) {
-    print(ball2Switch);
+    // print(ball2Switch);
     print(ball1num);
     if (ball2Switch == true && ball1num == i) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

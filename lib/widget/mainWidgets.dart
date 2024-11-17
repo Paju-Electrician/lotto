@@ -31,6 +31,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../pages/ad_number.dart';
 import '../pages/button17Page.dart';
+import '../pages/button19Page.dart';
 
 class xNumBall extends StatelessWidget {
   xNumBall({Key? key, this.b}) : super(key: key);
@@ -568,12 +569,12 @@ class _button1State extends State<button1> {
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
-        print(emptyList);
+        // print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
       }
-      print(lottoTotalNumber);
+      // print(lottoTotalNumber);
     }
 
     if (lottoTotalNumber[0].length == 8) {
@@ -1291,12 +1292,12 @@ class _button7State extends State<button7> {
   }
 
   makeFullLottoTotalNumber() {
-    print(makeRealRound());
-    print(lottoTotalNumber.length);
+    // print(makeRealRound());
+    // print(lottoTotalNumber.length);
     if (lottoTotalNumber.length != makeRealRound()) {
       // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
       for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
-        print(i);
+        // print(i);
         List<int> emptyList = [];
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
@@ -1322,12 +1323,12 @@ class _button7State extends State<button7> {
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
-        print(emptyList);
+        // print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
       }
-      print(lottoTotalNumber);
+      // print(lottoTotalNumber);
     }
   }
 
@@ -1658,12 +1659,12 @@ class _button9State extends State<button9> {
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
-        print(emptyList);
+        // print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
       }
-      print(lottoTotalNumber);
+      // print(lottoTotalNumber);
     }
   }
 
@@ -1962,12 +1963,12 @@ class _button11State extends State<button11> {
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
-        print(emptyList);
+        // print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
       }
-      print(lottoTotalNumber);
+      // print(lottoTotalNumber);
     }
   }
 
@@ -2164,12 +2165,12 @@ class _button12State extends State<button12> {
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
-        print(emptyList);
+        // print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
       }
-      print(lottoTotalNumber);
+      // print(lottoTotalNumber);
     }
   }
 
@@ -2921,12 +2922,12 @@ class _button18State extends State<button18> {
   }
 
   makeFullLottoTotalNumber() {
-    print(makeRealRound());
-    print(lottoTotalNumber.length);
+    // print(makeRealRound());
+    // print(lottoTotalNumber.length);
     if (lottoTotalNumber.length != makeRealRound()) {
       // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
       for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
-        print(i);
+        // print(i);
         List<int> emptyList = [];
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
@@ -2952,12 +2953,12 @@ class _button18State extends State<button18> {
         emptyList
             .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
 
-        print(emptyList);
+        // print(emptyList);
 
         lottoTotalNumber.insert(0, emptyList);
         // emptyList.clear();
       }
-      print(lottoTotalNumber);
+      // print(lottoTotalNumber);
     }
   }
 
@@ -3070,6 +3071,223 @@ class _button18State extends State<button18> {
 }
 
 
+class button19 extends StatefulWidget {
+  const button19({Key? key}) : super(key: key);
+
+  @override
+  _button19State createState() => _button19State();
+}
+
+class _button19State extends State<button19> {
+  makeFullLottoTotalNumberStart() {
+    if (context.read<Mainpage_Store>().totalLottoData.length >=
+        makeRealRound() - lottoTotalNumber.length) {
+      makeFullLottoTotalNumber();
+      Navigator.push(context, MaterialPageRoute(builder: (c) {
+        return const button19Page();
+      }));
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              //Dialog Main Title
+              title: const Column(
+                children: <Widget>[
+                  Text("로딩중입니다.."),
+                ],
+              ),
+              //
+
+              content: SizedBox(
+                  width: 200.w,
+                  height: 100.h,
+                  child: FittedBox(
+                      fit: BoxFit.none,
+                      child: Lottie.asset('assets/lottie/bounce.json',
+                          width: 200.w))),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(
+                    "확인",
+                    style: TextStyle(color: Colors.blue, fontSize: 20.sp),
+                  ),
+                  onPressed: () {
+                    if (context.read<Mainpage_Store>().totalLottoData.length >=
+                        makeRealRound() - lottoTotalNumber.length) {
+                      makeFullLottoTotalNumber();
+                      //
+                      // Navigator.push(context, MaterialPageRoute(builder: (c) {
+                      //   return button7Page();
+                      // }));
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                          return const button19Page();
+                        }),
+                      );
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ],
+            );
+          });
+    }
+  }
+
+  makeFullLottoTotalNumber() {
+    // print(makeRealRound());
+    // print(lottoTotalNumber.length);
+    if (lottoTotalNumber.length != makeRealRound()) {
+      // for (int i = 0; i < makeRound() - 1 - lottoTotalNumber.length; i++) {
+      for (int i = makeRealRound() - lottoTotalNumber.length - 1; i >= 0; i--) {
+        // print(i);
+        List<int> emptyList = [];
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwNo']);
+
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo1']);
+
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo2']);
+
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo3']);
+
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo4']);
+
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo5']);
+
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['drwtNo6']);
+
+        emptyList
+            .add(context.read<Mainpage_Store>().totalLottoData[i]['bnusNo']);
+
+        // print(emptyList);
+
+        lottoTotalNumber.insert(0, emptyList);
+        // emptyList.clear();
+      }
+      // print(lottoTotalNumber);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: ElevatedButton(
+          onPressed: () {
+            if (context.read<Mainpage_Store>().lottoData['drwtNo6'] == null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  width: 320.w,
+                  content: Text(
+                    '서버점검시간',
+                    style:
+                    TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900),
+                    textAlign: TextAlign.center,
+                  ),
+                  padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+                  backgroundColor: Colors.red,
+                  duration: const Duration(milliseconds: 1000),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  )));
+            } else {
+              // Navigator.of(context)..pop()..pop();
+              makeFullLottoTotalNumberStart();
+            }
+          },
+          style: ButtonStyle(
+            animationDuration: const Duration(microseconds: 100),
+
+            foregroundColor: WidgetStateProperty.all(Colors.black),
+            //syleForm에서  primarycolor랑 같다.
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return const Color(0xffffffff);
+              } else {
+                return const Color(0xffffffff);
+              }
+            }),
+            textStyle: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return TextStyle(
+                  fontSize: 25.sp,
+                );
+              } else {
+                return TextStyle(fontSize: 27.sp);
+              }
+            }),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: const BorderSide(color: Colors.white60))),
+
+            maximumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(double.infinity, 140.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            minimumSize: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                // disabled : onpressed가 null일때 , pressed : 클릭됐을때
+                return Size(160.w, 130.0.h);
+              } else {
+                return Size(double.infinity, 150.0.h);
+              }
+            }),
+            padding: WidgetStateProperty.all(EdgeInsets.fromLTRB(0, 0, 0, 0)),
+          ),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                  child: AutoSizeText(
+                    softWrap: true,
+                    maxLines: 1,
+                    '홀짝/번호합',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    // padding: EdgeInsets.fromLTRB(20.w, 0, 0, 0),
+                      height: 96.h,
+                      width: double.infinity,
+                      // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                      child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: Lottie.asset('assets/lottie/odd.json',
+                              fit: BoxFit.fill))),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
 

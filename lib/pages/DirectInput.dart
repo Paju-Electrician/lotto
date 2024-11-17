@@ -1849,61 +1849,6 @@ class _newlottoNumberState extends State<newlottoNumber> {
                         width: 50.0.sp,
                         height: 50.0.sp,
                       ),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       context.read<Mainpage_Store>().changeRoundMinus();
-                      //     },
-                      //     style: TextButton.styleFrom(
-                      //       backgroundColor: Colors.red,
-                      //       shape: RoundedRectangleBorder(
-                      //         borderRadius:
-                      //             const BorderRadius.all(Radius.circular(8)),
-                      //       ),
-                      //       minimumSize: Size(20.0.w, 35.0.h),
-                      //     ),
-                      //     child: Text(
-                      //       '<',
-                      //       style: TextStyle(
-                      //           color: Colors.white,
-                      //           fontFamily: 'Pretendard',
-                      //           fontWeight: FontWeight.w900,
-                      //           fontSize: 20.sp),
-                      //     )),
-                      // (context.watch<Mainpage_Store>().lottoData['drwNo'] == null
-                      //     ? const CircularProgressIndicator()
-                      //     : Text(
-                      //         '${context.watch<Mainpage_Store>().lottoData['drwNo']}회',
-                      //         style: TextStyle(
-                      //           fontSize: 35.sp,
-                      //           fontWeight: FontWeight.w900,
-                      //           color: const Color(0xffd43301),
-                      //         ))),
-                      // ElevatedButton(
-                      //     onPressed:
-                      //     (getToday() == null ||
-                      //             (getToday()! <= 0 && getToday()! > -7))
-                      //         ? null
-                      //         : () {
-                      //             context.read<Mainpage_Store>().changeRoundPlus();
-                      //           },
-                      //     // onPressed: (getToday() == null ||(getToday()! <= 0 && getToday()! > -7)) ||context.watch<Mainpage_Store>().lottoData['drwtNo6'] ==null? null
-                      //     //     : () {context.read<Mainpage_Store>().changeRoundPlus();},
-                      //     style: TextButton.styleFrom(
-                      //       shape: RoundedRectangleBorder(
-                      //         borderRadius:
-                      //             const BorderRadius.all(Radius.circular(8)),
-                      //       ),
-                      //       minimumSize: Size(20.0.w, 35.0.h),
-                      //       backgroundColor: Colors.blue,
-                      //     ),
-                      //     child: Text(
-                      //       '>',
-                      //       style: TextStyle(
-                      //           color: Colors.white,
-                      //           fontFamily: 'Pretendard',
-                      //           fontWeight: FontWeight.w900,
-                      //           fontSize: 20.sp),
-                      //     )),
                     ],
                   ),
                 ),

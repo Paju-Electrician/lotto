@@ -23,15 +23,11 @@ class _LottoMarkerState extends State<LottoMarker> {
 
 
   getToday() {
-
-
-
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
     DateTime now = tz.TZDateTime.now(tz.local); // print('now는${now}');
     DateTime dateTime1 = DateTime(now.year, now.month, now.day);
     // DateTime dateTime1 = DateTime(2022,4,16,20,0,0);
-
     DateTime dateTime2 = DateTime(
         (DateTime.parse(
             context.read<Mainpage_Store>().patternlottoData['drwNoDate'] ??
@@ -50,9 +46,9 @@ class _LottoMarkerState extends State<LottoMarker> {
         00);
 
     Duration duration = dateTime2.difference(dateTime1);
-
     return duration.inDays;
   }
+
   getBall(b) {
     if (b < 11) {
       return yellowBall(b: b);
@@ -90,6 +86,7 @@ class _LottoMarkerState extends State<LottoMarker> {
       });
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -364,38 +361,6 @@ selectedminus(){
                           ),
                         ),
                       ),
-
-
-
-                      // context.watch<Mainpage_Store>().patternlottoData['drwNo'] == null
-                      //     ? (context
-                      //     .watch<naverSearch_FirstNum_Store>()
-                      //     .naverSearch_FirstNum
-                      //     .isEmpty
-                      //     ? const CircularProgressIndicator()
-                      //     : AutoSizeText(
-                      //     '${context.watch<naverSearch_FirstNum_Store>().naverSearch_FirstNum[9]}',
-                      //     style: TextStyle(
-                      //       fontSize: 35.sp,
-                      //       fontWeight: FontWeight.w900,
-                      //       color: const Color(0xffd43301),
-                      //     )))
-                      //     : AutoSizeText(
-                      //     '${context.watch<Mainpage_Store>().patternlottoData['drwNo']}회',
-                      //     style: TextStyle(
-                      //       fontSize: 35.sp,
-                      //       fontWeight: FontWeight.w900   ,
-                      //       fontFamily: 'Pretendard',
-                      //       color: const Color(0xffd43301),
-                      //     )),
-
-
-
-
-
-
-
-
                       Flexible(
                         flex: 1,
                         child: Center(
@@ -464,22 +429,7 @@ selectedminus(){
                     spreadRadius : 1
                 ),
               ],
-              // gradient : LinearGradient (
-              //   begin : Alignment.topLeft,
-              //   end : Alignment.bottomRight,
-              //   colors : [
-              //     Colors.grey.shade200,
-              //     Colors.grey.shade300,
-              //     Colors.grey.shade400,
-              //     Colors.grey.shade500,
-              //   ],
-              // ),
-
-
-
-
-
-            ),
+                ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

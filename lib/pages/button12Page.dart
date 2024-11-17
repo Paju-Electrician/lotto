@@ -86,7 +86,7 @@ class _button12PageState extends State<button12Page> {
   button12IconSwitch() async {
     var bellBool = await getBell();
 
-    print(bellBool);
+    // print(bellBool);
     if (bellBool == true) {
       saveBell(false);
       await notifications.cancel(3);
@@ -108,7 +108,7 @@ class _button12PageState extends State<button12Page> {
             borderRadius: BorderRadius.circular(20),
           )));
     } else if (button12ResultNum.isNotEmpty) {
-      print(button12ResultNum);
+      // print(button12ResultNum);
       saveBell(true);
       showNotification3(context);
       // setState(() {
@@ -211,7 +211,7 @@ class _button12PageState extends State<button12Page> {
         int.parse(lottoList[5])
       ];
       intLottoList.sort();
-      print(intLottoList);
+      // print(intLottoList);
 
       List<int> matchList = [];
 
@@ -232,7 +232,7 @@ class _button12PageState extends State<button12Page> {
     }
     // myClickNumber.remove(matchNum);
 
-    print(matchNumList);
+    // print(matchNumList);
 
     //
     // if (match == 6) {

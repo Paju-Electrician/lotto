@@ -38,7 +38,7 @@ class AdManager {
         onAdLoaded: (RewardedAd ad) {
           _rewardedAd = ad;
           _isRewardedAdLoaded = true; // 광고 로드 상태 업데이트
-          print("리워드 광고가 로드되었습니다.");
+          // print("리워드 광고가 로드되었습니다.");
         },
         onAdFailedToLoad: (LoadAdError error) {
           print("리워드 광고 로드 실패: $error");
